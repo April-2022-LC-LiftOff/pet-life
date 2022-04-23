@@ -1,22 +1,40 @@
 package org.launchcode.PetLife.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="pet_bio")
 public class PetBio extends AbstractEntity{
-
+    @Column (name="pet_name")
     private String petName;
+
+    @Column (name="pet_age")
     private Integer petAge;
+
+    @Column (name="pet_birthdate")
     private Integer petBirthDate;
+    @Column (name="pet_species")
     private String petSpecies;
+
+    @Column (name="pet_breed")
     private String petBreed;
+
+    @Column (name="pet_gender")
     private String petGender;
+
+    @Column (name="pet_weight")
     private Integer petWeight;
+
+    @Column (name="pet_color")
     private String petColor;
 
+    public PetBio(){
+
+    }
     public PetBio(String petName, Integer petAge, Integer petBirthDate, String petSpecies, String petBreed, String petGender, Integer petWeight, String petColor) {
+        super();
         this.petName = petName;
         this.petAge = petAge;
         this.petBirthDate = petBirthDate;
@@ -26,9 +44,7 @@ public class PetBio extends AbstractEntity{
         this.petWeight = petWeight;
         this.petColor = petColor;
     }
-    public PetBio(){
 
-    }
 
     public String getPetName() {
         return petName;
