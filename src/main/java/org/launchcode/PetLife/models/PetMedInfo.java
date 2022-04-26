@@ -6,6 +6,8 @@ import lombok.Getter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.ArrayList;
+
 
 @Entity
 public class PetMedInfo {
@@ -15,7 +17,7 @@ public class PetMedInfo {
     private int id;
     private static int nextId = 1;
 
-    private String shotRecords;
+    private ArrayList<ShotRecord> shotRecords;
 
     private String pastSurgeries;
 
@@ -25,7 +27,7 @@ public class PetMedInfo {
 
     private String pastMedicalConcerns;
 
-    public PetMedInfo(String shotRecords, String pastSurgeries, String species, String currentMeds, String pastMedicalConcerns) {
+    public PetMedInfo(ArrayList<ShotRecord> shotRecords, String pastSurgeries, String species, String currentMeds, String pastMedicalConcerns) {
         super();
         this.shotRecords = shotRecords;
         this.pastSurgeries = pastSurgeries;
@@ -39,12 +41,12 @@ public class PetMedInfo {
         this.nextId++;
     }
 
-    public String getShotRecords() {
+    public ArrayList<ShotRecord> getShotRecords() {
         return shotRecords;
     }
 
-    public void setShotRecords(String shotRecords) {
-        this.shotRecords = shotRecords;
+    public void setShotRecords(ShotRecord shotRecords) {
+        this.shotRecords.add(shotRecords);
     }
 
     public String getPastSurgeries() {
