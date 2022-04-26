@@ -46,23 +46,24 @@ public class PetBioController {
         return "petbio/index";
     }
 
+
     @GetMapping("delete")
-    public String displayDeletePetBioInfo(Model model){
-        model.addAttribute("title", "Delete Pet Biography" );
-        model.addAttribute("pets", PetBioData.getAll());
+    public String displaydeletePetBioForm(Model model) {
+        model.addAttribute("title", "Delete Pet Profile");
+        model.addAttribute("events", PetBioData.getAll());
         return "petbio/delete";
     }
 
     @PostMapping("delete")
-    public String processDeletePetBioInfo(@RequestParam(required = false) int[] petids) {
+    public String processDeletePetBioInfoForm(@RequestParam(required = false) int[] petIds) {
 
-        if (petids != null) {
-            for (int id : petids) {
+        if (petIds != null) {
+            for (int id : petIds) {
                 PetBioData.remove(id);
             }
-            return "petbio/index";
-
         }
+
+        return "petbio/delete";
     }
 
 }

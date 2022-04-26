@@ -3,6 +3,12 @@
 <head th:replace="fragments :: head"></head>
 <body class="container">
 
+<header th:replace="fragments :: header"></header>
+
+
+
+<body class="container">
+
 <form method="post" >
 
     <th:block th:each="pet : ${pets}">
