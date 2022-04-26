@@ -7,6 +7,7 @@
 <body>
 <div class="container body-content">
     <h2>Pet Biography</h2>
+    <p th:unless="${petBiographys} and ${petBiographys.size()}">no pets!</p>
     <ul>
 <!--        <li th:each="employer : ${employers}">-->
 <!--            <a th:href="@{'/petbio/view/' + ${employer.id}}" th:text="${employer.name}"></a>-->

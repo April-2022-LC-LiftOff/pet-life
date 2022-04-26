@@ -30,6 +30,7 @@ public class PetBioController {
 
     @GetMapping("add")
     public String displayAddPetBioForm(Model model) {
+        model.addAttribute("title", "Add Pet Biography");
         model.addAttribute(new PetBio());
         return "petbio/add";
     }
@@ -37,14 +38,15 @@ public class PetBioController {
     @PostMapping("add")
     public String processAddPedBioForm(@ModelAttribute @Valid PetBio newPetBio,
                                        Errors errors, Model model) {
-
+        petBioRepository.save(newPetBio);
         if (errors.hasErrors()) {
             model.addAttribute(new PetBio());
+            System.out.println(newPetBio);
             return "petbio/add";
         }
         petBioRepository.save(newPetBio);
 
-        return "petbio/index";
+        return "redirect:";
     }
 
     @GetMapping("view")

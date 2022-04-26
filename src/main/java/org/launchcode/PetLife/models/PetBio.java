@@ -1,33 +1,41 @@
 package org.launchcode.PetLife.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.Objects;
 
 @Entity
-@Table(name="pet_bio")
+//@Table(name="pet_bio")
 public class PetBio extends AbstractEntity{
-    @Column (name="pet_name")
+
+    //@ManyToOne
+    @JoinColumn(name = "petbio_id")
+
+    @NotBlank(message = "Name is required")
+    @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters")
+    //@Column (name="pet_name")
     private String petName;
 
-    @Column (name="pet_age")
+   // @Column (name="pet_age")
     private Integer petAge;
 
-    @Column (name="pet_birthdate")
+    //@Column (name="pet_birthdate")
     private Integer petBirthDate;
-    @Column (name="pet_species")
+
+   // @Column (name="pet_species")
     private String petSpecies;
 
-    @Column (name="pet_breed")
+    //@Column (name="pet_breed")
     private String petBreed;
 
-    @Column (name="pet_gender")
+    //@Column (name="pet_gender")
     private String petGender;
 
-    @Column (name="pet_weight")
+    //@Column (name="pet_weight")
     private Integer petWeight;
 
-    @Column (name="pet_color")
+    //@Column (name="pet_color")
     private String petColor;
 
     public PetBio(){
@@ -109,6 +117,7 @@ public class PetBio extends AbstractEntity{
     public void setPetColor(String petColor) {
         this.petColor = petColor;
     }
+
 
     @Override
     public String toString() {
