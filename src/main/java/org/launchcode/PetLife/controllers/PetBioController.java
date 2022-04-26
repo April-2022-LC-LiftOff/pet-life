@@ -29,7 +29,7 @@ public class PetBioController {
         model.addAttribute("title", "Pet Biography");
 //        model.addAttribute("pets", petBioRepository.findAll());
       model.addAttribute("pets", PetBioData.getAll());
-        return "index";
+        return "petbio/index";
     }
 
     @GetMapping("add")
@@ -54,13 +54,15 @@ public class PetBioController {
     }
 
     @PostMapping("delete")
-    public String processDeletePetBioInfo(@RequestParam int[] petids){
-        for (int id: petids){
-           PetBioData.remove(id);
+    public String processDeletePetBioInfo(@RequestParam(required = false) int[] petids) {
+
+        if (petids != null) {
+            for (int id : petids) {
+                PetBioData.remove(id);
+            }
+            return "petbio/index";
+
         }
-        return"petbio/index";
-
     }
-
 
 }
