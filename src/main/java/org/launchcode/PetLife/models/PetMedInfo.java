@@ -3,21 +3,18 @@ package org.launchcode.PetLife.models;
 
 import lombok.Getter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
-public class PetMedInfo {
+public class PetMedInfo extends AbstractEntity {
 
-    @Id
-    @GeneratedValue
-    private int id;
     private static int nextId = 1;
 
-    private ArrayList<ShotRecord> shotRecords;
+    @OneToOne(cascade = CascadeType.ALL)
+    private ShotRecord shotRecord;
 
     private String pastSurgeries;
 
@@ -27,9 +24,8 @@ public class PetMedInfo {
 
     private String pastMedicalConcerns;
 
-    public PetMedInfo(ArrayList<ShotRecord> shotRecords, String pastSurgeries, String species, String currentMeds, String pastMedicalConcerns) {
-        super();
-        this.shotRecords = shotRecords;
+    public PetMedInfo(ShotRecord shotRecord, String pastSurgeries, String species, String currentMeds, String pastMedicalConcerns) {
+        this.shotRecord = shotRecord;
         this.pastSurgeries = pastSurgeries;
         this.species = species;
         this.currentMeds = currentMeds;
@@ -37,16 +33,14 @@ public class PetMedInfo {
     }
 
     public PetMedInfo() {
-        this.id = nextId;
-        this.nextId++;
     }
 
-    public ArrayList<ShotRecord> getShotRecords() {
-        return shotRecords;
+    public ShotRecord getShotRecord() {
+        return shotRecord;
     }
 
-    public void setShotRecords(ShotRecord shotRecords) {
-        this.shotRecords.add(shotRecords);
+    public void setShotRecord(ShotRecord shotRecord) {
+        this.shotRecord = shotRecord;
     }
 
     public String getPastSurgeries() {

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org/">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>Coding Events</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" th:href="@{/styles.css}">
+
+</head>
+
+<body>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Pet Name</th>
+        <td th:text="${pet.name}"></td>
+    </tr>
+    </thead>
+</table>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <td th:if="${pet.petMedInfo == null}" ><a th:href="'/petProfiles/petMedInfo/edit?petId=' + ${pet.id}">There is no medical information created. Click here to add!</a></td>
+    </tr>
+
+    </thead>
+</table>
+
+</body>
+</html>

@@ -1,43 +1,38 @@
 package org.launchcode.PetLife.models;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.util.Date;
+import javax.persistence.*;
 
-public class ShotRecord {
-    @Id
-    @GeneratedValue
-    private int id;
-    private static int nextId = 1;
+@Entity
+public class ShotRecord extends AbstractEntity {
 
-    private String shotName;
+    private String name;
 
-    private Date dateReceived;
+    private String dateReceived;
 
-    public ShotRecord(String shotName, Date dateReceived) {
-        super();
-        this.shotName = shotName;
+
+    public ShotRecord(String name, String dateReceived) {
+        this.name = name;
         this.dateReceived = dateReceived;
     }
 
     public ShotRecord() {
-        this.id = nextId;
-        nextId++;
     }
 
-    public String getShotName() {
-        return shotName;
+    public String getName() {
+        return name;
     }
 
-    public void setShotName(String shotName) {
-        this.shotName = shotName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Date getDateReceived() {
+    public String getDateReceived() {
         return dateReceived;
     }
 
-    public void setDateReceived(Date dateReceived) {
+    public void setDateReceived(String dateReceived) {
         this.dateReceived = dateReceived;
     }
+
+
 }
