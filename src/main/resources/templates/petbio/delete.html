@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+
+<form method="post" >
+
+    <th:block th:each="pet : ${pets}">
+        <div class="form-group">
+    <input type="submit" name="Delete" class="btn btn-danger">
+        <label>
+            <span th:text="${pet.petName}"></span>
+            <input type="checkbox" name="petIds" th:value="${pet.id}">
+        </label>
+        </div>
+    </th:block>
+</form>
+
+</body>
+</html>

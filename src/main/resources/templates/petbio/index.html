@@ -1,20 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head>
-    <meta charset="UTF-8"/>
-    <title></title>
-</head>
+<head th:replace="fragments :: head"></head>
 <body>
 <div class="container body-content">
     <h2>Pet Biography</h2>
+    <nav th:replace="fragments :: navigation"></nav>
     <p th:unless="${petBiographys} and ${petBiographys.size()}">no pets!</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Pets Name</th>
+            <th>Pets Age</th>
+        </tr>
+        </thead>
+
     <ul>
-<!--        <li th:each="employer : ${employers}">-->
-<!--            <a th:href="@{'/petbio/view/' + ${employer.id}}" th:text="${employer.name}"></a>-->
-<!--        </li>-->
+        <tr th:each="pet: ${pets}">
+            <td th:text="${pet.id}"></td>
+            <td th:text="${pet.petName}"></td>
+            <td th:text="${pet.petAge}"></td>
+        </tr>
+
     </ul>
     <a th:href="@{'/petbio/add'}">Add Pet Biography</a>
-
+    </table>
 </div>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package org.launchcode.PetLife.controllers;
 
 import org.launchcode.PetLife.models.PetBio;
+import org.launchcode.PetLife.models.data.PetBioData;
 import org.launchcode.PetLife.models.data.PetBioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,8 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -16,50 +19,48 @@ import java.util.Optional;
 public class PetBioController {
 
 
-    @Autowired
-    private PetBioRepository petBioRepository;
+//    @Autowired
+//    private PetBioRepository petBioRepository;
+
 
 
     @GetMapping("")
-//    @ResponseBody
     public String processPetBioInfo(Model model) {
         model.addAttribute("title", "Pet Biography");
-        model.addAttribute("petBiographys", petBioRepository.findAll());
-        return "petbio/index";
+//        model.addAttribute("pets", petBioRepository.findAll());
+      model.addAttribute("pets", PetBioData.getAll());
+        return "index";
     }
 
     @GetMapping("add")
     public String displayAddPetBioForm(Model model) {
         model.addAttribute("title", "Add Pet Biography");
-        model.addAttribute(new PetBio());
+//        model.addAttribute(new PetBio());
         return "petbio/add";
     }
 
     @PostMapping("add")
-    public String processAddPedBioForm(@ModelAttribute @Valid PetBio newPetBio,
-                                       Errors errors, Model model) {
-        petBioRepository.save(newPetBio);
-        if (errors.hasErrors()) {
-            model.addAttribute(new PetBio());
-            System.out.println(newPetBio);
-            return "petbio/add";
+    public String processPetBioInfo(@RequestParam String petName, @RequestParam Integer petAge){
+        PetBioData.add(new PetBio(petName, petAge));
+
+        return "petbio/index";
+    }
+
+    @GetMapping("delete")
+    public String displayDeletePetBioInfo(Model model){
+        model.addAttribute("title", "Delete Pet Biography" );
+        model.addAttribute("pets", PetBioData.getAll());
+        return "petbio/delete";
+    }
+
+    @PostMapping("delete")
+    public String processDeletePetBioInfo(@RequestParam int[] petids){
+        for (int id: petids){
+           PetBioData.remove(id);
         }
-        petBioRepository.save(newPetBio);
+        return"petbio/index";
 
-        return "redirect:";
     }
 
-    @GetMapping("view")
-    public String displayViewPetBio(Model model, @PathVariable int petbioId ) {
 
-
-
-            Optional optPetBio = petBioRepository.findById(petbioId);
-            if (optPetBio.isPresent()) {
-                PetBio petBio = (PetBio) optPetBio.get();
-                model.addAttribute("petbio", petBio);
-                return "petbio/view";
-            }
-        return "petbio/view";
-    }
 }

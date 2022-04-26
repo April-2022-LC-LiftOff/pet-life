@@ -1,32 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head>
-    <meta charset="UTF-8"/>
-    <title></title>
-</head>
-<body>
-<form method="post" style="max-width:600px;">
- <table>
-     <tbody>
-     <tr>
-         <td><label>Pet's Name</label></td>
-         <td><input type="text" name="petName"/></td>
-         <span th:errors="${petBio.name}" class="error"></span>
-     </tr>
-     <tr>
-         <td><label>Age</label></td>
-         <td><input type="text" name="petAge"/></td>
-         <span th:errors="${petBio.petName}" class="error"></span>
-     </tr>
-     <tr>
-         <td><label>Birth Date</label></td>
-         <td><input type="text" name="petBirthdate"/></td>
-     </tr>
+<head th:replace="fragments :: head"></head>
+<body class="container">
 
-     </tbody>
- </table>
 
-    <input type="submit" value="Add Pet Biography" />
+<form method="post">
+    <div class="form-group">
+        <label>Pet Name
+            <input type="text" name="petName" class="form-control">
+        </label>
+    </div>
+    <div class="form-group">
+        <label>Pet Age
+            <input type="text" name="petAge" class="form-control">
+        </label>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-success">
+    </div>
 </form>
+
 </body>
 </html>
