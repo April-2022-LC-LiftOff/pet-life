@@ -4,31 +4,35 @@ package org.launchcode.PetLife.models;
 import lombok.Getter;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Entity
 public class PetMedInfo extends AbstractEntity {
-
-    private static int nextId = 1;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private ShotRecord shotRecord;
-
-    private String pastSurgeries;
-
+    @Size(max = 20, message = "Species must contain less than 20 characters.")
     private String species;
 
     private String currentMeds;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @Valid
+    private ShotRecord shotRecord;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @Valid
+    private PastSurgery pastSurgery;
+
+    @Size(max = 500, message = "Limit up to 500 characters.")
     private String pastMedicalConcerns;
 
-    public PetMedInfo(ShotRecord shotRecord, String pastSurgeries, String species, String currentMeds, String pastMedicalConcerns) {
-        this.shotRecord = shotRecord;
-        this.pastSurgeries = pastSurgeries;
+    public PetMedInfo(String species, String currentMeds, ShotRecord shotRecord, PastSurgery pastSurgery, String pastMedicalConcerns) {
         this.species = species;
         this.currentMeds = currentMeds;
+        this.shotRecord = shotRecord;
+        this.pastSurgery = pastSurgery;
         this.pastMedicalConcerns = pastMedicalConcerns;
     }
 
@@ -43,12 +47,12 @@ public class PetMedInfo extends AbstractEntity {
         this.shotRecord = shotRecord;
     }
 
-    public String getPastSurgeries() {
-        return pastSurgeries;
+    public PastSurgery getPastSurgery() {
+        return pastSurgery;
     }
 
-    public void setPastSurgeries(String pastSurgeries) {
-        this.pastSurgeries = pastSurgeries;
+    public void setPastSurgery(PastSurgery pastSurgery) {
+        this.pastSurgery = pastSurgery;
     }
 
     public String getSpecies() {

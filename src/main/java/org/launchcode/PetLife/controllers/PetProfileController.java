@@ -40,7 +40,6 @@ public class PetProfileController {
     public String processEditMedInfoForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model) {
 
         if (errors.hasErrors()) {
-            model.addAttribute(new Pet());
             return "petProfiles/create";
         }
 
@@ -65,7 +64,7 @@ public class PetProfileController {
 
 
     @GetMapping("petMedInfo/edit")
-    public String displayEditMedInfoForm(@RequestParam Integer petId, Model model) {
+    public String displayEditMedInfoForm(@RequestParam int petId, Model model) {
         Optional<Pet> result = petRepository.findById(petId);
 
         if (result.isEmpty()) {
@@ -80,25 +79,21 @@ public class PetProfileController {
     }
 
     @PostMapping("petMedInfo/edit")
-    public String processEditMedInfoForm(@RequestParam Integer petId, @ModelAttribute @Valid PetMedInfo newPetMedicalInfo, Errors errors, Model model) {
+    public String processEditMedInfoForm(@ModelAttribute @Valid PetMedInfo newPetMedicalInfo, Errors errors, @RequestParam(required = false) int petId, Model model) {
+
+        Optional<Pet> result = petRepository.findById(petId);
+        Pet pet = result.get();
 
         if (errors.hasErrors()) {
-            model.addAttribute(new PetMedInfo());
+            model.addAttribute("title", "You are editing " + pet.getName() + "'s medical information.");
+            model.addAttribute("pet", pet);
             return "petProfiles/petMedInfo/edit";
         }
 
-        Optional<Pet> result = petRepository.findById(petId);
-
-        if (result.isEmpty()) {
-            model.addAttribute("title", "Invalid Pet Id" + petId);
-        } else {
-            Pet pet = result.get();
-            pet.setPetMedInfo(newPetMedicalInfo);
-            petMedInfoRepository.save(newPetMedicalInfo);
-            model.addAttribute("pet", pet);
-        }
+        pet.setPetMedInfo(newPetMedicalInfo);
+        petMedInfoRepository.save(newPetMedicalInfo);
+        model.addAttribute("pet", pet);
 
         return "petProfiles/detail";
     }
-
 }

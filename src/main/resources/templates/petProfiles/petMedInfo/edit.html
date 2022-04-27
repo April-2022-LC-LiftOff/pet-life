@@ -1,56 +1,51 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org/">
 
-<head th:fragment="head">
-    <meta charset="UTF-8"/>
-    <title>Coding Events</title>
+<head th:replace="fragments :: head"></head>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-
-    <link rel="stylesheet" th:href="@{/styles.css}">
-
-</head>
-
-<body>
+<body class="container">
 <h1 th:text="${title}"></h1>
 
 <form method = "post">
-    <div class=""form-group>
+    <div class="form-group">
         <label>Species
-            <input th:field="${petMedInfo.species}" type="text" class=""form-control>
+            <input th:field="${petMedInfo.species}" class="form-control">
         </label>
         <p class="error" th:errors="${petMedInfo.species}"></p>
     </div>
 
-    <div class=""form-group>
+    <div class="form-group">
         <label>Current Medications
-            <input th:field="${petMedInfo.currentMeds}" type="text" class=""form-control>
+            <input th:field="${petMedInfo.currentMeds}" class="form-control">
         </label>
         <p class="error" th:errors="${petMedInfo.currentMeds}"></p>
     </div>
 
-    <div class=""form-group>
+    <div class="form-group">
         <label>Shot Name
-            <input th:field="${petMedInfo.shotRecord.name}" type="text" class=""form-control>
+            <input th:field="${petMedInfo.shotRecord.name}" class="form-control">
         </label>
         <p class="error" th:errors="${petMedInfo.shotRecord.name}"></p>
-        <label>Date received
-            <input th:field="${petMedInfo.shotRecord.dateReceived}" type="date" class=""form-control>
+        <label>Date Received
+            <input th:field="${petMedInfo.shotRecord.dateReceived}" type="date" class="form-control">
         </label>
         <p class="error" th:errors="${petMedInfo.shotRecord.dateReceived}"></p>
     </div>
 
-    <div class=""form-group>
-        <label>Past Surgeries
-            <input th:field="${petMedInfo.pastSurgeries}" type="text" class=""form-control>
+    <div class="form-group">
+        <label>Surgery Name
+            <input th:field="${petMedInfo.pastSurgery.name}" class="form-control">
         </label>
-        <p class="error" th:errors="${petMedInfo.pastSurgeries}"></p>
+        <p class="error" th:errors="${petMedInfo.pastSurgery.name}"></p>
+        <label>Date of Surgery
+            <input th:field="${petMedInfo.pastSurgery.dateReceived}" type = "date" class="form-control">
+        </label>
+        <p class="error" th:errors="${petMedInfo.pastSurgery.dateReceived}"></p>
     </div>
 
-    <div class=""form-group>
+    <div class="form-group">
         <label>Medical Note
-            <input th:field="${petMedInfo.pastMedicalConcerns}" type="text" class=""form-control>
+            <textarea th:field="${petMedInfo.pastMedicalConcerns}" class="form-control"></textarea>
         </label>
         <p class="error" th:errors="${petMedInfo.pastMedicalConcerns}"></p>
     </div>
