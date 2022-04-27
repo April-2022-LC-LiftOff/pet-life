@@ -40,10 +40,9 @@ public class PetBioController {
     }
 
     @PostMapping("add")
-    public String processPetBioInfo(@RequestParam String petName, @RequestParam Integer petAge){
-        PetBioData.add(new PetBio(petName, petAge));
-
-        return "petbio/index";
+    public String processPetBioInfo(@ModelAttribute PetBio newPetBio){
+        PetBioData.add(newPetBio);
+        return "redirect: ";
     }
 
 
