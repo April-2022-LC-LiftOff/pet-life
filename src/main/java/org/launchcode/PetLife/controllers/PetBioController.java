@@ -40,9 +40,16 @@ public class PetBioController {
     }
 
     @PostMapping("add")
-    public String processPetBioInfo(@ModelAttribute PetBio newPetBio){
+    public String processPetBioInfo(@ModelAttribute @Valid PetBio newPetBio, Errors errors, Model model){
+
+        if(errors.hasErrors()){
+            model.addAttribute("title", "Add Pet Biography");
+            model.addAttribute("errorMsg", "Bad Data");
+            return "petbio/add";
+        }
+
         PetBioData.add(newPetBio);
-        return "redirect: ";
+        return "petbio/index";
     }
 
 

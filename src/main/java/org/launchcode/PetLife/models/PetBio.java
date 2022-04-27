@@ -21,7 +21,7 @@ public class PetBio extends AbstractEntity{
     private String petName;
 
 //   // @Column (name="pet_age")
- private Integer petAge;
+     private Integer petAge;
 //
 //    //@Column (name="pet_birthdate")
 //    private Integer petBirthDate;
