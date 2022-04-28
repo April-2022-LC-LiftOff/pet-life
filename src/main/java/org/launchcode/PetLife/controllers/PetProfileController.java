@@ -27,11 +27,13 @@ public class PetProfileController {
 
     @GetMapping
     public String displayPet(Model model) {
+        model.addAttribute("title", "All Pets");
         model.addAttribute("pets", petRepository.findAll());
         return "petProfiles/index";
     }
     @GetMapping("create")
     public String displayCreatePetForm(Model model) {
+        model.addAttribute("title", "Create Pet");
         model.addAttribute(new Pet());
         return "petProfiles/create";
     }
@@ -50,12 +52,14 @@ public class PetProfileController {
     @GetMapping("detail")
     public String displayPetDetails(@RequestParam Integer petId, Model model) {
 
+
         Optional<Pet> result = petRepository.findById(petId);
 
         if (result.isEmpty()) {
             model.addAttribute("title", "Invalid Pet Id" + petId);
         } else {
             Pet pet = result.get();
+            model.addAttribute("title", pet.getName() + "'s information" );
             model.addAttribute("pet", pet);
         }
 
@@ -71,7 +75,7 @@ public class PetProfileController {
             model.addAttribute("title", "Invalid Pet Id" + petId);
         } else {
             Pet pet = result.get();
-            model.addAttribute("title",  "You are editing " + pet.getName() + "'s medical information.");
+            model.addAttribute("title",  "Edit " + pet.getName() + "'s medical information");
             model.addAttribute("pet", pet);
             model.addAttribute(new PetMedInfo());
         }
