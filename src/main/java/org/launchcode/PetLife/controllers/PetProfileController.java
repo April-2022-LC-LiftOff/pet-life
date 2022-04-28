@@ -20,10 +20,10 @@ import java.util.Optional;
 public class PetProfileController {
 
     @Autowired
-    private PetMedInfoRepository petMedInfoRepository;
+    private PetRepository petRepository;
 
     @Autowired
-    private PetRepository petRepository;
+    private PetMedInfoRepository petMedInfoRepository;
 
     @GetMapping
     public String displayPet(Model model) {
@@ -31,6 +31,7 @@ public class PetProfileController {
         model.addAttribute("pets", petRepository.findAll());
         return "petProfiles/index";
     }
+
     @GetMapping("create")
     public String displayCreatePetForm(Model model) {
         model.addAttribute("title", "Create Pet");
@@ -77,7 +78,12 @@ public class PetProfileController {
             Pet pet = result.get();
             model.addAttribute("title",  "Edit " + pet.getName() + "'s medical information");
             model.addAttribute("pet", pet);
-            model.addAttribute(new PetMedInfo());
+            if (pet.getPetMedInfo() != null) {
+                model.addAttribute("petMedInfo", pet.getPetMedInfo());
+            } else {
+                model.addAttribute(new PetMedInfo());
+            }
+
         }
         return "petProfiles/petMedInfo/edit";
     }

@@ -3,13 +3,64 @@
 
 <head th:replace="fragments :: head"></head>
 
-<body class="container">
+<body>
 
-<header th:replace="fragments :: header"></header>
+<nav th:replace="fragments :: navbar"></nav>
 
-<p>
-    Pet life allows pet owners, vets, and pet sitters to share information with others. Pet owner users can log in to create a profile of their pets. They can insert their pets' information covering from biographical to medical, like name, sex, behaviors, species, allergies, etc. Vet users can update and insert medical information for a pet, and the owner would know what is happening to their pet medically. Pet owner users can also share any caring notes of their pets with pet sitters and day care centers, so they would know how to take good care of their pets.
-</p>
+
+<div class="container">
+    <header th:replace="fragments :: header"></header>
+    <div class="row">
+        <div class="col-sm">
+            <h3>About</h3>
+            <p>
+                PetLife is your pet/animal virtual organizer, which allows pet owners, vets, and pet sitters to share information with others. Pet owner users can log in to create a profile of their pets. With the account, they can insert their pets' information covering from biographical to medical, like name, sex, behaviors, species, allergies, etc. Alternatively, vet users can update and insert medical information for a pet, and then the owner would know what is happening to their pet medically. Moreover, pet owner users can also share any caring notes of their pets with pet sitters and day care centers, so they would know how to take good care of their pets.
+            </p>
+            <br>
+            <h3>Key Features</h3>
+            <ul>
+                <li>Easily organize all information of your animals in a single place, including medical and caring notes.</li>
+                <li>Simply share the information with people who need, like vets or pet caretakers.</li>
+                <li>Never forget to order the necessities for your loved animals with periodic notifications.</li>
+            </ul>
+
+        </div>
+        <div class="col-sm" id="slideshow-container">
+
+            <div class="mySlides">
+<!--                <div class="numbertext">1 / 5</div>-->
+                <img th:src="@{/images/homeSlideImg_1.jpeg}" style="width:100%">
+<!--                <div class="text">Caption Text</div>-->
+            </div>
+
+            <div class="mySlides">
+                <img th:src="@{/images/homeSlideImg_2.jpeg}" style="width:100%">
+            </div>
+
+            <div class="mySlides">
+                <img th:src="@{/images/homeSlideImg_3.jpeg}" style="width:100%">
+            </div>
+
+            <div class="mySlides">
+                <img th:src="@{/images/homeSlideImg_4.jpeg}" style="width:100%">
+            </div>
+
+            <div class="mySlides">
+                <img th:src="@{/images/homeSlideImg_5.jpeg}" style="width:100%">
+            </div>
+            <div style="text-align:center">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="fragments :: footer"></footer>
+
 
 </body>
 </html>

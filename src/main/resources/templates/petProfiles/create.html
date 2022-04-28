@@ -3,23 +3,30 @@
 
 <head th:replace="fragments :: head"></head>
 
-<body class="container">
+<body>
 
-<header th:replace="fragments :: header"></header>
+<nav th:replace="fragments :: navbar"></nav>
 
-<form method = "post">
-    <div class="form-group">
-        <label>Name
-            <input th:field="${pet.name}" type="text" class="form-control">
-        </label>
-        <p class="error" th:errors="${pet.name}"></p>
-    </div>
+<div class="container">
+    <header th:replace="fragments :: header"></header>
 
-    <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-success">
-    </div>
+    <form method = "post">
+        <div class="form-group">
+            <label>Name
+                <input th:field="${pet.name}" type="text" class="form-control">
+            </label>
+            <p class="error" th:errors="${pet.name}"></p>
+        </div>
 
-</form>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-success">
+        </div>
 
+    </form>
+
+</div>
+
+
+<footer th:replace="fragments :: footer"></footer>
 </body>
 </html>

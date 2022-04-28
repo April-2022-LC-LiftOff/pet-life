@@ -1,0 +1,14 @@
+.error {
+    color: red;
+}
+
+.navbar {
+    background-color: #0076BA;
+    padding-left: 50px;
+}
+
+#slideshow-container {
+  max-width: 600px;
+  position: relative;
+  margin: auto;
+}

@@ -3,49 +3,55 @@
 
 <head th:replace="fragments :: head"></head>
 
-<body class="container">
+<body>
 
-<header th:replace="fragments :: header"></header>
+<nav th:replace="fragments :: navbar"></nav>
 
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>Pet Name</th>
-        <td th:text="${pet.name}"></td>
-    </tr>
-    </thead>
-</table>
+<div class="container">
 
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <td th:if="${pet.petMedInfo == null}" ><a th:href="'/petProfiles/petMedInfo/edit?petId=' + ${pet.id}">There is no medical information created. Click here to add!</a></td>
-    </tr>
-    </thead>
-    <th:block th:unless="${pet.petMedInfo == null}">
-        <tr>
-            <th>Species</th>
-            <td th:text="${pet.petMedInfo.species}"></td>
-        </tr>
-        <tr>
-            <th>Current Medications</th>
-            <td th:text="${pet.petMedInfo.currentMeds}"></td>
-        </tr>
-        <tr>
-            <th>Shot Records</th>
-            <td th:text="${pet.petMedInfo.shotRecord.name + '(' + pet.petMedInfo.shotRecord.date + ')'}"></td>
-        </tr>
-        <tr>
-            <th>Past Surgeries</th>
-            <td th:text="${pet.petMedInfo.pastSurgery.name + '(' + pet.petMedInfo.pastSurgery.date + ')'}"></td>
-        </tr>
-        <tr>
-            <th>Medical Note</th>
-            <td th:text="${pet.petMedInfo.pastMedicalConcerns}"></td>
-        </tr>
-    </th:block>
+    <header th:replace="fragments :: header"></header>
 
-</table>
+    <table class="table table-striped">
+        <tr>
+            <th>Pet Name</th>
+            <td th:text="${pet.name}"></td>
+        </tr>
+    </table>
 
+    <h3>Medical information</h3>
+    <span>
+        <a th:unless="${pet.petMedInfo == null}" th:href="'/petProfiles/petMedInfo/edit?petId=' + ${pet.id}">Edit information</a>
+        <a th:if="${pet.petMedInfo == null}" th:href="'/petProfiles/petMedInfo/edit?petId=' + ${pet.id}">There is no medical information created. Click here to add!</a></td>
+    </span>
+
+    <table class="table table-striped">
+        <th:block th:unless="${pet.petMedInfo == null}">
+            <tr>
+                <th>Species</th>
+                <td th:text="${pet.petMedInfo.species}"></td>
+            </tr>
+            <tr>
+                <th>Current Medications</th>
+                <td th:text="${pet.petMedInfo.currentMeds}"></td>
+            </tr>
+            <tr>
+                <th>Shot Records</th>
+                <td th:text="${pet.petMedInfo.shotRecord.name + ' on ' + pet.petMedInfo.shotRecord.date}"></td>
+            </tr>
+            <tr>
+                <th>Past Surgeries</th>
+                <td th:text="${pet.petMedInfo.pastSurgery.name + ' on ' + pet.petMedInfo.pastSurgery.date}"></td>
+            </tr>
+            <tr>
+                <th>Medical Note</th>
+                <td th:text="${pet.petMedInfo.pastMedicalConcerns}"></td>
+            </tr>
+        </th:block>
+
+    </table>
+
+</div>
+
+<footer th:replace="fragments :: footer"></footer>
 </body>
 </html>
