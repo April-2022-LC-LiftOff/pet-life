@@ -44,9 +44,11 @@
 
     <div class="form-group">
         <label>Gender
-            <input th:field="${petBio.petGender}" class="form-control">
+            <select th:field="${petBio.petGender}" class="form-control">
+                <option th:value="Male">Male</option>
+                <option th:value="Female">Female</option>
+            </select>
         </label>
-        <p class="error" th:errors="${petBio.petGender}" style="color:red";></p>
     </div>
 
     <div class="form-group">

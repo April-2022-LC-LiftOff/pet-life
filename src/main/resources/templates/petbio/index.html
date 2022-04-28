@@ -5,7 +5,7 @@
 
 <header th:replace="fragments :: header"></header>
 
-    <p th:unless="${petBiographys} and ${petBiographys.size()}">no pets!</p>
+<!--    <p th:unless="${PetBio} and ${PetBio.size()}">no pets!</p>-->
 
     <table class="table table-striped">
         <thead>
@@ -18,7 +18,7 @@
             <th>Breed</th>
             <th>Gender</th>
             <th>Weight</th>
-            <th>color</th>
+            <th>Color</th>
         </tr>
         </thead>
         <tr th:each="pet : ${pets}">

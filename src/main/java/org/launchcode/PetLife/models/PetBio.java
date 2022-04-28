@@ -4,11 +4,12 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashMap;
 
 
 @Entity
 //@Table(name="pet_bio")
-public class PetBio extends AbstractEntity{
+public class PetBio<petGender> extends AbstractEntity{
 
     //@ManyToOne
 //    @JoinColumn(name = "petbio_id")
@@ -28,19 +29,25 @@ public class PetBio extends AbstractEntity{
     private Integer petBirthDate;
 //
 //   // @Column (name="pet_species")
+@NotNull(message = "Species is required")
     private String petSpecies;
 //
 //    //@Column (name="pet_breed")
+@NotNull(message = "Breed is required or input unknown")
     private String petBreed;
 //
 //    //@Column (name="pet_gender")
     private String petGender;
+
 //
 //    //@Column (name="pet_weight")
+@NotNull(message = "Weight is required")
     private Integer petWeight;
 //
 //    //@Column (name="pet_color")
+@NotNull(message = "Color of pet is required")
     private String petColor;
+
 
 
     public PetBio(String petName, Integer petAge, Integer petBirthDate, String petSpecies, String petBreed, String petGender, Integer petWeight, String petColor) {
@@ -100,6 +107,7 @@ public class PetBio extends AbstractEntity{
     public void setPetBreed(String petBreed) {
         this.petBreed = petBreed;
     }
+
 
     public String getPetGender() {
         return petGender;
