@@ -22,13 +22,6 @@
     </div>
 
     <div class="form-group">
-        <label>Birthdate
-            <input th:field="${petBio.petBirthDate}" class="form-control">
-        </label>
-        <p class="error" th:errors="${petBio.petBirthDate}" style="color:red";></p>
-    </div>
-
-    <div class="form-group">
         <label>Species
             <input th:field="${petBio.petSpecies}" class="form-control">
         </label>
@@ -64,6 +57,15 @@
         </label>
         <p class="error" th:errors="${petBio.petColor}" style="color:red";></p>
     </div>
+
+
+    <div class="form-group">
+        <label>Pet Behavior or Temperaments
+            <input th:field="${petBio.petBehavior}" class="form-control">
+        </label>
+        <p class="error" th:errors="${petBio.petBehavior}" style="color:red";></p>
+    </div>
+
 
     <div class="form-group">
         <input type="submit" value="Create" class="btn btn-success">

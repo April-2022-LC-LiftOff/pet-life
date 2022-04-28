@@ -24,9 +24,6 @@ public class PetBio<petGender> extends AbstractEntity{
     @NotNull(message = "Age is required")
      private Integer petAge;
 
-//    //@Column (name="pet_birthdate")
-    @NotNull(message = "Birthdate is required")
-    private Integer petBirthDate;
 //
 //   // @Column (name="pet_species")
 @NotNull(message = "Species is required")
@@ -50,15 +47,18 @@ public class PetBio<petGender> extends AbstractEntity{
 
 
 
-    public PetBio(String petName, Integer petAge, Integer petBirthDate, String petSpecies, String petBreed, String petGender, Integer petWeight, String petColor) {
+    private String petBehavior;
+
+    public PetBio(String petName, Integer petAge,String petSpecies, String petBreed, String petGender, Integer petWeight, String petColor, String petBehavior) {
         this.petName = petName;
         this.petAge = petAge;
-        this.petBirthDate = petBirthDate;
+
         this.petSpecies = petSpecies;
         this.petBreed = petBreed;
         this.petGender = petGender;
         this.petWeight = petWeight;
         this.petColor = petColor;
+        this.petBehavior = petBehavior;
     }
 
     public PetBio(){
@@ -84,13 +84,6 @@ public class PetBio<petGender> extends AbstractEntity{
         this.petAge = petAge;
     }
 
-    public Integer getPetBirthDate() {
-        return petBirthDate;
-    }
-
-    public void setPetBirthDate(Integer petBirthDate) {
-        this.petBirthDate = petBirthDate;
-    }
 
     public String getPetSpecies() {
         return petSpecies;
@@ -131,6 +124,14 @@ public class PetBio<petGender> extends AbstractEntity{
 
     public void setPetColor(String petColor) {
         this.petColor = petColor;
+    }
+
+    public String getPetBehavior() {
+        return petBehavior;
+    }
+
+    public void setPetBehavior(String petBehavior) {
+        this.petBehavior = petBehavior;
     }
 
     @Override
