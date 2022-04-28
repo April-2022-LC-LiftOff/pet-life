@@ -13,12 +13,24 @@
             <th>ID</th>
             <th>Name</th>
             <th>Age</th>
+            <th>Birthdate</th>
+            <th>Species</th>
+            <th>Breed</th>
+            <th>Gender</th>
+            <th>Weight</th>
+            <th>color</th>
         </tr>
         </thead>
         <tr th:each="pet : ${pets}">
             <td th:text="${pet.id}"></td>
             <td th:text="${pet.petName}"></td>
             <td th:text="${pet.petAge}"></td>
+            <td th:text="${pet.petBirthDate}"></td>
+            <td th:text="${pet.petSpecies}"></td>
+            <td th:text="${pet.petBreed}"></td>
+            <td th:text="${pet.petGender}"></td>
+            <td th:text="${pet.petWeight}"></td>
+            <td th:text="${pet.petColor}"></td>
         </tr>
 
 <!--    <a th:href="@{'/petbio/add'}">Add Pet Biography</a>-->

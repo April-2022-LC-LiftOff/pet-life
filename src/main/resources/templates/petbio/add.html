@@ -12,14 +12,57 @@
         <label>Name
             <input th:field="${petBio.petName}" class="form-control">
         </label>
-<!--        <p class="error" th:errors="${petBio.petName}" style="color:red";></p>-->
+        <p class="error" th:errors="${petBio.petName}" style="color:red";></p>
     </div>
     <div class="form-group">
         <label>Age
             <input th:field="${petBio.petAge}" class="form-control">
         </label>
-<!--        <p class="error" th:errors="${newPetBio.petAge}" style="color:red";></p>-->
+        <p class="error" th:errors="${petBio.petAge}" style="color:red";></p>
     </div>
+
+    <div class="form-group">
+        <label>Birthdate
+            <input th:field="${petBio.petBirthDate}" class="form-control">
+        </label>
+        <p class="error" th:errors="${petBio.petBirthDate}" style="color:red";></p>
+    </div>
+
+    <div class="form-group">
+        <label>Species
+            <input th:field="${petBio.petSpecies}" class="form-control">
+        </label>
+        <p class="error" th:errors="${petBio.petSpecies}" style="color:red";></p>
+    </div>
+
+    <div class="form-group">
+        <label>Breed
+            <input th:field="${petBio.petBreed}" class="form-control">
+        </label>
+        <p class="error" th:errors="${petBio.petBreed}" style="color:red";></p>
+    </div>
+
+    <div class="form-group">
+        <label>Gender
+            <input th:field="${petBio.petGender}" class="form-control">
+        </label>
+        <p class="error" th:errors="${petBio.petGender}" style="color:red";></p>
+    </div>
+
+    <div class="form-group">
+        <label>Weight
+            <input th:field="${petBio.petWeight}" class="form-control">
+        </label>
+        <p class="error" th:errors="${petBio.petWeight}" style="color:red";></p>
+    </div>
+
+    <div class="form-group">
+        <label>Color
+            <input th:field="${petBio.petColor}" class="form-control">
+        </label>
+        <p class="error" th:errors="${petBio.petColor}" style="color:red";></p>
+    </div>
+
     <div class="form-group">
         <input type="submit" value="Create" class="btn btn-success">
     </div>

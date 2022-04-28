@@ -49,7 +49,7 @@ public class PetBioController {
     @GetMapping("delete")
     public String displaydeletePetBioForm(Model model) {
         model.addAttribute("title", "Delete Pet Profile");
-        model.addAttribute("petz", petBioRepository.findAll());
+        model.addAttribute("pets", petBioRepository.findAll());
         return "petbio/delete";
     }
 

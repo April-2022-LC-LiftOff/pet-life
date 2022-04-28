@@ -13,13 +13,14 @@
 
     <th:block th:each="pet : ${pets}">
         <div class="form-group">
-    <input type="submit" name="Delete" class="btn btn-danger">
+
         <label>
-            <span th:text="${petz.petName}"></span>
+            <span th:text="${pet.petName}"></span>
             <input type="checkbox" name="petIds" th:value="${pet.id}">
         </label>
         </div>
     </th:block>
+    <input type="submit" name="Delete" class="btn btn-danger">
 </form>
 
 </body>
