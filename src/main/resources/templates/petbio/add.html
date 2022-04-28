@@ -6,17 +6,19 @@
 
 <header th:replace="fragments :: header"></header>
 
-<p th:text="${errorMsg}" style="color:red";></p>
+
 <form method="post">
     <div class="form-group">
         <label>Name
-            <input type="text" name="petName" class="form-control">
+            <input th:field="${petBio.petName}" class="form-control">
         </label>
+<!--        <p class="error" th:errors="${petBio.petName}" style="color:red";></p>-->
     </div>
     <div class="form-group">
         <label>Age
-            <input type="text" name="petAge" class="form-control">
+            <input th:field="${petBio.petAge}" class="form-control">
         </label>
+<!--        <p class="error" th:errors="${newPetBio.petAge}" style="color:red";></p>-->
     </div>
     <div class="form-group">
         <input type="submit" value="Create" class="btn btn-success">

@@ -3,24 +3,22 @@ package org.launchcode.PetLife.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Objects;
+
 
 @Entity
 //@Table(name="pet_bio")
 public class PetBio extends AbstractEntity{
 
     //@ManyToOne
-    @JoinColumn(name = "petbio_id")
+//    @JoinColumn(name = "petbio_id")
 
 
-    private int id;
-    private static int nextId = 1;
     @NotBlank(message = "Name is required")
-    @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters")
+    @Size(min = 1, max = 50, message = "Name must be between 3 and 50 characters")
     //@Column (name="pet_name")
     private String petName;
 
-//   // @Column (name="pet_age")
+//@Column (name="pet_age")
      private Integer petAge;
 //
 //    //@Column (name="pet_birthdate")
@@ -41,15 +39,15 @@ public class PetBio extends AbstractEntity{
 //    //@Column (name="pet_color")
 //    private String petColor;
 
-    public PetBio(){
 
-    }
 
     public PetBio(String petName, Integer petAge) {
         this.petName = petName;
         this.petAge = petAge;
-        this.id = nextId;
-        nextId++;
+
+    }
+
+    public PetBio(){
 
     }
     //    public PetBio(String petName, Integer petAge, Integer petBirthDate, String petSpecies, String petBreed, String petGender, Integer petWeight, String petColor) {
@@ -65,10 +63,6 @@ public class PetBio extends AbstractEntity{
 //    }
 
 
-    @Override
-    public int getId() {
-        return id;
-    }
 
     public String getPetName() {
         return petName;
@@ -133,21 +127,6 @@ public class PetBio extends AbstractEntity{
 //    public void setPetColor(String petColor) {
 //        this.petColor = petColor;
 //    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PetBio)) return false;
-        if (!super.equals(o)) return false;
-        PetBio petBio = (PetBio) o;
-        return getId() == petBio.getId();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), getId());
-    }
 
     @Override
     public String toString() {
