@@ -1,6 +1,5 @@
 package org.launchcode.PetLife.models;
 
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -20,14 +19,13 @@ public abstract class AbstractEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AbstractEntity that = (AbstractEntity) o;
-        return id == that.id;
+        if (!(o instanceof AbstractEntity)) return false;
+        AbstractEntity entity = (AbstractEntity) o;
+        return getId() == entity.getId();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(getId());
     }
-
 }
