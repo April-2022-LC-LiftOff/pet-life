@@ -17,36 +17,32 @@ public class PetBio<petGender> extends AbstractEntity{
 
     @NotBlank(message = "Name is required")
     @Size(min = 1, max = 50, message = "Name must be between 3 and 50 characters")
-    //@Column (name="pet_name")
-    private String petName;
+      private String petName;
 
-//@Column (name="pet_age")
+ @Size(min = 1, max = 50, message = " Age must be between 1 and 50 characters")
     @NotNull(message = "Age is required")
      private Integer petAge;
 
-//
-//   // @Column (name="pet_species")
+ @Size(min = 1, max = 50, message = " Species must be between 1 and 50 characters")
 @NotNull(message = "Species is required")
     private String petSpecies;
-//
-//    //@Column (name="pet_breed")
+    
+@Size(min = 1, max = 50, message = " Breed must be between 1 and 50 characters")
 @NotNull(message = "Breed is required or input unknown")
     private String petBreed;
-//
-//    //@Column (name="pet_gender")
+
     private String petGender;
 
-//
-//    //@Column (name="pet_weight")
+ @Size(min = 1, max = 50, message = " Weight must be between 1 and 50 characters")
 @NotNull(message = "Weight is required")
     private Integer petWeight;
-//
-//    //@Column (name="pet_color")
+
 @NotNull(message = "Color of pet is required")
+ @Size(min = 1, max = 50, message = " Color must be between 1 and 50 characters")
     private String petColor;
 
 
-
+ @Size(min = 1, max = 200, message = " must be between 1 and 200 characters")
     private String petBehavior;
 
     public PetBio(String petName, Integer petAge,String petSpecies, String petBreed, String petGender, Integer petWeight, String petColor, String petBehavior) {
