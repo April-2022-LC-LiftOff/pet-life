@@ -1,8 +1,7 @@
 package org.launchcode.PetLife.controllers;
 
 import org.launchcode.PetLife.models.Pet;
-import org.launchcode.PetLife.models.PetMedInfo;
-import org.launchcode.PetLife.models.ShotRecord;
+import org.launchcode.PetLife.models.MedInfo;
 import org.launchcode.PetLife.models.data.PetMedInfoRepository;
 import org.launchcode.PetLife.models.data.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import java.util.Optional;
 
 
 @Controller
-@RequestMapping("petProfiles")
+@RequestMapping("pet")
 public class PetProfileController {
 
     @Autowired
@@ -29,21 +28,22 @@ public class PetProfileController {
     public String displayPet(Model model) {
         model.addAttribute("title", "All Pets");
         model.addAttribute("pets", petRepository.findAll());
-        return "petProfiles/index";
+        return "pet/index";
     }
 
     @GetMapping("create")
     public String displayCreatePetForm(Model model) {
-        model.addAttribute("title", "Create Pet");
+        model.addAttribute("title", "Create Pet Profile");
         model.addAttribute(new Pet());
-        return "petProfiles/create";
+        return "pet/create";
     }
 
     @PostMapping("create")
-    public String processEditMedInfoForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model) {
+    public String processCreatePetForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model) {
 
         if (errors.hasErrors()) {
-            return "petProfiles/create";
+            model.addAttribute("title", "Create Pet Profile");
+            return "pet/create";
         }
 
         petRepository.save(newPet);
@@ -64,11 +64,11 @@ public class PetProfileController {
             model.addAttribute("pet", pet);
         }
 
-        return "petProfiles/detail";
+        return "pet/detail";
     }
 
 
-    @GetMapping("petMedInfo/edit")
+    @GetMapping("medInfo/edit")
     public String displayEditMedInfoForm(@RequestParam int petId, Model model) {
         Optional<Pet> result = petRepository.findById(petId);
 
@@ -78,32 +78,32 @@ public class PetProfileController {
             Pet pet = result.get();
             model.addAttribute("title",  "Edit " + pet.getName() + "'s medical information");
             model.addAttribute("pet", pet);
-            if (pet.getPetMedInfo() != null) {
-                model.addAttribute("petMedInfo", pet.getPetMedInfo());
+            if (pet.getMedInfo() != null) {
+                model.addAttribute("medInfo", pet.getMedInfo());
             } else {
-                model.addAttribute(new PetMedInfo());
+                model.addAttribute(new MedInfo());
             }
 
         }
-        return "petProfiles/petMedInfo/edit";
+        return "pet/medInfo/edit";
     }
 
-    @PostMapping("petMedInfo/edit")
-    public String processEditMedInfoForm(@ModelAttribute @Valid PetMedInfo newPetMedicalInfo, Errors errors, @RequestParam(required = false) int petId, Model model) {
+    @PostMapping("medInfo/edit")
+    public String processEditMedInfoForm(@ModelAttribute @Valid MedInfo newPetMedicalInfo, Errors errors, @RequestParam(required = false) int petId, Model model) {
 
         Optional<Pet> result = petRepository.findById(petId);
         Pet pet = result.get();
 
         if (errors.hasErrors()) {
-            model.addAttribute("title", "You are editing " + pet.getName() + "'s medical information.");
+            model.addAttribute("title", "Edit " + pet.getName() + "'s medical information.");
             model.addAttribute("pet", pet);
-            return "petProfiles/petMedInfo/edit";
+            return "pet/medInfo/edit";
         }
 
-        pet.setPetMedInfo(newPetMedicalInfo);
+        pet.setMedInfo(newPetMedicalInfo);
         petMedInfoRepository.save(newPetMedicalInfo);
         model.addAttribute("pet", pet);
 
-        return "petProfiles/detail";
+        return "pet/detail";
     }
 }

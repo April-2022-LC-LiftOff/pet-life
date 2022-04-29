@@ -20,31 +20,27 @@
 
     <h3>Medical information</h3>
     <span>
-        <a th:unless="${pet.petMedInfo == null}" th:href="'/petProfiles/petMedInfo/edit?petId=' + ${pet.id}">Edit information</a>
-        <a th:if="${pet.petMedInfo == null}" th:href="'/petProfiles/petMedInfo/edit?petId=' + ${pet.id}">There is no medical information created. Click here to add!</a></td>
+        <a th:unless="${pet.medInfo == null}" th:href="'/pet/medInfo/edit?petId=' + ${pet.id}">Edit information</a>
+        <a th:if="${pet.medInfo == null}" th:href="'/pet/medInfo/edit?petId=' + ${pet.id}">There is no medical information created. Click here to add!</a></td>
     </span>
 
     <table class="table table-striped">
-        <th:block th:unless="${pet.petMedInfo == null}">
-            <tr>
-                <th>Species</th>
-                <td th:text="${pet.petMedInfo.species}"></td>
-            </tr>
+        <th:block th:unless="${pet.medInfo == null}">
             <tr>
                 <th>Current Medications</th>
-                <td th:text="${pet.petMedInfo.currentMeds}"></td>
+                <td th:text="${pet.medInfo.currentMeds}"></td>
             </tr>
             <tr>
                 <th>Shot Records</th>
-                <td th:text="${pet.petMedInfo.shotRecord.name + ' on ' + pet.petMedInfo.shotRecord.date}"></td>
+                <td th:text="${pet.medInfo.shotRecord.name + ' on ' + pet.medInfo.shotRecord.date}"></td>
             </tr>
             <tr>
                 <th>Past Surgeries</th>
-                <td th:text="${pet.petMedInfo.pastSurgery.name + ' on ' + pet.petMedInfo.pastSurgery.date}"></td>
+                <td th:text="${pet.medInfo.pastSurgery.name + ' on ' + pet.medInfo.pastSurgery.date}"></td>
             </tr>
             <tr>
                 <th>Medical Note</th>
-                <td th:text="${pet.petMedInfo.pastMedicalConcerns}"></td>
+                <td th:text="${pet.medInfo.medicalNote}"></td>
             </tr>
         </th:block>
 

@@ -16,7 +16,7 @@
         </tr>
         </thead>
         <tr th:each="pet : ${pets}">
-            <td><a th:href="'/petProfiles/detail?petId=' + ${pet.id}" th:text="${pet.name}"></a></td>
+            <td><a th:href="'/pet/detail?petId=' + ${pet.id}" th:text="${pet.name}"></a></td>
         </tr>
     </table>
 

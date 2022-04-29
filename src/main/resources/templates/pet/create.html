@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org/">
+
+<head th:replace="fragments :: head"></head>
+
+<body>
+
+<nav th:replace="fragments :: navbar"></nav>
+
+<div class="container">
+    <header th:replace="fragments :: header"></header>
+
+    <form method="post">
+        <div class="form-group">
+            <label>Name
+                <input th:field="${pet.name}" class="form-control">
+            </label>
+            <p class="error" th:errors="${pet.name}"></p>
+        </div>
+        <div class="form-group">
+            <label>Age
+                <input th:field="${pet.age}" class="form-control">
+            </label>
+            <p class="error" th:errors="${pet.age}" ></p>
+        </div>
+
+        <div class="form-group">
+            <label>Species
+                <input th:field="${pet.species}" class="form-control">
+            </label>
+            <p class="error" th:errors="${pet.species}"></p>
+        </div>
+
+        <div class="form-group">
+            <label>Breed
+                <input th:field="${pet.breed}" class="form-control">
+            </label>
+            <p class="error" th:errors="${pet.breed}" ></p>
+        </div>
+
+        <div class="form-group">
+            <label>Sex
+                <select th:field="${pet.sex}" class="form-control">
+                    <option th:value="Male">Male</option>
+                    <option th:value="Female">Female</option>
+                    <option th:value="Non-Binary">Non-Binary</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label>Weight
+                <input th:field="${pet.weight}" class="form-control">
+            </label>
+            <p class="error" th:errors="${pet.weight}"></p>
+        </div>
+
+        <div class="form-group">
+            <label>Color
+                <input th:field="${pet.color}" class="form-control">
+            </label>
+            <p class="error" th:errors="${pet.color}"></p>
+        </div>
+
+        <div class="form-group">
+            <label>Pet Behavior or Temperaments
+                <input th:field="${pet.behavior}" class="form-control">
+            </label>
+            <p class="error" th:errors="${pet.behavior}" p>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-success">
+        </div>
+    </form>
+
+</div>
+
+
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

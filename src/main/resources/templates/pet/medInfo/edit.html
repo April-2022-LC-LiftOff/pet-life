@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org/">
+
+<head th:replace="fragments :: head"></head>
+
+<body>
+
+<nav th:replace="fragments :: navbar"></nav>
+
+<div class="container">
+
+    <header th:replace="fragments :: header"></header>
+
+    <form method = "post">
+
+        <div class="form-group">
+            <label>Current Medications
+                <input th:field="${medInfo.currentMeds}" class="form-control">
+            </label>
+            <p class="error" th:errors="${medInfo.currentMeds}"></p>
+        </div>
+
+        <div class="form-group">
+            <label>Shot Name
+                <input th:field="${medInfo.shotRecord.name}" class="form-control">
+            </label>
+            <p class="error" th:errors="${medInfo.shotRecord.name}"></p>
+            <label>Date Received
+                <input th:field="${medInfo.shotRecord.date}" type="date" class="form-control">
+            </label>
+            <p class="error" th:errors="${medInfo.shotRecord.date}"></p>
+        </div>
+
+        <div class="form-group">
+            <label>Surgery Name
+                <input th:field="${medInfo.pastSurgery.name}" class="form-control">
+            </label>
+            <p class="error" th:errors="${medInfo.pastSurgery.name}"></p>
+            <label>Date of Surgery
+                <input th:field="${medInfo.pastSurgery.date}" type = "date" class="form-control">
+            </label>
+            <p class="error" th:errors="${medInfo.pastSurgery.date}"></p>
+        </div>
+
+        <div class="form-group">
+            <label>Medical Note
+                <textarea th:field="${medInfo.medicalNote}" class="form-control"></textarea>
+            </label>
+            <p class="error" th:errors="${medInfo.medicalNote}"></p>
+        </div>
+        <input type="hidden" name="petId" value="${pet.id}"/>
+
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-success">
+        </div>
+
+    </form>
+
+
+</div>
+
+<footer th:replace="fragments :: footer"></footer>
+
+</body>
+</html>

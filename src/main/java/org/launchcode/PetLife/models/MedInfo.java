@@ -1,19 +1,13 @@
 package org.launchcode.PetLife.models;
 
 
-import lombok.Getter;
-
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Entity
-public class PetMedInfo extends AbstractEntity {
-    @Size(max = 20, message = "Species must contain less than 20 characters.")
-    private String species;
+public class MedInfo extends AbstractEntity {
 
     private String currentMeds;
 
@@ -26,17 +20,16 @@ public class PetMedInfo extends AbstractEntity {
     private PastSurgery pastSurgery;
 
     @Size(max = 500, message = "Limit up to 500 characters.")
-    private String pastMedicalConcerns;
+    private String medicalNote;
 
-    public PetMedInfo(String species, String currentMeds, ShotRecord shotRecord, PastSurgery pastSurgery, String pastMedicalConcerns) {
-        this.species = species;
+    public MedInfo(String currentMeds, ShotRecord shotRecord, PastSurgery pastSurgery, String medicalNote) {
         this.currentMeds = currentMeds;
         this.shotRecord = shotRecord;
         this.pastSurgery = pastSurgery;
-        this.pastMedicalConcerns = pastMedicalConcerns;
+        this.medicalNote = medicalNote;
     }
 
-    public PetMedInfo() {
+    public MedInfo() {
     }
 
     public ShotRecord getShotRecord() {
@@ -55,14 +48,6 @@ public class PetMedInfo extends AbstractEntity {
         this.pastSurgery = pastSurgery;
     }
 
-    public String getSpecies() {
-        return species;
-    }
-
-    public void setSpecies(String species) {
-        this.species = species;
-    }
-
     public String getCurrentMeds() {
         return currentMeds;
     }
@@ -71,11 +56,11 @@ public class PetMedInfo extends AbstractEntity {
         this.currentMeds = currentMeds;
     }
 
-    public String getPastMedicalConcerns() {
-        return pastMedicalConcerns;
+    public String getMedicalNote() {
+        return medicalNote;
     }
 
-    public void setPastMedicalConcerns(String pastMedicalConcerns) {
-        this.pastMedicalConcerns = pastMedicalConcerns;
+    public void setMedicalNote(String medicalNote) {
+        this.medicalNote = medicalNote;
     }
 }
