@@ -36,19 +36,25 @@ public class Pet extends AbstractEntity {
     @Size(min = 1, max = 50, message = " Color must be between 1 and 50 characters")
     private String color;
 
+    private String aggressive;
+
+    private String venomous;
+
     @Size(min = 1, max = 200, message = " must be between 1 and 200 characters")
     private String behavior;
 
     @OneToOne(cascade = CascadeType.ALL)
     private MedInfo medInfo;
 
-    public Pet (String name, Integer age, String species, String breed, String sex, Integer weight, String color, String behavior) {
+    public Pet (String name, Integer age, String species, String breed, String sex, Integer weight, String aggressive, String venomous, String color, String behavior) {
         this.name = name;
         this.age = age;
         this.species = species;
         this.breed = breed;
         this.sex = sex;
         this.weight = weight;
+        this.aggressive = aggressive;
+        this.venomous = venomous;
         this.color = color;
         this.behavior = behavior;
     }
@@ -109,6 +115,22 @@ public class Pet extends AbstractEntity {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public String getaggressive() {
+        return aggressive;
+    }
+
+    public void setaggressive(String aggressive) {
+        this.aggressive = aggressive;
+    }
+
+    public String getVenomous() {
+        return venomous;
+    }
+
+    public void setVenomous(String venomous) {
+        this.venomous = venomous;
     }
 
     public String getBehavior() {

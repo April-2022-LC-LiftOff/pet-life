@@ -49,6 +49,24 @@
         </div>
 
         <div class="form-group">
+            <label>Aggressive
+                <select th:field="${pet.aggressive}" class="form-control">
+                    <option th:value="Yes">Yes</option>
+                    <option th:value="Yes">No</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label>Venomous
+                <select th:field="${pet.venomous}" class="form-control">
+                    <option th:value="Yes">Yes</option>
+                    <option th:value="Yes">No</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="form-group">
             <label>Weight
                 <input th:field="${pet.weight}" class="form-control">
             </label>

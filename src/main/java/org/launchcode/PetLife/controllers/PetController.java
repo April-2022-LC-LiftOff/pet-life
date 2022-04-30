@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("pet")
-public class PetProfileController {
+public class PetController {
 
     @Autowired
     private PetRepository petRepository;
@@ -24,22 +24,28 @@ public class PetProfileController {
     @Autowired
     private PetMedInfoRepository petMedInfoRepository;
 
+
+//    @Autowired
+//    private PetBioRepository petBioRepository;
+
+
+
     @GetMapping
-    public String displayPet(Model model) {
+    public String displayAllPets(Model model) {
         model.addAttribute("title", "All Pets");
         model.addAttribute("pets", petRepository.findAll());
         return "pet/index";
     }
 
     @GetMapping("create")
-    public String displayCreatePetForm(Model model) {
-        model.addAttribute("title", "Create Pet Profile");
+    public String displayCreatePetProfileForm(Model model) {
+        model.addAttribute("title", "Create Pet Profiles");
         model.addAttribute(new Pet());
         return "pet/create";
     }
 
     @PostMapping("create")
-    public String processCreatePetForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model) {
+    public String processCreatePetProfileForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Create Pet Profile");
@@ -50,9 +56,29 @@ public class PetProfileController {
         return "redirect:";
     }
 
-    @GetMapping("detail")
-    public String displayPetDetails(@RequestParam Integer petId, Model model) {
 
+
+    @GetMapping("delete")
+    public String displayDeletePetProfileForm(Model model) {
+        model.addAttribute("title", "Delete Pet Profile");
+        model.addAttribute("pets", petRepository.findAll());
+        return "pet/delete";
+    }
+
+    @PostMapping("delete")
+    public String processDeletePetProfileForm(@RequestParam(required = false) int[] petIds) {
+        if (petIds != null) {
+            for (int id : petIds) {
+                petRepository.deleteById(id);
+            }
+        }
+
+        return "redirect:delete";
+    }
+
+
+    @GetMapping("detail")
+    public String displayPetProfileDetails(@RequestParam Integer petId, Model model) {
 
         Optional<Pet> result = petRepository.findById(petId);
 
@@ -66,7 +92,6 @@ public class PetProfileController {
 
         return "pet/detail";
     }
-
 
     @GetMapping("medInfo/edit")
     public String displayEditMedInfoForm(@RequestParam int petId, Model model) {
