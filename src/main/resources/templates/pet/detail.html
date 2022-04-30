@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org/">
+
+<head th:replace="fragments :: head"></head>
+
+<body>
+
+<nav th:replace="fragments :: navbar"></nav>
+
+<div class="container">
+
+    <header th:replace="fragments :: header"></header>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Pet Name</th>
+            <td th:text="${pet.name}"></td>
+        </tr>
+    </table>
+
+    <h3>Medical information</h3>
+    <span>
+        <a th:unless="${pet.medInfo == null}" th:href="'/pet/medInfo/edit?petId=' + ${pet.id}">Edit information</a>
+        <a th:if="${pet.medInfo == null}" th:href="'/pet/medInfo/edit?petId=' + ${pet.id}">There is no medical information created. Click here to add!</a></td>
+    </span>
+
+    <table class="table table-striped">
+        <th:block th:unless="${pet.medInfo == null}">
+            <tr>
+                <th>Current Medications</th>
+                <td th:text="${pet.medInfo.currentMeds}"></td>
+            </tr>
+            <tr>
+                <th>Shot Records</th>
+                <td th:text="${pet.medInfo.shotRecord.name + ' on ' + pet.medInfo.shotRecord.date}"></td>
+            </tr>
+            <tr>
+                <th>Past Surgeries</th>
+                <td th:text="${pet.medInfo.pastSurgery.name + ' on ' + pet.medInfo.pastSurgery.date}"></td>
+            </tr>
+            <tr>
+                <th>Medical Note</th>
+                <td th:text="${pet.medInfo.medicalNote}"></td>
+            </tr>
+        </th:block>
+
+    </table>
+
+</div>
+
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>
