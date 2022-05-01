@@ -40,34 +40,28 @@
 
         <div class="form-group">
             <label>Sex
-                <select th:field="${pet.sex}" class="form-control">
-                    <option th:value="Male">Male</option>
-                    <option th:value="Female">Female</option>
-                    <option th:value="Non-Binary">Non-Binary</option>
-                </select>
+                <label><input type="radio" th:field="${pet.sex}" value="Male" checked>Male</label>
+                <label><input type="radio" th:field="${pet.sex}" value="Female" checked>Female</label>
+                <label><input type="radio" th:field="${pet.sex}" value="Other" checked>Other</label>
             </label>
         </div>
 
         <div class="form-group">
             <label>Aggressive
-                <select th:field="${pet.aggressive}" class="form-control">
-                    <option th:value="Yes">Yes</option>
-                    <option th:value="Yes">No</option>
-                </select>
+                <label><input type="radio" th:field="${pet.aggressive}" value="Yes" checked>Yes</label>
+                <label><input type="radio" th:field="${pet.aggressive}" value="No" checked>No</label>
             </label>
         </div>
 
         <div class="form-group">
             <label>Venomous
-                <select th:field="${pet.venomous}" class="form-control">
-                    <option th:value="Yes">Yes</option>
-                    <option th:value="Yes">No</option>
-                </select>
+                <label><input type="radio" th:field="${pet.venomous}" value="Yes" checked>Yes</label>
+                <label><input type="radio" th:field="${pet.venomous}" value="No" checked>No</label>
             </label>
         </div>
 
         <div class="form-group">
-            <label>Weight
+            <label>Weight (lbs)
                 <input th:field="${pet.weight}" class="form-control">
             </label>
             <p class="error" th:errors="${pet.weight}"></p>
@@ -82,7 +76,7 @@
 
         <div class="form-group">
             <label>Pet Behavior or Temperaments
-                <input th:field="${pet.behavior}" class="form-control">
+                <textarea th:field="${pet.behavior}" class="form-control"></textarea>
             </label>
             <p class="error" th:errors="${pet.behavior}" p>
         </div>

@@ -14,27 +14,27 @@
     <table class="table table-striped">
         <thead>
         <tr>
+            <th>Select</th>
             <th>Name</th>
             <th>Species</th>
             <th>Breed</th>
             <th>Age</th>
             <th>Sex</th>
             <th>Color</th>
-            <th>Delete</th>
         </tr>
         </thead>
         <tr th:each="pet : ${pets}">
+            <td style="width:5%; text-align:center;">
+                <label>
+                    <input type="checkbox" name="petIds" th:value="${pet.id}" style="width:20px; height:20px;">
+                </label>
+            </td>
             <td><a th:href="'/pet/detail?petId=' + ${pet.id}" th:text="${pet.name}"></a></td>
             <td th:text="${pet.species}"></td>
             <td th:text="${pet.breed}"></td>
             <td th:text="${pet.age}"></td>
             <td th:text="${pet.sex}"></td>
             <td th:text="${pet.color}"></td>
-            <td>
-                <label>
-                    <input type="checkbox" name="petIds" th:value="${pet.id}">
-                </label>
-            </td>
         </tr>
     </table>
         <input type="Submit" value="Delete" class="btn btn-danger">

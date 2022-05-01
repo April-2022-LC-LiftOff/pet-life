@@ -12,3 +12,9 @@
   position: relative;
   margin: auto;
 }
+
+td.dangerous {
+    font-weight: bold;
+    color: red;
+
+}

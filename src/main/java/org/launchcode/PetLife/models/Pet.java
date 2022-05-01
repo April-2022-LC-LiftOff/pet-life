@@ -117,11 +117,11 @@ public class Pet extends AbstractEntity {
         this.color = color;
     }
 
-    public String getaggressive() {
+    public String getAggressive() {
         return aggressive;
     }
 
-    public void setaggressive(String aggressive) {
+    public void setAggressive(String aggressive) {
         this.aggressive = aggressive;
     }
 
