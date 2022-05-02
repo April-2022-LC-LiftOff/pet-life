@@ -10,9 +10,11 @@
 <div class="container">
     <header th:replace="fragments :: header"></header>
     <a th:if="${pets.size() == 0}" th:href="@{/pet/create}">There is no pet profile. Click here to create a pet profile!</a>
-    <table th:unless="${pets.size() == 0}" class="table table-striped">
+    <form method="post" th:unless="${pets.size() == 0}" th:href="@{/pet/create}">
+    <table class="table table-striped">
         <thead>
         <tr>
+            <th>Select</th>
             <th>Name</th>
             <th>Species</th>
             <th>Breed</th>
@@ -22,6 +24,11 @@
         </tr>
         </thead>
         <tr th:each="pet : ${pets}">
+            <td style="width:5%; text-align:center;">
+                <label>
+                    <input type="checkbox" name="petIds" th:value="${pet.id}" style="width:20px; height:20px;">
+                </label>
+            </td>
             <td><a th:href="'/pet/detail?petId=' + ${pet.id}" th:text="${pet.name}"></a></td>
             <td th:text="${pet.species}"></td>
             <td th:text="${pet.breed}"></td>
@@ -30,8 +37,11 @@
             <td th:text="${pet.color}"></td>
         </tr>
     </table>
+        <input type="Submit" value="Delete" class="btn btn-danger">
+    </form>
 
 </div>
+
 
 <footer th:replace="fragments :: footer"></footer>
 </body>
