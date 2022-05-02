@@ -32,7 +32,15 @@
     </table>
 
 </div>
+<div>
+    <form th:action="@{/logout}" method>
+        <p>
+            Welcome <b>[[${#request.userPrincipal.principal.fullName}]]</b>
+        </p>
+        <input type="submit" value="Sign Out" />
 
+    </form>
+</div>
 <footer th:replace="fragments :: footer"></footer>
 </body>
 </html>
