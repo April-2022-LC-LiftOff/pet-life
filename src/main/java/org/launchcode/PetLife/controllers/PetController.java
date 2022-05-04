@@ -47,10 +47,6 @@ public class PetController {
         User currentUser = getCurrentUser(request);
 
         model.addAttribute("title", "All Pets");
-
-//        List<Pet> allPets = (List<Pet>) petRepository.findAll();
-//        List<Pet> myPets = currentUser.myPets(allPets);
-
         model.addAttribute("pets", currentUser.getPets());
 
         return "pet/index";
@@ -84,9 +80,6 @@ public class PetController {
         User currentUser = getCurrentUser(request);
 
         model.addAttribute("title", "Delete Pet Profiles");
-
-//        List<Pet> allPets = (List<Pet>) petRepository.findAll();
-//        List<Pet> myPets = currentUser.myPets(allPets);
         model.addAttribute("pets", currentUser.getPets());
 
         return "pet/delete";

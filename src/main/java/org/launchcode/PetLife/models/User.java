@@ -74,13 +74,4 @@ public class User {
         return pets;
     }
 
-    //    public List<Pet> myPets(List<Pet> pets) {
-//        List<Pet> myPets = new ArrayList<Pet>();
-//        for (Pet pet : pets) {
-//            if (pet.getUser().getId() == this.id) {
-//                myPets.add(pet);
-//            }
-//        }
-//        return myPets;
-//    }
 }
