@@ -1,9 +1,9 @@
 package org.launchcode.PetLife.models;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Pet extends AbstractEntity {
@@ -47,7 +47,10 @@ public class Pet extends AbstractEntity {
     @OneToOne(cascade = CascadeType.ALL)
     private MedInfo medInfo;
 
-    public Pet (String name, Integer age, String species, String breed, String sex, String weightUnit, float weight, String aggressive, String venomous, String color, String behavior) {
+    @ManyToOne
+    private User user;
+
+    public Pet (String name, Integer age, String species, String breed, String sex, Integer weight, String aggressive, String venomous, String color, String behavior, User user) {
         this.name = name;
         this.age = age;
         this.species = species;
@@ -59,6 +62,7 @@ public class Pet extends AbstractEntity {
         this.venomous = venomous;
         this.color = color;
         this.behavior = behavior;
+        this.user = user;
     }
 
     public float weightConversion () {
@@ -70,6 +74,14 @@ public class Pet extends AbstractEntity {
     }
 
     public Pet() {}
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public String getName() {
         return name;
