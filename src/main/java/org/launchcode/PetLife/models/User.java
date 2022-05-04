@@ -2,6 +2,8 @@ package org.launchcode.PetLife.models;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -21,6 +23,10 @@ public class User {
 
     @Column(name = "last_name", nullable = false, length = 20)
     private String lastName;
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<Pet> pets = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -60,5 +66,17 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public void addPet(Pet pet) {this.pets.add(pet);}
+
+    public List<Pet> myPets(List<Pet> pets) {
+        List<Pet> myPets = new ArrayList<Pet>();
+        for (Pet pet : pets) {
+            if (pet.getUser().getId() == this.id) {
+                myPets.add(pet);
+            }
+        }
+        return myPets;
     }
 }
