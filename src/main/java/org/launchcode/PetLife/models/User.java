@@ -70,13 +70,17 @@ public class User {
 
     public void addPet(Pet pet) {this.pets.add(pet);}
 
-    public List<Pet> myPets(List<Pet> pets) {
-        List<Pet> myPets = new ArrayList<Pet>();
-        for (Pet pet : pets) {
-            if (pet.getUser().getId() == this.id) {
-                myPets.add(pet);
-            }
-        }
-        return myPets;
+    public List<Pet> getPets() {
+        return pets;
     }
+
+    //    public List<Pet> myPets(List<Pet> pets) {
+//        List<Pet> myPets = new ArrayList<Pet>();
+//        for (Pet pet : pets) {
+//            if (pet.getUser().getId() == this.id) {
+//                myPets.add(pet);
+//            }
+//        }
+//        return myPets;
+//    }
 }
