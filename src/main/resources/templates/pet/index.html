@@ -6,7 +6,6 @@
 <body class="container">
 
 <nav th:replace="fragments :: navbar"></nav>
-
 <div class="container">
     <header th:replace="fragments :: header"></header>
     <a th:if="${pets.size() == 0}" th:href="@{/pet/create}">There is no pet profile. Click here to create a pet profile!</a>
@@ -32,7 +31,15 @@
     </table>
 
 </div>
+<div>
+    <form th:action="@{/logout}" method>
+        <p>
+            Welcome <b>[[${#request.userPrincipal.principal.fullName}]]</b>
+        </p>
+        <input type="submit" value="Sign Out" />
 
+    </form>
+</div>
 <footer th:replace="fragments :: footer"></footer>
 </body>
 </html>

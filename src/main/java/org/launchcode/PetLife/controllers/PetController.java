@@ -1,19 +1,26 @@
 package org.launchcode.PetLife.controllers;
 
-import org.launchcode.PetLife.models.Pet;
-import org.launchcode.PetLife.models.MedInfo;
+import org.launchcode.PetLife.models.*;
 import org.launchcode.PetLife.models.data.PetMedInfoRepository;
 import org.launchcode.PetLife.models.data.PetRepository;
+import org.launchcode.PetLife.models.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.security.Principal;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,14 +35,28 @@ public class PetController {
     @Autowired
     private PetMedInfoRepository petMedInfoRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    public User getCurrentUser(HttpServletRequest request) {
+        Principal userPrincipal = request.getUserPrincipal();
+        String userEmail = userPrincipal.getName();
+        return userRepository.findByEmail(userEmail);
+    }
+
+
     @GetMapping
-    public String displayAllPets(Model model) {
-        ArrayList<Pet> allPets = (ArrayList<Pet>)petRepository.findAll();
-        for (Pet pet : allPets) {
+    public String displayAllPets(Model model, HttpServletRequest request) {
+        User currentUser = getCurrentUser(request);
+  
+        ArrayList<Pet> ownedPets = (ArrayList<Pet>) currentUser.getPets();
+        for (Pet pet : ownedPets) {
             pet.updateAge();
         }
+      
         model.addAttribute("title", "All Pets");
-        model.addAttribute("pets", petRepository.findAll());
+        model.addAttribute("pets", currentUser.getPets());
+
         return "pet/index";
     }
 
@@ -47,17 +68,21 @@ public class PetController {
     }
 
     @PostMapping("create")
-    public String processCreatePetProfileForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model) {
+    public String processCreatePetProfileForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model, HttpServletRequest request) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Create a Pet Profile");
             return "pet/create";
         }
 
+
         if (newPet.getBDate() != null) {
             newPet.setAgeYear(null);
             newPet.setAgeMonth(null);
         }
+
+        User currentUser = getCurrentUser(request);
+        newPet.setUser(currentUser);
 
         petRepository.save(newPet);
         return "redirect:";
@@ -65,9 +90,12 @@ public class PetController {
 
 
     @GetMapping("delete")
-    public String displayDeletePetProfileForm(Model model) {
+    public String displayDeletePetProfileForm(Model model, HttpServletRequest request) {
+        User currentUser = getCurrentUser(request);
+
         model.addAttribute("title", "Delete Pet Profiles");
-        model.addAttribute("pets", petRepository.findAll());
+        model.addAttribute("pets", currentUser.getPets());
+
         return "pet/delete";
     }
 

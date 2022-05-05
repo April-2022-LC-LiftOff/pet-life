@@ -60,7 +60,8 @@
 
         <tr>
             <th>Weight</th>
-            <td th:text="${pet.weight}"></td>
+            <td th:text="${pet.weight + ' lbs (' + pet.weightConversion + ' kgs)'}" th:if="${pet.weightUnit.equals('Pound')}"></td>
+            <td th:text="${pet.weightKg + ' kgs (' + pet.weightConversion + ' lbs)'}" th:if="${pet.weightUnit.equals('Kilogram')}"></td>
         </tr>
 
         <tr>

@@ -1,20 +1,21 @@
 package org.launchcode.PetLife.models;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Pet extends AbstractEntityNameDate {
 
-    @NotBlank(message = "Name is required")
-    @Size(min = 1, max = 50, message = "Name must be between 3 and 50 characters")
+    @NotBlank(message = "Name is required.")
+    @Size(min = 1, max = 50, message = "Name must be between 3 and 50 characters.")
     private String name;
+
 
 //    @Max(value = 150, message = "Age for year should be smaller than 150.")
 //    @Min(value = 0, message = "Age for year should be greater than 0.")
@@ -28,34 +29,39 @@ public class Pet extends AbstractEntityNameDate {
     private final static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private LocalDate bDate;
 
-    @Size(min = 1, max = 50, message = " Species must be between 1 and 50 characters")
-    @NotNull(message = "Species is required")
+
+    @Size(min = 1, max = 50, message = "Species must be between 1 and 50 characters.")
+    @NotNull(message = "Species is required.")
     private String species;
 
-    @Size(min = 1, max = 50, message = " Breed must be between 1 and 50 characters")
-    @NotNull(message = "Breed is required or input unknown")
+    @Size(max = 50, message = "Breed must be between 1 and 50 characters.")
     private String breed;
-
+    @NotNull(message = "Sex is required.")
     private String sex;
-
+    @NotNull(message = "The unit for the weight is required.")
+    private String weightUnit;
     @Max(value = 3000, message = "Weight should be smaller than 3000.")
     @Min(value = 0, message = "Weight should be greater than 0.")
-    @NotNull(message = "Weight is required")
-    private Integer weight;
+    @NotNull(message = "Weight is required.")
+    private Float weight;
 
-    @NotNull(message = "Color of pet is required")
-    @Size(min = 1, max = 50, message = " Color must be between 1 and 50 characters")
+    @NotNull(message = "Color is required.")
+    @Size(min = 1, max = 50, message = " Color must be between 1 and 50 characters.")
     private String color;
 
+    @NotNull(message = "Whether this animal is aggressive is required.")
     private String aggressive;
-
+    @NotNull(message = "Whether this animal is venomous is required.")
     private String venomous;
 
-    @Size(min = 1, max = 200, message = " must be between 1 and 200 characters")
+    @Size(max = 20, message = "This field must be less than 200 characters.")
     private String behavior;
 
     @OneToOne(cascade = CascadeType.ALL)
     private MedInfo medInfo;
+
+    @ManyToOne
+    private User user;
 
     public Pet (String name, Integer ageYear, Integer ageMonth, String bDate, String species, String breed, String sex, Integer weight, String aggressive, String venomous, String color, String behavior) {
         this.name = name;
@@ -65,14 +71,32 @@ public class Pet extends AbstractEntityNameDate {
         this.species = species;
         this.breed = breed;
         this.sex = sex;
+        this.weightUnit = weightUnit;
         this.weight = weight;
         this.aggressive = aggressive;
         this.venomous = venomous;
         this.color = color;
         this.behavior = behavior;
+        this.user = user;
+    }
+
+    public float weightConversion () {
+        if (this.weightUnit.equals("Pound")) {
+            return Math.round(this.weight * 0.454 * 10) / 10;
+        } else {
+            return Math.round(this.weight * 2.2 * 10) / 10;
+        }
     }
 
     public Pet() {}
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public String getName() {
         return name;
@@ -170,13 +194,22 @@ public class Pet extends AbstractEntityNameDate {
         this.sex = sex;
     }
 
-    public Integer getWeight() {
+    public String getWeightUnit() {
+        return weightUnit;
+    }
+
+    public void setWeightUnit(String weightUnit) {
+        this.weightUnit = weightUnit;
+    }
+
+    public Float getWeight() {
         return weight;
     }
 
-    public void setWeight(Integer weight) {
+    public void setWeight(Float weight) {
         this.weight = weight;
     }
+
 
     public String getColor() {
         return color;
