@@ -33,9 +33,14 @@
             <td th:if="${pet.aggressive == 'No'}" th:text="${pet.aggressive}"></td>
         </tr>
 
+        <tr  th:unless="${pet.bDate == null}">
+            <th>Birthday</th>
+            <td th:text="${pet.age}"></td>
+        </tr>
+
         <tr>
             <th>Age</th>
-            <td th:text="${pet.age}"></td>
+            <td th:text="${pet.ageYear + 'y ' + pet.ageMonth + 'm'}"></td>
         </tr>
 
         <tr>

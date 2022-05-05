@@ -25,7 +25,7 @@
             <td><a th:href="'/pet/detail?petId=' + ${pet.id}" th:text="${pet.name}"></a></td>
             <td th:text="${pet.species}"></td>
             <td th:text="${pet.breed}"></td>
-            <td th:text="${pet.age}"></td>
+            <td th:text="${pet.ageYear + 'y ' + pet.ageMonth + 'm'}"></td>
             <td th:text="${pet.sex}"></td>
             <td th:text="${pet.color}"></td>
         </tr>

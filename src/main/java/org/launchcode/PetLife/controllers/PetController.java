@@ -11,6 +11,10 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -26,6 +30,10 @@ public class PetController {
 
     @GetMapping
     public String displayAllPets(Model model) {
+        ArrayList<Pet> allPets = (ArrayList<Pet>)petRepository.findAll();
+        for (Pet pet : allPets) {
+            pet.updateAge();
+        }
         model.addAttribute("title", "All Pets");
         model.addAttribute("pets", petRepository.findAll());
         return "pet/index";
@@ -44,6 +52,11 @@ public class PetController {
         if (errors.hasErrors()) {
             model.addAttribute("title", "Create a Pet Profile");
             return "pet/create";
+        }
+
+        if (newPet.getBDate() != null) {
+            newPet.setAgeYear(null);
+            newPet.setAgeMonth(null);
         }
 
         petRepository.save(newPet);
