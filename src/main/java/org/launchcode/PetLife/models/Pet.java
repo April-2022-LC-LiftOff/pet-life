@@ -50,7 +50,7 @@ public class Pet extends AbstractEntity {
     @ManyToOne
     private User user;
 
-    public Pet (String name, Integer age, String species, String breed, String sex, Integer weight, String aggressive, String venomous, String color, String behavior, User user) {
+    public Pet (String name, Integer age, String species, String breed, String sex, Float weight, String aggressive, String venomous, String color, String behavior, User user) {
         this.name = name;
         this.age = age;
         this.species = species;
