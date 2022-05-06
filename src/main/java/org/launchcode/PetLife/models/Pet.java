@@ -63,7 +63,7 @@ public class Pet extends AbstractEntityNameDate {
     @ManyToOne
     private User user;
 
-    public Pet (String name, Integer ageYear, Integer ageMonth, String bDate, String species, String breed, String sex, Integer weight, String aggressive, String venomous, String color, String behavior) {
+    public Pet (String name, Integer ageYear, Integer ageMonth, String bDate, String species, String breed, String sex, Float weight, String aggressive, String venomous, String color, String behavior, User user) {
         this.name = name;
         this.ageYear = ageYear;
         this.ageMonth = ageMonth;

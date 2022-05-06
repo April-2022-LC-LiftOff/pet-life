@@ -48,14 +48,17 @@ public class PetController {
     @GetMapping
     public String displayAllPets(Model model, HttpServletRequest request) {
         User currentUser = getCurrentUser(request);
-  
-        ArrayList<Pet> ownedPets = (ArrayList<Pet>) currentUser.getPets();
-        for (Pet pet : ownedPets) {
-            pet.updateAge();
+        List<Pet> ownedPets = currentUser.getPets();
+
+        if (ownedPets != null) {
+            for (Pet pet : ownedPets) {
+                pet.updateAge();
+            }
         }
+
       
         model.addAttribute("title", "All Pets");
-        model.addAttribute("pets", currentUser.getPets());
+        model.addAttribute("pets", ownedPets);
 
         return "pet/index";
     }
