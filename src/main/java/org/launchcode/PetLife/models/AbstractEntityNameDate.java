@@ -2,6 +2,12 @@ package org.launchcode.PetLife.models;
 
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Size;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @MappedSuperclass
 public class AbstractEntityNameDate extends AbstractEntity{
@@ -9,11 +15,12 @@ public class AbstractEntityNameDate extends AbstractEntity{
     @Size(min = 2, max = 30, message = "Name must be between 2 to 30 characters.")
     private String name;
 
-    private String date;
+    private final static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private LocalDate date;
 
     public AbstractEntityNameDate(@Size(min = 2, max = 30, message = "Name must be between 2 to 30 characters.") String name, String date) {
         this.name = name;
-        this.date = date;
+        this.date = LocalDate.parse(date);
     }
 
     public AbstractEntityNameDate() {}
@@ -27,10 +34,18 @@ public class AbstractEntityNameDate extends AbstractEntity{
     }
 
     public String getDate() {
-        return date;
+        return dateFormatter.format(date);
+    }
+
+    public LocalDate getLocalDate() {
+        return this.date;
     }
 
     public void setDate(String date) {
-        this.date = date;
+        if (date == null) {
+            this.date = LocalDate.now();
+        } else {
+            this.date = LocalDate.parse(date);
+        }
     }
 }

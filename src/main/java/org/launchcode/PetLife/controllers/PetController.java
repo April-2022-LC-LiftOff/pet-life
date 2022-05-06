@@ -1,14 +1,8 @@
 package org.launchcode.PetLife.controllers;
 
 import org.launchcode.PetLife.models.*;
-import org.launchcode.PetLife.models.data.PetMedInfoRepository;
-import org.launchcode.PetLife.models.data.PetRepository;
-import org.launchcode.PetLife.models.data.UserRepository;
+import org.launchcode.PetLife.models.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -17,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,9 +38,17 @@ public class PetController {
     @GetMapping
     public String displayAllPets(Model model, HttpServletRequest request) {
         User currentUser = getCurrentUser(request);
+        List<Pet> ownedPets = currentUser.getPets();
 
+        if (ownedPets != null) {
+            for (Pet pet : ownedPets) {
+                pet.updateAge();
+            }
+        }
+
+      
         model.addAttribute("title", "All Pets");
-        model.addAttribute("pets", currentUser.getPets());
+        model.addAttribute("pets", ownedPets);
 
         return "pet/index";
     }
@@ -65,6 +66,12 @@ public class PetController {
         if (errors.hasErrors()) {
             model.addAttribute("title", "Create a Pet Profile");
             return "pet/create";
+        }
+
+
+        if (newPet.getBDate() != null) {
+            newPet.setAgeYear(null);
+            newPet.setAgeMonth(null);
         }
 
         User currentUser = getCurrentUser(request);

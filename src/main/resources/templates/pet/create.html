@@ -17,12 +17,15 @@
             </label>
             <p class="error" th:errors="${pet.name}"></p>
         </div>
-        <div class="form-group">
+
+        <div class="form-group" id="ageField">
             <label>Age
-                <input th:field="${pet.age}" class="form-control">
+                <input th:field="${pet.ageYear}" type="number" max="150" min="0" class="form-control" style="width:100px;" placeholder="Year" required>
+                <input th:field="${pet.ageMonth}" type="number" max="11" min="1" class="form-control" style="width:100px;" placeholder="Month">
             </label>
-            <p class="error" th:errors="${pet.age}" ></p>
         </div>
+        <button type="button" class="btn btn-sm btn-light" id="switchToBirthdayBtn" style="display: block;">Click to enter birthday</button>
+        <button type="button" class="btn btn-sm btn-light" id="switchToAgeBtn" style="display: none;">Click to enter age</button>
 
         <div class="form-group">
             <label>Species
