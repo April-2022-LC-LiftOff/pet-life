@@ -3,16 +3,23 @@ package org.launchcode.PetLife.controllers;
 import org.launchcode.PetLife.models.*;
 import org.launchcode.PetLife.models.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+
+
 
 
 @Controller
@@ -52,7 +59,7 @@ public class PetController {
 
         return "pet/index";
     }
-
+@PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("create")
     public String displayCreatePetProfileForm(Model model) {
         model.addAttribute("title", "Create a Pet Profile");
@@ -118,5 +125,7 @@ public class PetController {
 
         return "pet/detail";
     }
+
+
 
 }

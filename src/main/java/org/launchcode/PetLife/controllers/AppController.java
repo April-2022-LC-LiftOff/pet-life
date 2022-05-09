@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -22,6 +24,16 @@ public class AppController {
     public String viewHomePage() {
         return "login";
     }
+
+//    @ResponseBody
+//    @GetMapping("/owner")
+//    public String processOwnerProfile(User user, Model model) {
+//        model.addAttribute("users", user);
+//
+//        userRepo.save(user);
+//
+//        return "/owner";
+//    }
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
@@ -37,15 +49,12 @@ public class AppController {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
 
-        userRepo.save(user);
+      userRepo.save(user);
 
         return "login";
     }
-//    @GetMapping("/users")
-//    public String listUsers(Model model) {
-//        List<User> listUsers = userRepo.findAll();
-//        model.addAttribute("listUsers", listUsers);
-//
-//        return "users";
-//    }
+
+
+
+
 }

@@ -5,9 +5,6 @@ import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 public class Pet extends AbstractEntityNameDate {
@@ -63,7 +60,7 @@ public class Pet extends AbstractEntityNameDate {
     @ManyToOne
     private User user;
 
-    public Pet (String name, Integer ageYear, Integer ageMonth, String bDate, String species, String breed, String sex, Float weight, String aggressive, String venomous, String color, String behavior, User user) {
+    public Pet(String name,  Integer ageYear, Integer ageMonth, String bDate, String species, String breed, String sex, Float weight, String aggressive, String venomous, String color, String behavior, User user) {
         this.name = name;
         this.ageYear = ageYear;
         this.ageMonth = ageMonth;

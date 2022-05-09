@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import javax.sql.DataSource;
 
@@ -39,6 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             return authProvider;
         }
 
+
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
             auth.authenticationProvider(authenticationProvider());
@@ -49,13 +52,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             http.csrf().disable();
             http.authorizeRequests()
 
-                    .antMatchers("/pet","/pet/create","/pet/medInfo/edit","/pet/delete","/pet/detail").authenticated()
+                    .antMatchers("/pet","/pet/create","/pet/medInfo/edit","/pet/delete","/pet/detail","/owner_profile","register_owner").authenticated()
                     .anyRequest().permitAll()
                     .and()
                     .formLogin()
                     .usernameParameter("email")
                     .defaultSuccessUrl("/pet")
                     .permitAll()
+                    .and()
+                    .rememberMe().key("uniqueAndSecret")
                     .and()
                     .logout().logoutSuccessUrl("/").permitAll();
         }
