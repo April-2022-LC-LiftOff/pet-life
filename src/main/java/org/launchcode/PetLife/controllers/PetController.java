@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,7 +75,7 @@ public class PetController {
             model.addAttribute(new Pet());
             return "pet/create";
         }else{
-            return "index";
+            return "pet/vetview";
         }
 
 
@@ -140,5 +141,19 @@ public class PetController {
     }
 
 
+    @GetMapping("vetview")
+    public String getALLPets(Model model) {
+        List<Pet> allPets = (List<Pet>) petRepository.findAll();
+        allPets.stream().forEach(pet-> System.out.println(pet));
+
+
+
+
+        model.addAttribute("title", "All Pets");
+        model.addAttribute("pets", allPets);
+
+        return "vetView";
+
+    }
 
 }
