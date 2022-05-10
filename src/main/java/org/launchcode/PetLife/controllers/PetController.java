@@ -70,7 +70,7 @@ public class PetController {
 //        UserDetails details = userDetailsService.loadUserByUsername("mike");
 //        if (details != null && details.getAuthorities().stream()
 //                .anyMatch(a -> a.getAuthority().equals("USER"))) {
-        if (request.isUserInRole("ROLE_ADMIN")) {
+        if (request.isUserInRole("ROLE_USER")) {
             model.addAttribute("title", "Create a Pet Profile");
             model.addAttribute(new Pet());
             return "pet/create";
