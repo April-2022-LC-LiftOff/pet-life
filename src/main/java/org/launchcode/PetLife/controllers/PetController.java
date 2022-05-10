@@ -66,11 +66,11 @@ public class PetController {
     }
 
     @GetMapping("create")
-    public String displayCreatePetProfileForm(Model model) {
-        UserDetails details = userDetailsService.loadUserByUsername("mike");
-        if (details != null && details.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("USER"))) {
-
+    public String displayCreatePetProfileForm(Model model,HttpServletRequest request) {
+//        UserDetails details = userDetailsService.loadUserByUsername("mike");
+//        if (details != null && details.getAuthorities().stream()
+//                .anyMatch(a -> a.getAuthority().equals("USER"))) {
+        if (request.isUserInRole("ROLE_ADMIN")) {
             model.addAttribute("title", "Create a Pet Profile");
             model.addAttribute(new Pet());
             return "pet/create";
@@ -157,3 +157,4 @@ public class PetController {
     }
 
 }
+
