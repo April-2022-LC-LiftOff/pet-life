@@ -1,6 +1,8 @@
 package org.launchcode.PetLife.controllers;
 
+import org.launchcode.PetLife.models.Role;
 import org.launchcode.PetLife.models.User;
+import org.launchcode.PetLife.models.data.RoleRepository;
 import org.launchcode.PetLife.models.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -19,6 +22,9 @@ import java.util.List;
 public class AppController {
     @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @GetMapping("/login")
     public String viewHomePage() {
@@ -49,6 +55,9 @@ public class AppController {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
 
+        Role userRole = roleRepository.findByName("ROLE_USER");
+        user.setRoles(Arrays.asList(userRole));
+        user.setEnabled(true);
       userRepo.save(user);
 
         return "login";

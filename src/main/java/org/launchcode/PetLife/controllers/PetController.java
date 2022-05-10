@@ -4,6 +4,8 @@ import org.launchcode.PetLife.models.*;
 import org.launchcode.PetLife.models.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -35,12 +37,14 @@ public class PetController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     public User getCurrentUser(HttpServletRequest request) {
         Principal userPrincipal = request.getUserPrincipal();
         String userEmail = userPrincipal.getName();
         return userRepository.findByEmail(userEmail);
     }
-
 
     @GetMapping
     public String displayAllPets(Model model, HttpServletRequest request) {
@@ -59,12 +63,21 @@ public class PetController {
 
         return "pet/index";
     }
-@PreAuthorize("hasRole('ROLE_USER')")
+
     @GetMapping("create")
     public String displayCreatePetProfileForm(Model model) {
-        model.addAttribute("title", "Create a Pet Profile");
-        model.addAttribute(new Pet());
-        return "pet/create";
+        UserDetails details = userDetailsService.loadUserByUsername("mike");
+        if (details != null && details.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("USER"))) {
+
+            model.addAttribute("title", "Create a Pet Profile");
+            model.addAttribute(new Pet());
+            return "pet/create";
+        }else{
+            return "index";
+        }
+
+
     }
 
     @PostMapping("create")
