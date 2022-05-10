@@ -148,7 +148,6 @@ public class PetController {
 
 
 
-
         model.addAttribute("title", "All Pets");
         model.addAttribute("pets", allPets);
 
