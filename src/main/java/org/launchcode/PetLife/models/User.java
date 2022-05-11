@@ -1,7 +1,10 @@
 package org.launchcode.PetLife.models;
 
 
+import com.mysql.cj.protocol.Message;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -12,6 +15,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
 
     @Column(nullable = false, unique = true, length = 45)
     private String email;

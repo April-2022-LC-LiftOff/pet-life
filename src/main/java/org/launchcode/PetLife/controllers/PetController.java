@@ -49,44 +49,43 @@ public class PetController {
 
     @GetMapping
     public String displayAllPets(Model model, HttpServletRequest request) {
-        User currentUser = getCurrentUser(request);
-        List<Pet> ownedPets = currentUser.getPets();
 
-        if (ownedPets != null) {
-            for (Pet pet : ownedPets) {
-                pet.updateAge();
+        if (request.isUserInRole("ROLE_USER")) {
+            User currentUser = getCurrentUser(request);
+            List<Pet> ownedPets = currentUser.getPets();
+
+            if (ownedPets != null) {
+                for (Pet pet : ownedPets) {
+                    pet.updateAge();
+                }
+
+
+                model.addAttribute("title", "All Pets");
+                model.addAttribute("pets", ownedPets);
             }
+            return "pet/index";
+        }else{
+
+            List<Pet> allPets = (List<Pet>) petRepository.findAll();
+
+            allPets.stream().forEach(pet-> System.out.println(pet));
+            model.addAttribute("allPets", allPets);
+            return "pet/vetview";
         }
 
-      
-        model.addAttribute("title", "All Pets");
-        model.addAttribute("pets", ownedPets);
 
-        return "pet/index";
+
+
     }
 
     @GetMapping("create")
     public String displayCreatePetProfileForm(Model model,HttpServletRequest request) {
-//        UserDetails details = userDetailsService.loadUserByUsername("mike");
-//        if (details != null && details.getAuthorities().stream()
-//                .anyMatch(a -> a.getAuthority().equals("USER"))) {
-        if (request.isUserInRole("ROLE_USER")) {
+
             model.addAttribute("title", "Create a Pet Profile");
             model.addAttribute(new Pet());
-            System.out.println("redirecting to create");
+
             return "pet/create";
-        }else{
-            System.out.println("redirecting to vet view");
-            List<Pet> allPets = (List<Pet>) petRepository.findAll();
-            System.out.println("retrived values");
-            allPets.stream().forEach(pet-> System.out.println(pet));
 
-
-
-            model.addAttribute("title", "All Pets");
-            model.addAttribute("allPets", allPets);
-            return "pet/vetview";
-        }
 
 
     }
