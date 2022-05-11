@@ -60,6 +60,17 @@ public class User {
     @JoinColumn(name = "user_id")
     private List<Pet> pets = new ArrayList<>();
 
+    @Transient
+    private String isAdmin;
+
+    public String getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(String isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
     public Long getId() {
         return id;
     }

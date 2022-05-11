@@ -31,15 +31,6 @@ public class AppController {
         return "login";
     }
 
-//    @ResponseBody
-//    @GetMapping("/owner")
-//    public String processOwnerProfile(User user, Model model) {
-//        model.addAttribute("users", user);
-//
-//        userRepo.save(user);
-//
-//        return "/owner";
-//    }
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
@@ -54,12 +45,16 @@ public class AppController {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
+        Role userRole = null;
 
-        Role userRole = roleRepository.findByName("ROLE_USER");
+        if (null == user.getIsAdmin()) {
+            userRole = roleRepository.findByName("ROLE_USER");
+        }else {
+            userRole = roleRepository.findByName("ROLE_ADMIN");
+        }
         user.setRoles(Arrays.asList(userRole));
         user.setEnabled(true);
-      userRepo.save(user);
-
+        userRepo.save(user);
         return "login";
     }
 

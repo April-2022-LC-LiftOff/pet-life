@@ -73,8 +73,18 @@ public class PetController {
         if (request.isUserInRole("ROLE_USER")) {
             model.addAttribute("title", "Create a Pet Profile");
             model.addAttribute(new Pet());
+            System.out.println("redirecting to create");
             return "pet/create";
         }else{
+            System.out.println("redirecting to vet view");
+            List<Pet> allPets = (List<Pet>) petRepository.findAll();
+            System.out.println("retrived values");
+            allPets.stream().forEach(pet-> System.out.println(pet));
+
+
+
+            model.addAttribute("title", "All Pets");
+            model.addAttribute("allPets", allPets);
             return "pet/vetview";
         }
 
@@ -141,19 +151,6 @@ public class PetController {
     }
 
 
-    @GetMapping("vetview")
-    public String getALLPets(Model model) {
-        List<Pet> allPets = (List<Pet>) petRepository.findAll();
-        allPets.stream().forEach(pet-> System.out.println(pet));
-
-
-
-        model.addAttribute("title", "All Pets");
-        model.addAttribute("pets", allPets);
-
-        return "vetView";
-
-    }
 
 }
 

@@ -48,10 +48,13 @@
                        required minlength="6" maxlength="10"/>
             </div>
         </div>
-<br>        <label class="col-4 col-form-label"> Veterinarian </label>
-            <input type="checkbox" name="ROLE_ADMIN"  />
-            <label class="col-4 col-form-label">Pet Owner</label>
-            <input type="checkbox" name="ROLE_USER" />
+            <br>
+            <div class="form-group row">
+            <label class="col-4 col-form-label"> Veterinarian
+                 <input type="checkbox" name="ROLE_ADMIN" th:field="*{isAdmin}" value="ROLE_ADMIN"/></label>
+                <label class="col-4 col-form-label"> Owner
+                <input type="checkbox" name="ROLE_USER" /></label>
+            </div>
   <br>
             <div>
                 <button type="submit" class="btn btn-primary">Sign Up</button>
