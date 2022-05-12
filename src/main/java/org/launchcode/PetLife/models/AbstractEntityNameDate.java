@@ -34,7 +34,12 @@ public class AbstractEntityNameDate extends AbstractEntity{
     }
 
     public String getDate() {
-        return dateFormatter.format(date);
+        if (date != null) {
+            return dateFormatter.format(date);
+        } else {
+            return null;
+        }
+
     }
 
     public LocalDate getLocalDate() {

@@ -37,15 +37,27 @@
         </div>
 
         <div class="form-group">
-            <label>Shot Name
-                <input th:field="${medInfo.shotRecord.name}" class="form-control">
-            </label>
-            <p class="error" th:errors="${medInfo.shotRecord.name}"></p>
-            <label>Date Received
-                <input th:field="${medInfo.shotRecord.date}" type="date" class="form-control">
-            </label>
-            <p class="error" th:errors="${medInfo.shotRecord.date}"></p>
+            <table>
+                <tr>
+                    <td>Shot Name</td>
+                    <td>Date Received</td>
+                </tr>
+                <tr>
+                    <td><input th:field="${shotRecord.name}" class="form-control"></td>
+                    <td><input th:field="${shotRecord.date}" class="form-control"></td>
+                </tr>
+            </table>
+<!--            -->
+<!--            <label>Shot Name-->
+<!--                <input th:field="${medInfo.shotRecord.name}" class="form-control">-->
+<!--            </label>-->
+<!--            <p class="error" th:errors="${medInfo.shotRecord.name}"></p>-->
+<!--            <label>Date Received-->
+<!--                <input th:field="${medInfo.shotRecord.date}" type="date" class="form-control">-->
+<!--            </label>-->
+<!--            <p class="error" th:errors="${medInfo.shotRecord.date}"></p>-->
         </div>
+        <button type="button" class="btn btn-sm btn-light" id="addMoreShot" style="display: block;">Add more shot record</button>
 
         <div class="form-group">
             <label>Surgery Name
@@ -57,6 +69,7 @@
             </label>
             <p class="error" th:errors="${medInfo.pastSurgery.date}"></p>
         </div>
+
 
         <div class="form-group">
             <label>Medical Note

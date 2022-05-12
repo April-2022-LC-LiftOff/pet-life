@@ -57,6 +57,7 @@ public class PetController {
     public String displayCreatePetProfileForm(Model model) {
         model.addAttribute("title", "Create a Pet Profile");
         model.addAttribute(new Pet());
+
         return "pet/create";
     }
 

@@ -2,6 +2,7 @@ package org.launchcode.PetLife.controllers;
 
 import org.launchcode.PetLife.models.MedInfo;
 import org.launchcode.PetLife.models.Pet;
+import org.launchcode.PetLife.models.ShotRecord;
 import org.launchcode.PetLife.models.data.PetMedInfoRepository;
 import org.launchcode.PetLife.models.data.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -38,6 +41,7 @@ public class PetMedInfoController {
                 model.addAttribute("medInfo", pet.getMedInfo());
             } else {
                 model.addAttribute(new MedInfo());
+                model.addAttribute(new ShotRecord());
             }
 
         }
@@ -45,7 +49,7 @@ public class PetMedInfoController {
     }
 
     @PostMapping("edit")
-    public String processEditMedInfoForm(@ModelAttribute @Valid MedInfo newPetMedicalInfo, Errors errors, @RequestParam(required = false) int petId, Model model) {
+    public String processEditMedInfoForm(@ModelAttribute @Valid MedInfo newPetMedicalInfo, Errors errors, @ModelAttribute @Valid List<ShotRecord> newShotRecords, @RequestParam(required = false) int petId, Model model) {
 
         Optional<Pet> result = petRepository.findById(petId);
         Pet pet = result.get();
@@ -55,7 +59,7 @@ public class PetMedInfoController {
             model.addAttribute("pet", pet);
             return "pet/medInfo/edit";
         }
-
+        newPetMedicalInfo.setShotRecords((ArrayList<ShotRecord>) newShotRecords);
         pet.setMedInfo(newPetMedicalInfo);
         petMedInfoRepository.save(newPetMedicalInfo);
         model.addAttribute("pet", pet);

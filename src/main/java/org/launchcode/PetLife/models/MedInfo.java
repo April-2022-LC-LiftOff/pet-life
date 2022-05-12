@@ -4,6 +4,9 @@ package org.launchcode.PetLife.models;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 @Entity
@@ -14,10 +17,10 @@ public class MedInfo extends AbstractEntity {
     private String spayNeuter;
 
     private String chip;
-
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany
+//    @JoinColumn(name = "medInfo_id")
     @Valid
-    private ShotRecord shotRecord;
+    private List<ShotRecord> shotRecords = new ArrayList<ShotRecord>(Arrays.asList(new ShotRecord()));
 
     @OneToOne(cascade = CascadeType.ALL)
     @Valid
@@ -26,11 +29,11 @@ public class MedInfo extends AbstractEntity {
     @Size(max = 500, message = "Limit up to 500 characters.")
     private String medicalNote;
 
-    public MedInfo(String currentMeds, String spayNeuter, String chip, ShotRecord shotRecord, PastSurgery pastSurgery, String medicalNote) {
+    public MedInfo(String currentMeds, String spayNeuter, String chip, List<ShotRecord> shotRecords, PastSurgery pastSurgery, String medicalNote) {
         this.currentMeds = currentMeds;
         this.spayNeuter = spayNeuter;
         this.chip = chip;
-        this.shotRecord = shotRecord;
+        this.shotRecords = shotRecords;
         this.pastSurgery = pastSurgery;
         this.medicalNote = medicalNote;
     }
@@ -54,12 +57,12 @@ public class MedInfo extends AbstractEntity {
         this.chip = chip;
     }
 
-    public ShotRecord getShotRecord() {
-        return shotRecord;
+    public List<ShotRecord> getShotRecords() {
+        return shotRecords;
     }
 
-    public void setShotRecord(ShotRecord shotRecord) {
-        this.shotRecord = shotRecord;
+    public void setShotRecords(ArrayList<ShotRecord> shotRecords) {
+        this.shotRecords = shotRecords;
     }
 
     public PastSurgery getPastSurgery() {
