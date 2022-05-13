@@ -5,6 +5,7 @@ import org.launchcode.PetLife.models.Pet;
 import org.launchcode.PetLife.models.ShotRecord;
 import org.launchcode.PetLife.models.data.PetMedInfoRepository;
 import org.launchcode.PetLife.models.data.PetRepository;
+import org.launchcode.PetLife.models.data.ShotRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,9 @@ public class PetMedInfoController {
 
     @Autowired
     private PetMedInfoRepository petMedInfoRepository;
+
+    @Autowired
+    private ShotRecordRepository shotRecordRepository;
 
 
     @GetMapping("edit")
@@ -49,7 +53,7 @@ public class PetMedInfoController {
     }
 
     @PostMapping("edit")
-    public String processEditMedInfoForm(@ModelAttribute @Valid MedInfo newPetMedicalInfo, Errors errors, @ModelAttribute @Valid List<ShotRecord> newShotRecords, @RequestParam(required = false) int petId, Model model) {
+    public String processEditMedInfoForm(@ModelAttribute @Valid MedInfo newPetMedicalInfo, Errors errors, @RequestParam(required = false) int petId, Model model) {
 
         Optional<Pet> result = petRepository.findById(petId);
         Pet pet = result.get();
@@ -59,11 +63,34 @@ public class PetMedInfoController {
             model.addAttribute("pet", pet);
             return "pet/medInfo/edit";
         }
-        newPetMedicalInfo.setShotRecords((ArrayList<ShotRecord>) newShotRecords);
+//        newPetMedicalInfo.setShotRecords((ArrayList<ShotRecord>) newShotRecords);
         pet.setMedInfo(newPetMedicalInfo);
         petMedInfoRepository.save(newPetMedicalInfo);
         model.addAttribute("pet", pet);
 
         return "pet/detail";
+    }
+
+    @GetMapping("edit/shotRecord")
+    public String displayEditShotRecordFrom(Model model) {
+        model.addAttribute("title", "Edit Shot Record");
+        model.addAttribute(new ShotRecord());
+        return  "pet/medInfo/shotRecord";
+
+    }
+
+    @PostMapping("edit/shotRecord")
+    public String processEditShotRecordFrom(@ModelAttribute @Valid ShotRecord newShotRecord, Errors errors, Model model) {
+
+        if (errors.hasErrors()) {
+            model.addAttribute("title", "Edit Shot Record");
+            model.addAttribute(new ShotRecord());
+            return  "pet/medInfo/shotRecord";
+        }
+
+        shotRecordRepository.save(newShotRecord);
+
+        return "pet/medInfo/closeWindow";
+
     }
 }

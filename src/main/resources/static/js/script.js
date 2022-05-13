@@ -34,14 +34,14 @@ init = () => {
     const addMoreShotBtn = document.getElementById("addMoreShot");
 
     addMoreShotBtn.addEventListener("click", () => {
-        newPopup("http://localhost:8080");
+        newPopup("http://localhost:8080/pet/medInfo/edit/shotRecord");
 
     })
     }
 
     function newPopup(url) {
     	popupWindow = window.open(
-    		url,'popUpWindow','height=300,width=400,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
+    		url,'popUpWindow','height=250,width=400,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
 
 
 
