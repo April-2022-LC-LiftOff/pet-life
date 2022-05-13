@@ -46,7 +46,7 @@ public class AppController {
 
         if (userRepo.existsByEmail(user.getEmail())) {
 
-            model.addAttribute("title", "Email already exist ");
+            model.addAttribute("error", "This email already exist with another account. ");
 
                 return "/register";
             }
