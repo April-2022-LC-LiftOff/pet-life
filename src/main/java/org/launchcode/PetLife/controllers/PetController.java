@@ -41,52 +41,40 @@ public class PetController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    public User getCurrentUser(HttpServletRequest request) {
-        Principal userPrincipal = request.getUserPrincipal();
-        String userEmail = userPrincipal.getName();
-        return userRepository.findByEmail(userEmail);
-    }
 
     @GetMapping
     public String displayAllPets(Model model, HttpServletRequest request) {
-
-        if (request.isUserInRole("ROLE_USER")) {
-            User currentUser = getCurrentUser(request);
-            List<Pet> ownedPets = currentUser.getPets();
-
-            if (ownedPets != null) {
-                for (Pet pet : ownedPets) {
+        List<Pet> pets;
+        int role = AppController.currentLoginInfo(request);
+        if (role == 1) {
+            User currentUser = AppController.getCurrentUser(userRepository, request);
+            pets = currentUser.getPets();
+            if (pets != null) {
+                for (Pet pet : pets) {
                     pet.updateAge();
                 }
-
-
-                model.addAttribute("title", "All Pets");
-                model.addAttribute("pets", ownedPets);
             }
-            return "pet/index";
-        }else{
+        } else {
+            pets = (List<Pet>) petRepository.findAll();
+//            allPets.stream().forEach(pet-> System.out.println(pet));
+            model.addAttribute("pets", pets);
 
-            List<Pet> allPets = (List<Pet>) petRepository.findAll();
-
-            allPets.stream().forEach(pet-> System.out.println(pet));
-            model.addAttribute("allPets", allPets);
-            return "pet/vetview";
         }
-
-
-
+        model.addAttribute("pets", pets);
+        model.addAttribute("title", "All Pets");
+        model.addAttribute("role", role);
+        return "pet/index";
 
     }
 
     @GetMapping("create")
     public String displayCreatePetProfileForm(Model model,HttpServletRequest request) {
 
-            model.addAttribute("title", "Create a Pet Profile");
-            model.addAttribute(new Pet());
+        model.addAttribute("title", "Create a Pet Profile");
+        model.addAttribute(new Pet());
+        model.addAttribute("role", AppController.currentLoginInfo(request));
 
-            return "pet/create";
-
-
+        return "pet/create";
 
     }
 
@@ -95,6 +83,7 @@ public class PetController {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Create a Pet Profile");
+            model.addAttribute("role", AppController.currentLoginInfo(request));
             return "pet/create";
         }
 
@@ -104,20 +93,22 @@ public class PetController {
             newPet.setAgeMonth(null);
         }
 
-        User currentUser = getCurrentUser(request);
+        User currentUser = AppController.getCurrentUser(userRepository, request);
         newPet.setUser(currentUser);
 
         petRepository.save(newPet);
+
         return "redirect:";
     }
 
 
     @GetMapping("delete")
     public String displayDeletePetProfileForm(Model model, HttpServletRequest request) {
-        User currentUser = getCurrentUser(request);
+        User currentUser = AppController.getCurrentUser(userRepository, request);
 
         model.addAttribute("title", "Delete Pet Profiles");
         model.addAttribute("pets", currentUser.getPets());
+        model.addAttribute("role", AppController.currentLoginInfo(request));
 
         return "pet/delete";
     }
@@ -134,7 +125,7 @@ public class PetController {
     }
 
     @GetMapping("detail")
-    public String displayPetProfileDetails(@RequestParam Integer petId, Model model) {
+    public String displayPetProfileDetails(@RequestParam Integer petId, Model model, HttpServletRequest request) {
 
         Optional<Pet> result = petRepository.findById(petId);
 
@@ -145,6 +136,8 @@ public class PetController {
             model.addAttribute("title", pet.getName() + "'s information" );
             model.addAttribute("pet", pet);
         }
+
+        model.addAttribute("role", AppController.currentLoginInfo(request));
 
         return "pet/detail";
     }

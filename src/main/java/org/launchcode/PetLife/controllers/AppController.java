@@ -11,7 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,6 +25,23 @@ public class AppController {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    public static User getCurrentUser(UserRepository userRepository, HttpServletRequest request) {
+        Principal userPrincipal = request.getUserPrincipal();
+        String userEmail = userPrincipal.getName();
+        return userRepository.findByEmail(userEmail);
+    }
+
+    public static int currentLoginInfo(HttpServletRequest request) {
+        if (request.getUserPrincipal() == null) {
+            return 0;
+        }
+        if (request.isUserInRole("ROLE_USER")) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
 
     @GetMapping("/login")
     public String viewHomePage() {
