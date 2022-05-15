@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ public class PetMedInfoController {
 
 
     @GetMapping("edit")
-    public String displayEditMedInfoForm(@RequestParam int petId, Model model) {
+    public String displayEditMedInfoForm(@RequestParam int petId, Model model, HttpServletRequest request) {
         Optional<Pet> result = petRepository.findById(petId);
 
         if (result.isEmpty()) {
@@ -41,11 +42,12 @@ public class PetMedInfoController {
             }
 
         }
+        model.addAttribute("role", AppController.currentLoginInfo(request));
         return "pet/medInfo/edit";
     }
 
     @PostMapping("edit")
-    public String processEditMedInfoForm(@ModelAttribute @Valid MedInfo newPetMedicalInfo, Errors errors, @RequestParam(required = false) int petId, Model model) {
+    public String processEditMedInfoForm(@ModelAttribute @Valid MedInfo newPetMedicalInfo, Errors errors, @RequestParam(required = false) int petId, Model model, HttpServletRequest request) {
 
         Optional<Pet> result = petRepository.findById(petId);
         Pet pet = result.get();
@@ -53,6 +55,7 @@ public class PetMedInfoController {
         if (errors.hasErrors()) {
             model.addAttribute("title", "Edit " + pet.getName() + "'s medical information.");
             model.addAttribute("pet", pet);
+            model.addAttribute("role", AppController.currentLoginInfo(request));
             return "pet/medInfo/edit";
         }
 
