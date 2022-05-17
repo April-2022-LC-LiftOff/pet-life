@@ -40,7 +40,7 @@
 
         <tr  th:unless="${pet.bDate == null}">
             <th>Birthday</th>
-            <td th:text="${pet.age}"></td>
+            <td th:text="${pet.bDate}"></td>
         </tr>
 
         <tr>
@@ -66,7 +66,7 @@
         <tr>
             <th>Weight</th>
             <td th:text="${pet.weight + ' lbs (' + pet.weightConversion + ' kgs)'}" th:if="${pet.weightUnit.equals('Pound')}"></td>
-            <td th:text="${pet.weightKg + ' kgs (' + pet.weightConversion + ' lbs)'}" th:if="${pet.weightUnit.equals('Kilogram')}"></td>
+            <td th:text="${pet.weight + ' kgs (' + pet.weightConversion + ' lbs)'}" th:if="${pet.weightUnit.equals('Kilogram')}"></td>
         </tr>
 
         <tr>
@@ -102,13 +102,13 @@
             </tr>
             <tr>
                 <th>Shot Records</th>
-                <td th:if="${pet.medInfo.shotRecord.date.length() > 0}" th:text="${pet.medInfo.shotRecord.name + ' on ' + pet.medInfo.shotRecord.date}"></td>
-                <td th:unless="${pet.medInfo.shotRecord.date.length() > 0}" th:text="${pet.medInfo.shotRecord.name}"></td>
+                <td th:unless="${pet.medInfo.shotRecord.date == null}" th:text="${pet.medInfo.shotRecord.name + ' on ' + pet.medInfo.shotRecord.date}"></td>
+                <td th:if="${pet.medInfo.shotRecord.date == null}" th:text="${pet.medInfo.shotRecord.name}"></td>
             </tr>
             <tr>
                 <th>Past Surgeries</th>
-                <td th:if="${pet.medInfo.pastSurgery.date.length() > 0}" th:text="${pet.medInfo.pastSurgery.name + ' on ' + pet.medInfo.pastSurgery.date}"></td>
-                <td th:unless="${pet.medInfo.pastSurgery.date.length() > 0}" th:text="${pet.medInfo.pastSurgery.name}"></td>
+                <td th:unless="${pet.medInfo.pastSurgery.date == null}" th:text="${pet.medInfo.pastSurgery.name + ' on ' + pet.medInfo.pastSurgery.date}"></td>
+                <td th:if="${pet.medInfo.pastSurgery.date == null}" th:text="${pet.medInfo.pastSurgery.name}"></td>
             </tr>
             <tr>
                 <th>Medical Note</th>
