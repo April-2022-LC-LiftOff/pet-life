@@ -18,9 +18,8 @@ public class MedInfo extends AbstractEntity {
 
     private String chip;
     @OneToMany
-//    @JoinColumn(name = "medInfo_id")
-    @Valid
-    private List<ShotRecord> shotRecords = new ArrayList<ShotRecord>(Arrays.asList(new ShotRecord()));
+    @JoinColumn(name = "med_info_id")
+    private List<ShotRecord> shotRecords = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     @Valid
@@ -39,6 +38,15 @@ public class MedInfo extends AbstractEntity {
     }
 
     public MedInfo() {
+    }
+
+    public void updateMedInfo(MedInfo medInfo) {
+        this.currentMeds = medInfo.getCurrentMeds();
+        this.spayNeuter = medInfo.getSpayNeuter();
+        this.chip = medInfo.getChip();
+//        this.shotRecords = medInfo.getShotRecords();
+        this.pastSurgery = medInfo.getPastSurgery();
+        this.medicalNote = medInfo.getMedicalNote();
     }
 
     public String getSpayNeuter() {
