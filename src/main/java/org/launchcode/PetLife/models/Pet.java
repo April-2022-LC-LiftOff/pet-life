@@ -13,8 +13,13 @@ public class Pet extends AbstractEntityNameDate {
     @Size(min = 1, max = 50, message = "Name must be between 3 and 50 characters.")
     private String name;
 
+    @Column(nullable = true, length = 64)
+    private String photos;
 
-//    @Max(value = 150, message = "Age for year should be smaller than 150.")
+
+
+
+    //    @Max(value = 150, message = "Age for year should be smaller than 150.")
 //    @Min(value = 0, message = "Age for year should be greater than 0.")
 //    @NotNull(message = "Age for year is required.")
     private Integer ageYear;
@@ -60,8 +65,9 @@ public class Pet extends AbstractEntityNameDate {
     @ManyToOne
     private User user;
 
-    public Pet(String name,  Integer ageYear, Integer ageMonth, String bDate, String species, String breed, String sex, Float weight, String aggressive, String venomous, String color, String behavior, User user) {
+    public Pet(String name, String photos, Integer ageYear, Integer ageMonth, String bDate, String species, String breed, String sex, Float weight, String aggressive, String venomous, String color, String behavior, User user) {
         this.name = name;
+        this.photos = photos;
         this.ageYear = ageYear;
         this.ageMonth = ageMonth;
         this.bDate = LocalDate.parse(bDate);
@@ -86,6 +92,14 @@ public class Pet extends AbstractEntityNameDate {
     }
 
     public Pet() {}
+
+    public String getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(String photos) {
+        this.photos = photos;
+    }
 
     public User getUser() {
         return user;
@@ -246,5 +260,12 @@ public class Pet extends AbstractEntityNameDate {
 
     public void setMedInfo(MedInfo medInfo) {
         this.medInfo = medInfo;
+    }
+
+    @Transient
+    public String getPhotosImagePath() {
+        if (photos == null) return null;
+
+        return "/pet-photos/" + "/" + photos;
     }
 }

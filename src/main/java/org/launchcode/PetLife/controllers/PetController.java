@@ -21,6 +21,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -78,8 +79,24 @@ public class PetController {
 
     }
 
+    @PostMapping("pet/create/save")
+    public RedirectView saveImage(@ModelAttribute(name ="pet") Pet pet,
+                                 @RequestParam("image") MultipartFile multipartFile) throws IOException {
+
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        pet.setPhotos(fileName);
+
+        Pet savedImage = petRepository.save(pet);
+
+        String uploadDir = "pet-photos/" + savedImage.getId();
+
+        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+
+        return new RedirectView("pet/index", true);
+    }
     @PostMapping("create")
-    public String processCreatePetProfileForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model, HttpServletRequest request) {
+    public String processCreatePetProfileForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model, HttpServletRequest request,
+                                              @RequestParam("image") MultipartFile multipartFile) throws IOException {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Create a Pet Profile");
@@ -95,6 +112,20 @@ public class PetController {
 
         User currentUser = AppController.getCurrentUser(userRepository, request);
         newPet.setUser(currentUser);
+
+
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        newPet.setPhotos(fileName);
+
+        Pet savedImage = petRepository.save(newPet);
+
+        String uploadDir = "pet-photos/" + savedImage.getId();
+
+        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+
+//        return new RedirectView("pet/index", true);
+
+
 
         petRepository.save(newPet);
 
