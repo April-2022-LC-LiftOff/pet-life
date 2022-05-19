@@ -110,7 +110,17 @@ public class PetMedInfoController {
             model.addAttribute("title", "Add New Shot Records");
         } else {
             MedInfo medInfo = result.get();
-            model.addAttribute("shotRecords", medInfo.getShotRecords());
+            List<ShotRecord> shotRecords = medInfo.getShotRecords();
+
+            List<ShotRecord> allShotRecords = (List<ShotRecord>) shotRecordRepository.findAll();
+
+            for (ShotRecord shotRecord : allShotRecords) {
+                if (shotRecord.getMedInfo() == null) {
+                  shotRecords.add(shotRecord);
+                }
+            }
+
+            model.addAttribute("shotRecords", shotRecords);
             model.addAttribute(new ShotRecord());
             model.addAttribute("title", "All Shot Records");
         }
