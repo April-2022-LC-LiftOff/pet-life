@@ -38,16 +38,7 @@
 
         <button type="button" class="btn btn-sm btn-light" id="editShotRecords" th:value="${medInfo.id}">Edit shot records</button>
 
-        <div class="form-group">
-            <label>Surgery Name
-                <input th:field="${medInfo.pastSurgery.name}" class="form-control">
-            </label>
-            <p class="error" th:errors="${medInfo.pastSurgery.name}"></p>
-            <label>Date of Surgery
-                <input th:field="${medInfo.pastSurgery.date}" type = "date" class="form-control">
-            </label>
-            <p class="error" th:errors="${medInfo.pastSurgery.date}"></p>
-        </div>
+        <button type="button" class="btn btn-sm btn-light" id="editPastSurgeries" th:value="${medInfo.id}">Edit surgery records</button>
 
 
         <div class="form-group">

@@ -7,7 +7,6 @@ import javax.validation.constraints.Size;
 public class ShotRecord extends AbstractEntityNameDate {
 
     @ManyToOne
-//    @JoinColumn(name = "medInfo_id")
     private MedInfo medInfo;
 
     public ShotRecord(MedInfo medInfo) {

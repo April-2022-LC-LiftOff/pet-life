@@ -21,32 +21,23 @@ public class MedInfo extends AbstractEntity {
     @JoinColumn(name = "med_info_id")
     private List<ShotRecord> shotRecords = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @Valid
-    private PastSurgery pastSurgery;
+    @OneToMany
+    @JoinColumn(name = "med_info_id")
+    private List<PastSurgery> pastSurgeries = new ArrayList<>();
 
     @Size(max = 500, message = "Limit up to 500 characters.")
     private String medicalNote;
 
-    public MedInfo(String currentMeds, String spayNeuter, String chip, List<ShotRecord> shotRecords, PastSurgery pastSurgery, String medicalNote) {
+    public MedInfo(String currentMeds, String spayNeuter, String chip, List<ShotRecord> shotRecords, List<PastSurgery> pastSurgeries, String medicalNote) {
         this.currentMeds = currentMeds;
         this.spayNeuter = spayNeuter;
         this.chip = chip;
         this.shotRecords = shotRecords;
-        this.pastSurgery = pastSurgery;
+        this.pastSurgeries = pastSurgeries;
         this.medicalNote = medicalNote;
     }
 
     public MedInfo() {
-    }
-
-    public void updateMedInfo(MedInfo medInfo) {
-        this.currentMeds = medInfo.getCurrentMeds();
-        this.spayNeuter = medInfo.getSpayNeuter();
-        this.chip = medInfo.getChip();
-//        this.shotRecords = medInfo.getShotRecords();
-        this.pastSurgery = medInfo.getPastSurgery();
-        this.medicalNote = medInfo.getMedicalNote();
     }
 
     public String getSpayNeuter() {
@@ -73,12 +64,12 @@ public class MedInfo extends AbstractEntity {
         this.shotRecords = shotRecords;
     }
 
-    public PastSurgery getPastSurgery() {
-        return pastSurgery;
+    public List<PastSurgery> getPastSurgeries() {
+        return pastSurgeries;
     }
 
-    public void setPastSurgery(PastSurgery pastSurgery) {
-        this.pastSurgery = pastSurgery;
+    public void setPastSurgeries(List<PastSurgery> pastSurgeries) {
+        this.pastSurgeries = pastSurgeries;
     }
 
     public String getCurrentMeds() {

@@ -36,10 +36,19 @@ init = () => {
     if (editShotRecordsBtn !== null) {
     editShotRecordsBtn.addEventListener("click", () => {
             let medInfoId = editShotRecordsBtn.value;
-            console.log(medInfoId);
             let url = "http://localhost:8080/pet/medInfo/edit/shotRecord?medInfoId=" + medInfoId;
             newPopup(url);
 
+        })
+    }
+
+    const editPastSurgeriesBtn = document.getElementById("editPastSurgeries");
+
+    if (editPastSurgeriesBtn !== null) {
+    editPastSurgeriesBtn.addEventListener("click", () => {
+            let medInfoId = editPastSurgeriesBtn.value;
+            let url = "http://localhost:8080/pet/medInfo/edit/pastSurgery?medInfoId=" + medInfoId;
+            newPopup(url);
         })
     }
 

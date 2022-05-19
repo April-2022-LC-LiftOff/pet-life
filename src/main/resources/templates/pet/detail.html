@@ -103,11 +103,13 @@
                 <td th:unless="${shotRecord.date.length() > 0}" th:text="${shotRecord.name}"></td>
             </tr>
 
-            <tr>
-                <th>Past Surgeries</th>
-                <td th:if="${pet.medInfo.pastSurgery.date.length() > 0}" th:text="${pet.medInfo.pastSurgery.name + ' on ' + pet.medInfo.pastSurgery.date}"></td>
-                <td th:unless="${pet.medInfo.pastSurgery.date.length() > 0}" th:text="${pet.medInfo.pastSurgery.name}"></td>
+            <tr th:each="pastSurgery : ${pet.medInfo.pastSurgeries}">
+                <th th:if="${pet.medInfo.pastSurgeries.indexOf(pastSurgery) == 0}">Past Surgeries</th>
+                <th th:unless="${pet.medInfo.pastSurgeries.indexOf(pastSurgery) == 0}"></th>
+                <td th:if="${pastSurgery.date.length() > 0}" th:text="${pastSurgery.name + ' on ' + pastSurgery.date}"></td>
+                <td th:unless="${pastSurgery.date.length() > 0}" th:text="${pastSurgery.name}"></td>
             </tr>
+
             <tr>
                 <th>Medical Note</th>
                 <td th:text="${pet.medInfo.medicalNote}"></td>

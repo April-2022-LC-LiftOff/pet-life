@@ -1,9 +1,11 @@
 package org.launchcode.PetLife.controllers;
 
 import org.launchcode.PetLife.models.MedInfo;
+import org.launchcode.PetLife.models.PastSurgery;
 import org.launchcode.PetLife.models.Pet;
 import org.launchcode.PetLife.models.ShotRecord;
 import org.launchcode.PetLife.models.data.MedInfoRepository;
+import org.launchcode.PetLife.models.data.PastSurgeryRepository;
 import org.launchcode.PetLife.models.data.PetRepository;
 import org.launchcode.PetLife.models.data.ShotRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class PetMedInfoController {
 
     @Autowired
     private ShotRecordRepository shotRecordRepository;
+
+    @Autowired
+    private PastSurgeryRepository pastSurgeryRepository;
 
 
     @GetMapping("edit")
@@ -63,15 +68,26 @@ public class PetMedInfoController {
         }
 
         List<ShotRecord> allShotRecords = (List<ShotRecord>) shotRecordRepository.findAll();
+        List<PastSurgery> allPastSurgeries = (List<PastSurgery>) pastSurgeryRepository.findAll();
 
         for (ShotRecord shotRecord : allShotRecords) {
             if (shotRecord.getMedInfo() == null) {
                 shotRecord.setMedInfo(newPetMedicalInfo);
             }
         }
+
+        for (PastSurgery pastSurgery : allPastSurgeries) {
+            if (pastSurgery.getMedInfo() == null) {
+                pastSurgery.setMedInfo(newPetMedicalInfo);
+            }
+        }
+
         if (pet.getMedInfo() != null) {
             for (ShotRecord shotRecord : pet.getMedInfo().getShotRecords()) {
                 shotRecord.setMedInfo(newPetMedicalInfo);
+            }
+            for (PastSurgery pastSurgery : pet.getMedInfo().getPastSurgeries()) {
+                pastSurgery.setMedInfo(newPetMedicalInfo);
             }
         }
 
@@ -113,6 +129,40 @@ public class PetMedInfoController {
         }
 
         shotRecordRepository.save(newShotRecord);
+        return "pet/medInfo/closeWindow";
+
+    }
+
+    @GetMapping("edit/pastSurgery")
+    public String displayEditSurgeryRecordFrom(@RequestParam(required = false) int medInfoId, Model model) {
+
+        Optional<MedInfo> result = medInfoRepository.findById(medInfoId);
+
+        if (result.isEmpty()) {
+            model.addAttribute("title", "Invalid MedInfo Id" + medInfoId);
+            model.addAttribute(new PastSurgery());
+            model.addAttribute("title", "Add New Surgery Records");
+        } else {
+            MedInfo medInfo = result.get();
+            model.addAttribute("pastSurgeries", medInfo.getPastSurgeries());
+            model.addAttribute(new PastSurgery());
+            model.addAttribute("title", "All Surgery Records");
+        }
+
+        return "pet/medInfo/pastSurgery";
+
+    }
+
+    @PostMapping("edit/pastSurgery")
+    public String processEditSurgeryRecordFrom(@ModelAttribute @Valid PastSurgery newPastSurgery, Errors errors, Model model) {
+
+        if (errors.hasErrors()) {
+            model.addAttribute("title", "Edit Surgery Record");
+            model.addAttribute(new PastSurgery());
+            return  "pet/medInfo/pastSurgery";
+        }
+
+        pastSurgeryRepository.save(newPastSurgery);
         return "pet/medInfo/closeWindow";
 
     }
