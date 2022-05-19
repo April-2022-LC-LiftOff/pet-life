@@ -79,21 +79,6 @@ public class PetController {
 
     }
 
-    @PostMapping("pet/create/save")
-    public RedirectView saveImage(@ModelAttribute(name ="pet") Pet pet,
-                                 @RequestParam("image") MultipartFile multipartFile) throws IOException {
-
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        pet.setPhotos(fileName);
-
-        Pet savedImage = petRepository.save(pet);
-
-        String uploadDir = "pet-photos/" + savedImage.getId();
-
-        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-
-        return new RedirectView("pet/index", true);
-    }
     @PostMapping("create")
     public String processCreatePetProfileForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model, HttpServletRequest request,
                                               @RequestParam("image") MultipartFile multipartFile) throws IOException {
