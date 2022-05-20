@@ -1,15 +1,20 @@
 package org.launchcode.PetLife.controllers;
 
+import org.launchcode.PetLife.models.Role;
 import org.launchcode.PetLife.models.User;
+import org.launchcode.PetLife.models.data.RoleRepository;
 import org.launchcode.PetLife.models.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -18,10 +23,31 @@ public class AppController {
     @Autowired
     private UserRepository userRepo;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
+    public static User getCurrentUser(UserRepository userRepository, HttpServletRequest request) {
+        Principal userPrincipal = request.getUserPrincipal();
+        String userEmail = userPrincipal.getName();
+        return userRepository.findByEmail(userEmail);
+    }
+
+    public static int currentLoginInfo(HttpServletRequest request) {
+        if (request.getUserPrincipal() == null) {
+            return 0;
+        }
+        if (request.isUserInRole("ROLE_USER")) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+
     @GetMapping("/login")
     public String viewHomePage() {
         return "login";
     }
+
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
@@ -32,20 +58,34 @@ public class AppController {
     }
 
     @PostMapping("/register")
-    public String processRegister(User user) {
+    public String processRegister(@ModelAttribute @Valid User user, Model model, Error errors) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
 
-        userRepo.save(user);
+        if (userRepo.existsByEmail(user.getEmail())) {
 
+            model.addAttribute("error", "This email already exist with another account. ");
+
+                return "/register";
+            }
+
+
+
+        Role userRole = null;
+
+        if (null == user.getIsAdmin()) {
+            userRole = roleRepository.findByName("ROLE_USER");
+        } else {
+            userRole = roleRepository.findByName("ROLE_ADMIN");
+        }
+        user.setRoles(Arrays.asList(userRole));
+        user.setEnabled(true);
+        userRepo.save(user);
         return "login";
     }
-//    @GetMapping("/users")
-//    public String listUsers(Model model) {
-//        List<User> listUsers = userRepo.findAll();
-//        model.addAttribute("listUsers", listUsers);
-//
-//        return "users";
-//    }
 }
+
+
+
+

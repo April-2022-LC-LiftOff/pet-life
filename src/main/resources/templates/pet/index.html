@@ -21,6 +21,7 @@
         </tr>
         </thead>
         <tr th:each="pet : ${pets}">
+
             <td><a th:href="'/pet/detail?petId=' + ${pet.id}" th:text="${pet.name}"></a></td>
             <td th:text="${pet.species}"></td>
             <td th:text="${pet.breed}"></td>
@@ -29,17 +30,8 @@
             <td th:text="${pet.color}"></td>
         </tr>
     </table>
-
 </div>
-<div>
-    <form th:action="@{/logout}" method>
-        <p>
-            Welcome <b>[[${#request.userPrincipal.principal.fullName}]]</b>
-        </p>
-        <input type="submit" value="Sign Out" />
 
-    </form>
-</div>
 <footer th:replace="fragments :: footer"></footer>
 </body>
 </html>

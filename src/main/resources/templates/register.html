@@ -22,7 +22,7 @@
                 <label class="col-4 col-form-label">First Name: </label>
                 <div class="col-8">
                     <input type="text" th:field="*{firstName}" class="form-control"
-                           required minlength="2" maxlength="20"/>
+                           required minlength="2" maxlength="50"/>
                 </div>
             </div>
 <br>
@@ -30,7 +30,7 @@
                 <label class="col-4 col-form-label">Last Name: </label>
                 <div class="col-8">
                     <input type="text" th:field="*{lastName}" class="form-control"
-                           required minlength="2" maxlength="20" />
+                           required minlength="2" maxlength="50" />
                 </div>
             </div>
 <br>
@@ -38,25 +38,34 @@
             <label class="col-4 col-form-label">E-mail: </label>
             <div class="col-8">
                 <input type="email" th:field="*{email}" class="form-control" required />
+                <p th:if="${error != null }" th:text="${error}" class="error"></p>
             </div>
+
         </div>
         <br>
         <div class="form-group row">
             <label class="col-4 col-form-label">Password: </label>
             <div class="col-8">
                 <input type="password" th:field="*{password}" class="form-control"
-                       required minlength="6" maxlength="10"/>
+                       required minlength="6" maxlength="100"/>
             </div>
- <br>
+        </div>
+            <br>
+            <div class="form-group row ">
+                <div class="text-center">
+                <label class="col-4 col-form-label"> Please select for Veterinarian view only
+                <input type="checkbox" namce="ROLE" th:field="*{isAdmin}" value="ROLE_ADMIN"/></label>
+                </div>
+            </div>
   <br>
             <div>
                 <button type="submit" class="btn btn-primary">Sign Up</button>
             </div>
         </div>
-        </div>
-    </form>
-</div>
 
+    </form>
+
+</div>
 <footer th:replace="fragments :: footer"></footer>
 </body>
 </html>
