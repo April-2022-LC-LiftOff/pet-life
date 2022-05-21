@@ -105,7 +105,7 @@
                 <th th:if="${pet.medInfo.shotRecords.indexOf(shotRecord) == 0}">Shot Records</th>
                 <th th:unless="${pet.medInfo.shotRecords.indexOf(shotRecord) == 0}"></th>
 <!--                <td th:if="${shotRecord.date.length() > 0}" th:text="${shotRecord.name + ' on ' + shotRecord.date}"></td>-->
-                <td th:unless="${shotRecord.date == null}" th:text="${shotRecord.name + ' on ' shotRecord.date}"></td>
+                <td th:unless="${shotRecord.date == null}" th:text="${shotRecord.name + ' on ' + shotRecord.date}"></td>
 <!--                <td th:unless="${shotRecord.date.length() > 0}" th:text="${shotRecord.name}"></td>-->
                 <td th:if="${shotRecord.date == null}" th:text="${shotRecord.name}"></td>
             </tr>
