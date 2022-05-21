@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org/">
+
+<head th:replace="fragments :: head"></head>
+
+<body>
+
+<!--<nav th:replace="fragments :: navbar"></nav>-->
+
+<div class="container">
+
+<!--    <header th:replace="fragments :: header"></header>-->
+    <form method = "post">
+        <div class="form-group">
+            <table>
+                <tr>
+                    <td>Surgery Name</td>
+                    <td>Date of Surgery</td>
+                </tr>
+                <tr th:unless="${pastSurgeries.size() == 0}" th:each="pastSurgery : ${pastSurgeries}">
+                    <td th:text="${pastSurgery.name}"></td>
+                    <td th:text="${pastSurgery.date}" type="date"></td>
+                </tr>
+                <tr>
+                    <td><input th:field="${pastSurgery.name}" class="form-control"></td>
+                    <td><input th:field="${pastSurgery.date}" type="date" class="form-control"></td>
+                </tr>
+            </table>
+<!--            <p th:error="${shotRecord.name}" class="error"></p>-->
+<!--            <p th:error="${shotRecord.date}" class="error"></p>-->
+            <input type="submit" value="Save" class="btn btn-success">
+        </div>
+    </form>
+
+<!--<footer th:replace="fragments :: footer"></footer>-->
+
+</div>
+</body>
+
+</html>

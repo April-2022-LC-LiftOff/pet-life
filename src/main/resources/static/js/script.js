@@ -31,31 +31,61 @@ init = () => {
                })
     }
 
+    const editShotRecordsBtn = document.getElementById("editShotRecords");
+
+    if (editShotRecordsBtn !== null) {
+    editShotRecordsBtn.addEventListener("click", () => {
+            let medInfoId = editShotRecordsBtn.value;
+            let url = "http://localhost:8080/pet/medInfo/edit/shotRecord?medInfoId=" + medInfoId;
+            newPopup(url);
+
+        })
+    }
+
+    const editPastSurgeriesBtn = document.getElementById("editPastSurgeries");
+
+    if (editPastSurgeriesBtn !== null) {
+    editPastSurgeriesBtn.addEventListener("click", () => {
+            let medInfoId = editPastSurgeriesBtn.value;
+            let url = "http://localhost:8080/pet/medInfo/edit/pastSurgery?medInfoId=" + medInfoId;
+            newPopup(url);
+        })
+    }
+
+
+    function newPopup(url) {
+    	popupWindow = window.open(
+    		url,'popUpWindow','height=250,width=400,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
+    }
 
 
 
 
     const showSlides = () => {
         let i;
-        let slides = document.getElementsByClassName("mySlides");
-        let dots = document.getElementsByClassName("dot");
-        for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
+        const slides = document.getElementsByClassName("mySlides");
+//        let dots = document.getElementsByClassName("dot");
+        if (slides !== null) {
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}
+//        for (i = 0; i < dots.length; i++) {
+//            dots[i].className = dots[i].className.replace(" active", "");
+//        }
+
+            slides[slideIndex-1].style.display = "block";
+//            dots[slideIndex-1].className += " active";
+            setTimeout(showSlides, 2000); // Change image every 2 seconds
         }
-        slideIndex++;
-        if (slideIndex > slides.length) {slideIndex = 1}
-        for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
-        }
-        slides[slideIndex-1].style.display = "block";
-        dots[slideIndex-1].className += " active";
-        setTimeout(showSlides, 2000); // Change image every 2 seconds
 
 
     }
 
     let slideIndex = 0;
     showSlides();
+
 
 }
 

@@ -33,7 +33,7 @@ public class PetController {
     private PetRepository petRepository;
 
     @Autowired
-    private PetMedInfoRepository petMedInfoRepository;
+    private MedInfoRepository medInfoRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -73,7 +73,6 @@ public class PetController {
         model.addAttribute("title", "Create a Pet Profile");
         model.addAttribute(new Pet());
         model.addAttribute("role", AppController.currentLoginInfo(request));
-
         return "pet/create";
 
     }
