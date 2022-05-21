@@ -23,6 +23,7 @@
         </thead>
         <tr th:each="pet : ${pets}">
             <td><img th:src="@{${pet.photosImagePath}}" /></td>
+<!--            <td><img src="pet-photos/18/WIN_20190506_17_02_00_Pro.jpg"></td>-->
             <td><a th:href="'/pet/detail?petId=' + ${pet.id}" th:text="${pet.name}"></a></td>
             <td th:text="${pet.species}"></td>
             <td th:text="${pet.breed}"></td>

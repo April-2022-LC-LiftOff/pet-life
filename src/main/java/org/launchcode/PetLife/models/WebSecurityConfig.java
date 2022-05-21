@@ -95,19 +95,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //            }
 //        }
 //    }
-
-    @Bean
-    public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
-        StrictHttpFirewall firewall = new StrictHttpFirewall();
-        firewall.setAllowUrlEncodedSlash(true);
-        firewall.setAllowUrlEncodedDoubleSlash(true);
-        return firewall;
-    }
-
-    @Override
-    public void configure(WebSecurity web) {
-        web.httpFirewall(allowUrlEncodedSlashHttpFirewall());
-    }
+//
+//    @Bean
+//    public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
+//        StrictHttpFirewall firewall = new StrictHttpFirewall();
+//        firewall.setAllowUrlEncodedSlash(true);
+//        firewall.setAllowUrlEncodedDoubleSlash(true);
+//        return firewall;
+//    }
+//
+//    @Override
+//    public void configure(WebSecurity web) {
+//        web.httpFirewall(allowUrlEncodedSlashHttpFirewall());
+//    }
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {

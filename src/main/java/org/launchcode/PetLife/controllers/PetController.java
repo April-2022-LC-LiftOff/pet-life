@@ -57,7 +57,7 @@ public class PetController {
             }
         } else {
             pets = (List<Pet>) petRepository.findAll();
-//            allPets.stream().forEach(pet-> System.out.println(pet));
+            pets.stream().forEach(pet-> System.out.println(pet));
             model.addAttribute("pets", pets);
 
         }
@@ -98,21 +98,33 @@ public class PetController {
         User currentUser = AppController.getCurrentUser(userRepository, request);
         newPet.setUser(currentUser);
 
+        byte[] byteObjects = new byte[multipartFile.getBytes().length];
+
+        int i = 0;
+
+        for (byte b : multipartFile.getBytes()){
+            byteObjects[i++] = b;
+        }
+
 
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        newPet.setPhotos(fileName);
+        newPet.setPhotos(byteObjects);
+
 
         Pet savedImage = petRepository.save(newPet);
 
-        String uploadDir = "pet-photos/" + savedImage.getId();
 
-        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+        String uploadDir = "pet-photos/" + savedImage.getId()+ "/";
+        savedImage.setPhotosImagePath(uploadDir + fileName);
+        savedImage = petRepository.save(savedImage);
+        System.out.println(uploadDir + fileName);
+        FileUploadUtil.saveFile(uploadDir, fileName, byteObjects);
 
 //        return new RedirectView("pet/index", true);
 
 
 
-        petRepository.save(newPet);
+//        petRepository.save(newPet);
 
         return "redirect:";
     }

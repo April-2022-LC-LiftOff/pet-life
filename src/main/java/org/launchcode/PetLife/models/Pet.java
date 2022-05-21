@@ -2,6 +2,7 @@ package org.launchcode.PetLife.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.awt.image.BufferedImage;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -13,8 +14,13 @@ public class Pet extends AbstractEntityNameDate {
     @Size(min = 1, max = 50, message = "Name must be between 3 and 50 characters.")
     private String name;
 
-    @Column(nullable = true, length = 64)
-    private String photos;
+//    @Column(nullable = true, length = 64)
+    @Lob
+    @Column(name = "photos", columnDefinition="LONGBLOB")
+    private byte[] photos;
+
+
+    private String photosImagePath;
 
 
 
@@ -65,9 +71,10 @@ public class Pet extends AbstractEntityNameDate {
     @ManyToOne
     private User user;
 
-    public Pet(String name, String photos, Integer ageYear, Integer ageMonth, String bDate, String species, String breed, String sex, Float weight, String aggressive, String venomous, String color, String behavior, User user) {
+    public Pet(String name, byte [] photos, String photosImagePath, Integer ageYear, Integer ageMonth, String bDate, String species, String breed, String sex, Float weight, String aggressive, String venomous, String color, String behavior, User user) {
         this.name = name;
         this.photos = photos;
+        this.photosImagePath =photosImagePath;
         this.ageYear = ageYear;
         this.ageMonth = ageMonth;
         this.bDate = LocalDate.parse(bDate);
@@ -93,11 +100,18 @@ public class Pet extends AbstractEntityNameDate {
 
     public Pet() {}
 
-    public String getPhotos() {
+    public void setPhotosImagePath(String photosImagePath) {
+        this.photosImagePath = photosImagePath;
+    }
+
+    public String getPhotosImagePath() {
+        return this.photosImagePath;
+    }
+    public byte[] getPhotos() {
         return photos;
     }
 
-    public void setPhotos(String photos) {
+    public void setPhotos(byte[] photos) {
         this.photos = photos;
     }
 
@@ -262,10 +276,4 @@ public class Pet extends AbstractEntityNameDate {
         this.medInfo = medInfo;
     }
 
-    @Transient
-    public String getPhotosImagePath() {
-        if (photos == null) return null;
-
-        return "/pet-photos/" + "/" + photos;
-    }
 }
