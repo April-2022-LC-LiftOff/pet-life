@@ -10,24 +10,30 @@
 <div class="container">
 
 <!--    <header th:replace="fragments :: header"></header>-->
+    <h3 th:text="${title}"></h3>
     <form method = "post">
         <div class="form-group">
             <table>
                 <tr>
+                    <td>Delete</td>
                     <td>Surgery Name</td>
                     <td>Date of Surgery</td>
                 </tr>
                 <tr th:unless="${pastSurgeries.size() == 0}" th:each="pastSurgery : ${pastSurgeries}">
+                    <td style="text-align:center;">
+                        <label>
+                            <input type="checkbox" name="pastSurgeriesIds" th:value="${pastSurgery.id}" style="width:20px; height:20px;">
+                        </label>
+                    </td>
                     <td th:text="${pastSurgery.name}"></td>
                     <td th:text="${pastSurgery.date}" type="date"></td>
                 </tr>
                 <tr>
+                    <td>New surgery</td>
                     <td><input th:field="${pastSurgery.name}" class="form-control"></td>
                     <td><input th:field="${pastSurgery.date}" type="date" class="form-control"></td>
                 </tr>
             </table>
-<!--            <p th:error="${shotRecord.name}" class="error"></p>-->
-<!--            <p th:error="${shotRecord.date}" class="error"></p>-->
             <input type="submit" value="Save" class="btn btn-success">
         </div>
     </form>

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -107,26 +108,29 @@ public class PetMedInfoController {
     public String displayEditShotRecordFrom(@RequestParam(required = false) int medInfoId, Model model) {
 
         Optional<MedInfo> result = medInfoRepository.findById(medInfoId);
+        List<ShotRecord> allShotRecords = (List<ShotRecord>) shotRecordRepository.findAll();
+        List<ShotRecord> shotRecords = new ArrayList<>();
+        for (ShotRecord shotRecord : allShotRecords) {
+            if (shotRecord.getMedInfo() == null) {
+                shotRecords.add(shotRecord);
+            }
+        }
 
         if (result.isEmpty()) {
-            model.addAttribute("title", "Invalid MedInfo Id" + medInfoId);
             model.addAttribute(new ShotRecord());
-            model.addAttribute("title", "Add New Shot Records");
+            model.addAttribute("shotRecords", shotRecords);
         } else {
             MedInfo medInfo = result.get();
-            List<ShotRecord> shotRecords = medInfo.getShotRecords();
-
-            List<ShotRecord> allShotRecords = (List<ShotRecord>) shotRecordRepository.findAll();
-
-            for (ShotRecord shotRecord : allShotRecords) {
-                if (shotRecord.getMedInfo() == null) {
-                  shotRecords.add(shotRecord);
-                }
-            }
-
+            shotRecords.addAll(medInfo.getShotRecords());
             model.addAttribute("shotRecords", shotRecords);
             model.addAttribute(new ShotRecord());
+
+        }
+
+        if (shotRecords.size() > 0) {
             model.addAttribute("title", "All Shot Records");
+        } else {
+            model.addAttribute("title", "Add New Shot Records");
         }
 
         return "pet/medInfo/shotRecord";
@@ -143,7 +147,6 @@ public class PetMedInfoController {
         }
 
         if (shotRecordsIds != null) {
-            System.out.println(shotRecordsIds);
             for (int id : shotRecordsIds) {
                 shotRecordRepository.deleteById(id);
             }
@@ -160,16 +163,30 @@ public class PetMedInfoController {
     public String displayEditSurgeryRecordFrom(@RequestParam(required = false) int medInfoId, Model model) {
 
         Optional<MedInfo> result = medInfoRepository.findById(medInfoId);
+        List<PastSurgery> allPastSurgeries = (List<PastSurgery>) pastSurgeryRepository.findAll();
+        List<PastSurgery> pastSurgeries = new ArrayList<>();
+        for (PastSurgery pastSurgery : allPastSurgeries) {
+            if (pastSurgery.getMedInfo() == null) {
+                pastSurgeries.add(pastSurgery);
+            }
+        }
 
         if (result.isEmpty()) {
-            model.addAttribute("title", "Invalid MedInfo Id" + medInfoId);
+//            model.addAttribute("title", "Invalid MedInfo Id" + medInfoId);
             model.addAttribute(new PastSurgery());
             model.addAttribute("title", "Add New Surgery Records");
+            model.addAttribute("pastSurgeries", pastSurgeries);
         } else {
             MedInfo medInfo = result.get();
-            model.addAttribute("pastSurgeries", medInfo.getPastSurgeries());
+            pastSurgeries.addAll(medInfo.getPastSurgeries());
+            model.addAttribute("pastSurgeries", pastSurgeries);
             model.addAttribute(new PastSurgery());
+        }
+
+        if (pastSurgeries.size() > 0) {
             model.addAttribute("title", "All Surgery Records");
+        } else {
+            model.addAttribute("title", "Add New Surgery Records");
         }
 
         return "pet/medInfo/pastSurgery";
@@ -177,12 +194,18 @@ public class PetMedInfoController {
     }
 
     @PostMapping("edit/pastSurgery")
-    public String processEditSurgeryRecordFrom(@ModelAttribute @Valid PastSurgery newPastSurgery, Errors errors, Model model) {
+    public String processEditSurgeryRecordFrom(@ModelAttribute @Valid PastSurgery newPastSurgery, Errors errors, Model model, @RequestParam(required = false) int[] pastSurgeriesIds) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Edit Surgery Record");
             model.addAttribute(new PastSurgery());
             return  "pet/medInfo/pastSurgery";
+        }
+
+        if (pastSurgeriesIds != null) {
+            for (int id : pastSurgeriesIds) {
+                pastSurgeryRepository.deleteById(id);
+            }
         }
 
         if (!newPastSurgery.getName().isEmpty()) {
