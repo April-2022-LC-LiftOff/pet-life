@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @MappedSuperclass
-public class AbstractEntityNameDate extends AbstractEntity{
+public abstract class AbstractEntityNameDate extends AbstractEntity {
 
     @Size(max = 30, message = "Name must contain less than 30 characters.")
     private String name;

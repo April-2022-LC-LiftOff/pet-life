@@ -134,7 +134,7 @@ public class PetMedInfoController {
     }
 
     @PostMapping("edit/shotRecord")
-    public String processEditShotRecordFrom(@ModelAttribute @Valid ShotRecord newShotRecord, Errors errors, Model model) {
+    public String processEditShotRecordFrom(@ModelAttribute @Valid ShotRecord newShotRecord, Errors errors, Model model, @RequestParam(required = false) int[] shotRecordsIds) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Edit Shot Record");
@@ -142,7 +142,16 @@ public class PetMedInfoController {
             return  "pet/medInfo/shotRecord";
         }
 
-        shotRecordRepository.save(newShotRecord);
+        if (shotRecordsIds != null) {
+            System.out.println(shotRecordsIds);
+            for (int id : shotRecordsIds) {
+                shotRecordRepository.deleteById(id);
+            }
+        }
+        if (!newShotRecord.getName().isEmpty()) {
+            shotRecordRepository.save(newShotRecord);
+        }
+
         return "pet/medInfo/closeWindow";
 
     }
@@ -176,7 +185,9 @@ public class PetMedInfoController {
             return  "pet/medInfo/pastSurgery";
         }
 
-        pastSurgeryRepository.save(newPastSurgery);
+        if (!newPastSurgery.getName().isEmpty()) {
+            pastSurgeryRepository.save(newPastSurgery);
+        }
         return "pet/medInfo/closeWindow";
 
     }

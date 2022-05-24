@@ -14,14 +14,21 @@
         <div class="form-group">
             <table>
                 <tr>
+                    <td>Delete</td>
                     <td>Shot Name</td>
                     <td>Date Received</td>
                 </tr>
                 <tr th:unless="${shotRecords.size() == 0}" th:each="shotRecord : ${shotRecords}">
+                    <td style="text-align:center;">
+                        <label>
+                            <input type="checkbox" name="shotRecordsIds" th:value="${shotRecord.id}" style="width:20px; height:20px;">
+                        </label>
+                    </td>
                     <td th:text="${shotRecord.name}"></td>
                     <td th:text="${shotRecord.date}" type="date"></td>
                 </tr>
                 <tr>
+                    <td>New shot</td>
                     <td><input th:field="${shotRecord.name}" class="form-control"></td>
                     <td><input th:field="${shotRecord.date}" type="date" class="form-control"></td>
                 </tr>
