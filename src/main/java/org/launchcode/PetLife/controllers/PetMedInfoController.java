@@ -53,7 +53,6 @@ public class PetMedInfoController {
     }
 
     @PostMapping("edit")
-
     public String processEditMedInfoForm(@ModelAttribute @Valid MedInfo newPetMedicalInfo, Errors errors, @RequestParam(required = false) Integer petId, Model model, HttpServletRequest request) {
 
         Optional<Pet> result = petRepository.findById(petId);
@@ -89,9 +88,10 @@ public class PetMedInfoController {
                 pastSurgery.setMedInfo(newPetMedicalInfo);
             }
         }
-
+        Integer oldMedInfoId = pet.getMedInfo().getId();
         pet.setMedInfo(newPetMedicalInfo);
         medInfoRepository.save(newPetMedicalInfo);
+        medInfoRepository.deleteById(oldMedInfoId);
 
         model.addAttribute("pet", pet);
 
@@ -166,7 +166,6 @@ public class PetMedInfoController {
         }
 
         if (result.isEmpty()) {
-//            model.addAttribute("title", "Invalid MedInfo Id" + medInfoId);
             model.addAttribute(new PastSurgery());
             model.addAttribute("title", "Add New Surgery Records");
             model.addAttribute("pastSurgeries", pastSurgeries);

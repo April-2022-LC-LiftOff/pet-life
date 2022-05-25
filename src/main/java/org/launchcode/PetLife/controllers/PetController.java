@@ -90,13 +90,23 @@ public class PetController {
     }
 
     @GetMapping("create")
-    public String displayCreatePetProfileForm(Model model,HttpServletRequest request) {
+    public String displayCreatePetProfileForm(Model model, HttpServletRequest request, @RequestParam(required = false) Integer petId) {
 
         this.deleteUnrelatedShotSurgery();
 
-        model.addAttribute("title", "Create a Pet Profile");
-        model.addAttribute(new Pet());
-        model.addAttribute("role", AppController.currentLoginInfo(request));
+        Optional<Pet> result = petRepository.findById(petId);
+
+        if (result.isEmpty()) {
+            model.addAttribute("title", "Create a Pet Profile");
+            model.addAttribute(new Pet());
+            model.addAttribute("role", AppController.currentLoginInfo(request));
+        } else {
+            Pet pet = result.get();
+            model.addAttribute("title", "Edit " + pet.getName() + "'s " + "Information");
+            model.addAttribute("pet", pet);
+            model.addAttribute("role", AppController.currentLoginInfo(request));
+        }
+
         return "pet/create";
 
     }
