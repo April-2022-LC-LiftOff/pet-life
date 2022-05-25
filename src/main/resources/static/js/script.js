@@ -69,10 +69,21 @@ init = () => {
 
     const title = document.getElementById("title");
     const navLinkBtn = document.getElementsByClassName("nav-link");
+    const deleteCheckbox = document.getElementsByClassName("deleteCheckbox");
+
+    const checkedOrNot = (collection) => {
+        for (let checkbox of collection) {
+            if (checkbox.checked) {
+            return true;
+            }
+        }
+        return false;
+    }
+
 
     for (let button of navLinkBtn) {
         button.addEventListener("click", () => {
-            if (title.innerHTML.includes("'s medical information") || title.innerHTML.includes("Create a Pet Profile") || title.innerHTML.includes("Delete Pet Profiles"))
+            if (title.innerHTML.includes("'s medical information") || title.innerHTML.includes("Create a Pet Profile") || checkedOrNot(deleteCheckbox))
                 if (!confirm("All unsaved changes will be gone. Are you sure you want to continue?")) {
                 event.preventDefault();
                 }
