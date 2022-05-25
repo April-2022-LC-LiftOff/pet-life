@@ -24,7 +24,6 @@ import java.util.Optional;
 
 
 
-
 @Controller
 @RequestMapping("pet")
 public class PetController {
@@ -41,9 +40,32 @@ public class PetController {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private ShotRecordRepository shotRecordRepository;
+
+    @Autowired
+    private PastSurgeryRepository pastSurgeryRepository;
+
+    private void deleteUnrelatedShotSurgery() {
+        List<ShotRecord> allShotRecords = (List<ShotRecord>) shotRecordRepository.findAll();
+        for (ShotRecord shotRecord : allShotRecords) {
+            if (shotRecord.getMedInfo() == null) {
+                shotRecordRepository.delete(shotRecord);
+            }
+        }
+        List<PastSurgery> allPastSurgeries = (List<PastSurgery>) pastSurgeryRepository.findAll();
+        for (PastSurgery pastSurgery : allPastSurgeries) {
+            if (pastSurgery.getMedInfo() == null) {
+                pastSurgeryRepository.delete(pastSurgery);
+            }
+        }
+    }
 
     @GetMapping
     public String displayAllPets(Model model, HttpServletRequest request) {
+
+        this.deleteUnrelatedShotSurgery();
+
         List<Pet> pets;
         int role = AppController.currentLoginInfo(request);
         if (role == 1) {
@@ -69,6 +91,8 @@ public class PetController {
 
     @GetMapping("create")
     public String displayCreatePetProfileForm(Model model,HttpServletRequest request) {
+
+        this.deleteUnrelatedShotSurgery();
 
         model.addAttribute("title", "Create a Pet Profile");
         model.addAttribute(new Pet());
@@ -103,6 +127,9 @@ public class PetController {
 
     @GetMapping("delete")
     public String displayDeletePetProfileForm(Model model, HttpServletRequest request) {
+
+        this.deleteUnrelatedShotSurgery();
+
         User currentUser = AppController.getCurrentUser(userRepository, request);
 
         model.addAttribute("title", "Delete Pet Profiles");

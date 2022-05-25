@@ -58,6 +58,19 @@ init = () => {
     		url,'popUpWindow','height=250,width=400,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
     }
 
+    const title = document.getElementById("title");
+    const navLinkBtn = document.getElementsByClassName("nav-link");
+
+    for (let button of navLinkBtn) {
+        button.addEventListener("click", () => {
+            if (title.innerHTML.includes("'s medical information") || title.innerHTML.includes("Create a Pet Profile") || title.innerHTML.includes("Delete Pet Profiles"))
+                if (!confirm("All unsaved changes will be gone. Are you sure you want to continue?")) {
+                event.preventDefault();
+                }
+            }
+
+        )
+    }
 
 
 

@@ -16,17 +16,17 @@
 <body>
 
 <nav class="navbar fixed-top navbar-expand-xl navbar-dark" th:fragment="navbar">
-    <a class = "navbar-brand" href="/"><img th:src="@{/images/logo.png}" width="80" height="60"></a>
+    <a class = "nav-link" href="/"><img th:src="@{/images/logo.png}" width="80" height="60"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-            <li th:unless="${role == 0}" class="nav-item"><a class="nav-link" href="/pet">All Pets</a></li>
-            <li th:if="${role == 1}" class="nav-item"><a class="nav-link" href="/pet/create">Create Pet Profile</a></li>
-            <li th:if="${role == 1}" class="nav-item"><a class="nav-link" href="/pet/delete">Delete Pet Profile</a></li>
-            <li th:if="${role == 0}" class="nav-item"><a class="nav-link" href="/login">Login</a></li>
-            <li th:if="${role == 0}" class="nav-item"><a class="nav-link" href="/register">Registration Form</a></li>
-            <li th:unless="${role == 0}" class="nav-item"><a class="nav-link" th:href="@{/logout}">Logout</a></li>
+            <li th:unless="${role == 0}" class="nav-item"><a class="nav-link" href="/pet" id="allPetBtn">All Pets</a></li>
+            <li th:if="${role == 1}" class="nav-item"><a class="nav-link" href="/pet/create" id="createPetProfileBtn">Create Pet Profile</a></li>
+            <li th:if="${role == 1}" class="nav-item"><a class="nav-link" href="/pet/delete" id="deletePetProfileBtn">Delete Pet Profile</a></li>
+            <li th:if="${role == 0}" class="nav-item"><a class="nav-link" href="/login" id="loginBtn">Login</a></li>
+            <li th:if="${role == 0}" class="nav-item"><a class="nav-link" href="/register" id="registrationFormBtn">Registration Form</a></li>
+            <li th:unless="${role == 0}" class="nav-item"><a class="nav-link" th:href="@{/logout}" id="logoutBtn">Logout</a></li>
         </ul>
     </div>
 </nav>
@@ -37,7 +37,7 @@
     <br>
     <br>
     <br>
-    <h1 th:text="${title}"></h1>
+    <h1 th:text="${title}" id="title"></h1>
 </header>
 
 <footer th:fragment="footer">
