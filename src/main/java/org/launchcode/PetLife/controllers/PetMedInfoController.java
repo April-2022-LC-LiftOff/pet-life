@@ -39,7 +39,7 @@ public class PetMedInfoController {
             model.addAttribute("title", "Invalid Pet Id" + petId);
         } else {
             Pet pet = result.get();
-            model.addAttribute("title",  "Edit " + pet.getName() + "'s medical information");
+            model.addAttribute("title",  "Edit " + pet.getName() + "'s Medical Information");
             model.addAttribute("pet", pet);
             if (pet.getMedInfo() != null) {
                 model.addAttribute("medInfo", pet.getMedInfo());
@@ -59,7 +59,7 @@ public class PetMedInfoController {
         Pet pet = result.get();
 
         if (errors.hasErrors()) {
-            model.addAttribute("title", "Edit " + pet.getName() + "'s medical information.");
+            model.addAttribute("title", "Edit " + pet.getName() + "'s Medical Information.");
             model.addAttribute("pet", pet);
             model.addAttribute("role", AppController.currentLoginInfo(request));
             return "pet/medInfo/edit";

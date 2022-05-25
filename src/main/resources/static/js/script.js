@@ -83,7 +83,7 @@ init = () => {
 
     for (let button of navLinkBtn) {
         button.addEventListener("click", () => {
-            if (title.innerHTML.includes("'s medical information") || title.innerHTML.includes("Create a Pet Profile") || checkedOrNot(deleteCheckbox))
+            if (title.innerHTML.includes("Edit ") || title.innerHTML.includes("Create a Pet Profile") || checkedOrNot(deleteCheckbox))
                 if (!confirm("All unsaved changes will be gone. Are you sure you want to continue?")) {
                 event.preventDefault();
                 }

@@ -78,7 +78,6 @@ public class PetController {
             }
         } else {
             pets = (List<Pet>) petRepository.findAll();
-//            allPets.stream().forEach(pet-> System.out.println(pet));
             model.addAttribute("pets", pets);
 
         }
@@ -93,18 +92,17 @@ public class PetController {
     public String displayCreatePetProfileForm(Model model, HttpServletRequest request, @RequestParam(required = false) Integer petId) {
 
         this.deleteUnrelatedShotSurgery();
-
-        Optional<Pet> result = petRepository.findById(petId);
-
-        if (result.isEmpty()) {
+        if (petId == null) {
             model.addAttribute("title", "Create a Pet Profile");
             model.addAttribute(new Pet());
             model.addAttribute("role", AppController.currentLoginInfo(request));
         } else {
+            Optional<Pet> result = petRepository.findById(petId);
             Pet pet = result.get();
             model.addAttribute("title", "Edit " + pet.getName() + "'s " + "Information");
             model.addAttribute("pet", pet);
             model.addAttribute("role", AppController.currentLoginInfo(request));
+
         }
 
         return "pet/create";
@@ -112,14 +110,13 @@ public class PetController {
     }
 
     @PostMapping("create")
-    public String processCreatePetProfileForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model, HttpServletRequest request) {
+    public String processCreatePetProfileForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model, HttpServletRequest request, @RequestParam(required = false) Integer petId) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Create a Pet Profile");
             model.addAttribute("role", AppController.currentLoginInfo(request));
             return "pet/create";
         }
-
 
         if (newPet.getBDate() != null) {
             newPet.setAgeYear(null);
@@ -129,9 +126,19 @@ public class PetController {
         User currentUser = AppController.getCurrentUser(userRepository, request);
         newPet.setUser(currentUser);
 
-        petRepository.save(newPet);
+        if (petId != null) {
+            Optional<Pet> result = petRepository.findById(petId);
+            Pet pet = result.get();
+            pet.updatePet(newPet);
+            petRepository.save(pet);
+            return "redirect:detail?petId=" + pet.getId();
 
-        return "redirect:";
+        } else {
+            petRepository.save(newPet);
+            return "redirect:detail?petId=" + newPet.getId();
+        }
+
+//        return "redirect:detail";
     }
 
 
@@ -169,7 +176,7 @@ public class PetController {
             model.addAttribute("title", "Invalid Pet Id" + petId);
         } else {
             Pet pet = result.get();
-            model.addAttribute("title", pet.getName() + "'s information" );
+            model.addAttribute("title", pet.getName() + "'s Information" );
             model.addAttribute("pet", pet);
         }
 
