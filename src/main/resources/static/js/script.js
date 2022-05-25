@@ -55,7 +55,16 @@ init = () => {
 
     function newPopup(url) {
     	popupWindow = window.open(
-    		url,'popUpWindow','height=250,width=400,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
+    		url,'popUpWindow','height=400,width=500,left=450,top=300,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
+    }
+
+    const closeWindowBtn = document.getElementById("btnForClosingAddingShotWindow");
+
+    if (closeWindowBtn !== null) {
+        closeWindowBtn.addEventListener("click", () => {
+            if (!confirm("Please make sure you click the save button before closing the window, otherwise all unsaved changes will be gone!")) {
+            event.preventDefault();}
+        })
     }
 
     const title = document.getElementById("title");
@@ -71,7 +80,6 @@ init = () => {
 
         )
     }
-
 
 
     const showSlides = () => {

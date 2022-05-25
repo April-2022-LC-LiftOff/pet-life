@@ -15,7 +15,8 @@
         <div class="form-group">
             <table>
                 <tr>
-                    <td>Delete</td>
+                    <td th:unless="${pastSurgeries.size() == 0}" style="text-align:center;">Delete</td>
+                    <td th:if="${pastSurgeries.size() == 0}" style="text-align:center;"></td>
                     <td>Surgery Name</td>
                     <td>Date of Surgery</td>
                 </tr>
@@ -28,13 +29,14 @@
                     <td th:text="${pastSurgery.name}"></td>
                     <td th:text="${pastSurgery.date}" type="date"></td>
                 </tr>
-                <tr>
+                <tr style="border-top: 1px solid black;">
                     <td>New surgery</td>
                     <td><input th:field="${pastSurgery.name}" class="form-control"></td>
                     <td><input th:field="${pastSurgery.date}" type="date" class="form-control"></td>
                 </tr>
             </table>
             <input type="submit" value="Save" class="btn btn-success">
+            <button type="button" onclick="window.close()" id="btnForClosingAddingShotWindow" class="btn btn-danger">Close</button>
         </div>
     </form>
 

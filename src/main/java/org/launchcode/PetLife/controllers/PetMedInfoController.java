@@ -32,7 +32,7 @@ public class PetMedInfoController {
 
 
     @GetMapping("edit")
-    public String displayEditMedInfoForm(@RequestParam int petId, Model model, HttpServletRequest request) {
+    public String displayEditMedInfoForm(@RequestParam Integer petId, Model model, HttpServletRequest request) {
         Optional<Pet> result = petRepository.findById(petId);
 
         if (result.isEmpty()) {
@@ -54,7 +54,7 @@ public class PetMedInfoController {
 
     @PostMapping("edit")
 
-    public String processEditMedInfoForm(@ModelAttribute @Valid MedInfo newPetMedicalInfo, Errors errors, @RequestParam(required = false) int petId, Model model, HttpServletRequest request) {
+    public String processEditMedInfoForm(@ModelAttribute @Valid MedInfo newPetMedicalInfo, Errors errors, @RequestParam(required = false) Integer petId, Model model, HttpServletRequest request) {
 
         Optional<Pet> result = petRepository.findById(petId);
         Pet pet = result.get();
@@ -99,7 +99,7 @@ public class PetMedInfoController {
     }
 
     @GetMapping("edit/shotRecord")
-    public String displayEditShotRecordFrom(@RequestParam(required = false) int medInfoId, Model model) {
+    public String displayEditShotRecordFrom(@RequestParam(required = false) Integer medInfoId, Model model) {
 
         Optional<MedInfo> result = medInfoRepository.findById(medInfoId);
         List<ShotRecord> allShotRecords = (List<ShotRecord>) shotRecordRepository.findAll();
@@ -132,7 +132,7 @@ public class PetMedInfoController {
     }
 
     @PostMapping("edit/shotRecord")
-    public String processEditShotRecordFrom(@ModelAttribute @Valid ShotRecord newShotRecord, Errors errors, Model model, @RequestParam(required = false) int[] shotRecordsIds) {
+    public String processEditShotRecordFrom(@ModelAttribute @Valid ShotRecord newShotRecord, Errors errors, Model model, @RequestParam(required = false) Integer[] shotRecordsIds, @RequestParam(required = false) Integer medInfoId) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Edit Shot Record");
@@ -141,7 +141,7 @@ public class PetMedInfoController {
         }
 
         if (shotRecordsIds != null) {
-            for (int id : shotRecordsIds) {
+            for (Integer id : shotRecordsIds) {
                 shotRecordRepository.deleteById(id);
             }
         }
@@ -149,12 +149,12 @@ public class PetMedInfoController {
             shotRecordRepository.save(newShotRecord);
         }
 
-        return "pet/medInfo/closeWindow";
+        return "redirect:shotRecord?medInfoId=" + medInfoId;
 
     }
 
     @GetMapping("edit/pastSurgery")
-    public String displayEditSurgeryRecordFrom(@RequestParam(required = false) int medInfoId, Model model) {
+    public String displayEditSurgeryRecordFrom(@RequestParam(required = false) Integer medInfoId, Model model) {
 
         Optional<MedInfo> result = medInfoRepository.findById(medInfoId);
         List<PastSurgery> allPastSurgeries = (List<PastSurgery>) pastSurgeryRepository.findAll();
@@ -188,7 +188,7 @@ public class PetMedInfoController {
     }
 
     @PostMapping("edit/pastSurgery")
-    public String processEditSurgeryRecordFrom(@ModelAttribute @Valid PastSurgery newPastSurgery, Errors errors, Model model, @RequestParam(required = false) int[] pastSurgeriesIds) {
+    public String processEditSurgeryRecordFrom(@ModelAttribute @Valid PastSurgery newPastSurgery, Errors errors, Model model, @RequestParam(required = false) Integer[] pastSurgeriesIds, @RequestParam(required = false) Integer medInfoId) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Edit Surgery Record");
@@ -197,7 +197,7 @@ public class PetMedInfoController {
         }
 
         if (pastSurgeriesIds != null) {
-            for (int id : pastSurgeriesIds) {
+            for (Integer id : pastSurgeriesIds) {
                 pastSurgeryRepository.deleteById(id);
             }
         }
@@ -205,7 +205,8 @@ public class PetMedInfoController {
         if (!newPastSurgery.getName().isEmpty()) {
             pastSurgeryRepository.save(newPastSurgery);
         }
-        return "pet/medInfo/closeWindow";
+
+        return "redirect:pastSurgery?medInfoId=" + medInfoId;
 
     }
 }
