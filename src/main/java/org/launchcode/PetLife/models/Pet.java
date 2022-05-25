@@ -181,7 +181,7 @@ public class Pet extends AbstractEntityNameDate {
     }
 
     public void setSpecies(String species) {
-        this.species = species;
+        this.species = species.substring(0,1).toUpperCase() + species.substring(1).toLowerCase();
     }
 
     public String getBreed() {
@@ -189,7 +189,7 @@ public class Pet extends AbstractEntityNameDate {
     }
 
     public void setBreed(String breed) {
-        this.breed = breed;
+        this.breed = breed.substring(0,1).toUpperCase() + breed.substring(1).toLowerCase();
     }
 
     public String getSex() {
@@ -222,7 +222,7 @@ public class Pet extends AbstractEntityNameDate {
     }
 
     public void setColor(String color) {
-        this.color = color;
+        this.color = color.substring(0,1).toUpperCase() + color.substring(1).toLowerCase();
     }
 
     public String getAggressive() {
