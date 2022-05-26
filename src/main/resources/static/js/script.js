@@ -63,7 +63,8 @@ init = () => {
     if (closeWindowBtn !== null) {
         closeWindowBtn.addEventListener("click", () => {
             if (!confirm("Please make sure you click the save button before closing the window, otherwise all unsaved changes will be gone!")) {
-            event.preventDefault();}
+            event.preventDefault();} else {
+            close();}
         })
     }
 

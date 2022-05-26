@@ -147,13 +147,11 @@ public class PetMedInfoController {
             }
 
             if (result.isEmpty()) {
-                model.addAttribute(new ShotRecord());
                 model.addAttribute("shotRecords", shotRecords);
             } else {
                 MedInfo medInfo = result.get();
                 shotRecords.addAll(medInfo.getShotRecords());
                 model.addAttribute("shotRecords", shotRecords);
-                model.addAttribute(new ShotRecord());
 
             }
 
@@ -217,9 +215,32 @@ public class PetMedInfoController {
     public String processEditSurgeryRecordFrom(@ModelAttribute @Valid PastSurgery newPastSurgery, Errors errors, Model model, @RequestParam(required = false) Integer[] pastSurgeriesIds, @RequestParam(required = false) Integer medInfoId) {
 
         if (errors.hasErrors()) {
-            model.addAttribute("title", "Edit Surgery Record");
-            model.addAttribute(new PastSurgery());
-            return  "pet/medInfo/pastSurgery";
+            Optional<MedInfo> result = medInfoRepository.findById(medInfoId);
+            List<PastSurgery> allPastSurgeries = (List<PastSurgery>) pastSurgeryRepository.findAll();
+            List<PastSurgery> pastSurgeries = new ArrayList<>();
+            for (PastSurgery pastSurgery : allPastSurgeries) {
+                if (pastSurgery.getMedInfo() == null) {
+                    pastSurgeries.add(pastSurgery);
+                }
+            }
+
+            if (result.isEmpty()) {
+                model.addAttribute("title", "Add New Surgery Records");
+                model.addAttribute("pastSurgeries", pastSurgeries);
+            } else {
+                MedInfo medInfo = result.get();
+                pastSurgeries.addAll(medInfo.getPastSurgeries());
+                model.addAttribute("pastSurgeries", pastSurgeries);
+            }
+
+            if (pastSurgeries.size() > 0) {
+                model.addAttribute("title", "All Surgery Records");
+            } else {
+                model.addAttribute("title", "Add New Surgery Records");
+            }
+
+            return "pet/medInfo/pastSurgery";
+
         }
 
         if (pastSurgeriesIds != null) {
