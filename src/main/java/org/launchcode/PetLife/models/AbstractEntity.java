@@ -16,7 +16,7 @@ public abstract class AbstractEntity {
         return id;
     }
 
-    public static String capitalizeFirstLetterLowerCaseOthers(String str) {
+    public String capitalizeFirstLetterLowerCaseOthers(String str) {
         if (str != null) {
             return str.substring(0,1).toUpperCase() + str.substring(1).toLowerCase();
         } else {
