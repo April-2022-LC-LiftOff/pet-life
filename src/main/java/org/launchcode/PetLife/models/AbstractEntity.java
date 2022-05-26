@@ -16,6 +16,10 @@ public abstract class AbstractEntity {
         return id;
     }
 
+    public static String capitalizeFirstLetterLowerCaseOthers(String str) {
+        return str.substring(0,1).toUpperCase() + str.substring(1).toLowerCase();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

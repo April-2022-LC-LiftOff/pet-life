@@ -30,7 +30,7 @@ public abstract class AbstractEntityNameDate extends AbstractEntity {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = capitalizeFirstLetterLowerCaseOthers(name);
     }
 
     public String getDate() {

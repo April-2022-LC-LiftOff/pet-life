@@ -9,9 +9,9 @@ import java.time.format.DateTimeFormatter;
 @Entity
 public class Pet extends AbstractEntityNameDate {
 
-    @NotBlank(message = "Name is required.")
-    @Size(min = 1, max = 50, message = "Name must be between 3 and 50 characters.")
-    private String name;
+//    @NotBlank(message = "Name is required.")
+//    @Size(min = 1, max = 50, message = "Name must be between 3 and 50 characters.")
+//    private String name;
 
     private Integer ageYear; //validator is in html
 
@@ -53,8 +53,7 @@ public class Pet extends AbstractEntityNameDate {
     @ManyToOne
     private User user;
 
-    public Pet(String name,  Integer ageYear, Integer ageMonth, String bDate, String species, String breed, String sex, Float weight, String aggressive, String venomous, String color, String behavior, User user) {
-        this.name = name;
+    public Pet(Integer ageYear, Integer ageMonth, String bDate, String species, String breed, String sex, Float weight, String aggressive, String venomous, String color, String behavior, User user) {
         this.ageYear = ageYear;
         this.ageMonth = ageMonth;
         this.bDate = LocalDate.parse(bDate);
@@ -70,8 +69,10 @@ public class Pet extends AbstractEntityNameDate {
         this.user = user;
     }
 
+    public Pet() {}
+
     public void updatePet(Pet newPet) {
-        this.name = newPet.getName();
+        this.setName(newPet.getName());
         this.ageYear = newPet.getAgeYear();
         this.ageMonth = newPet.getAgeMonth();
         this.bDate = newPet.getLocalDate();
@@ -94,8 +95,6 @@ public class Pet extends AbstractEntityNameDate {
         }
     }
 
-    public Pet() {}
-
     public User getUser() {
         return user;
     }
@@ -104,13 +103,13 @@ public class Pet extends AbstractEntityNameDate {
         this.user = user;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
-    }
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = capitalizeFirstLetterLowerCaseOthers(name);
+//    }
 
     public Integer getAgeYear() {
         return ageYear;
@@ -181,7 +180,8 @@ public class Pet extends AbstractEntityNameDate {
     }
 
     public void setSpecies(String species) {
-        this.species = species.substring(0,1).toUpperCase() + species.substring(1).toLowerCase();
+//        this.species = species.substring(0,1).toUpperCase() + species.substring(1).toLowerCase();
+        this.species = capitalizeFirstLetterLowerCaseOthers(species);
     }
 
     public String getBreed() {
@@ -189,7 +189,8 @@ public class Pet extends AbstractEntityNameDate {
     }
 
     public void setBreed(String breed) {
-        this.breed = breed.substring(0,1).toUpperCase() + breed.substring(1).toLowerCase();
+//        this.breed = breed.substring(0,1).toUpperCase() + breed.substring(1).toLowerCase();
+        this.breed = capitalizeFirstLetterLowerCaseOthers(breed);
     }
 
     public String getSex() {
@@ -222,7 +223,8 @@ public class Pet extends AbstractEntityNameDate {
     }
 
     public void setColor(String color) {
-        this.color = color.substring(0,1).toUpperCase() + color.substring(1).toLowerCase();
+//        this.color = color.substring(0,1).toUpperCase() + color.substring(1).toLowerCase();
+        this.color = capitalizeFirstLetterLowerCaseOthers(color);
     }
 
     public String getAggressive() {
