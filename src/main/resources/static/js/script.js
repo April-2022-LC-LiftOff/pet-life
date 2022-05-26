@@ -31,31 +31,94 @@ init = () => {
                })
     }
 
+    const editShotRecordsBtn = document.getElementById("editShotRecords");
+
+    if (editShotRecordsBtn !== null) {
+    editShotRecordsBtn.addEventListener("click", () => {
+            let medInfoId = editShotRecordsBtn.value;
+            let url = "http://localhost:8080/pet/medInfo/edit/shotRecord?medInfoId=" + medInfoId;
+            newPopup(url);
+
+        })
+    }
+
+    const editPastSurgeriesBtn = document.getElementById("editPastSurgeries");
+
+    if (editPastSurgeriesBtn !== null) {
+    editPastSurgeriesBtn.addEventListener("click", () => {
+            let medInfoId = editPastSurgeriesBtn.value;
+            let url = "http://localhost:8080/pet/medInfo/edit/pastSurgery?medInfoId=" + medInfoId;
+            newPopup(url);
+        })
+    }
 
 
+    function newPopup(url) {
+    	popupWindow = window.open(
+    		url,'popUpWindow','height=400,width=500,left=450,top=300,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
+    }
+
+    const closeWindowBtn = document.getElementById("btnForClosingAddingShotWindow");
+
+    if (closeWindowBtn !== null) {
+        closeWindowBtn.addEventListener("click", () => {
+            if (!confirm("Please make sure you click the save button before closing the window, otherwise all unsaved changes will be gone!")) {
+            event.preventDefault();} else {
+            close();}
+        })
+    }
+
+    const title = document.getElementById("title");
+    const navLinkBtn = document.getElementsByClassName("nav-link");
+    const deleteCheckbox = document.getElementsByClassName("deleteCheckbox");
+
+    const checkedOrNot = (collection) => {
+        for (let checkbox of collection) {
+            if (checkbox.checked) {
+            return true;
+            }
+        }
+        return false;
+    }
+
+
+    for (let button of navLinkBtn) {
+        button.addEventListener("click", () => {
+            if (title.innerHTML.includes("Edit ") || title.innerHTML.includes("Create a Pet Profile") || checkedOrNot(deleteCheckbox))
+                if (!confirm("All unsaved changes will be gone. Are you sure you want to continue?")) {
+                event.preventDefault();
+                }
+            }
+
+        )
+    }
 
 
     const showSlides = () => {
         let i;
-        let slides = document.getElementsByClassName("mySlides");
-        let dots = document.getElementsByClassName("dot");
-        for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
+        const slides = document.getElementsByClassName("mySlides");
+//        let dots = document.getElementsByClassName("dot");
+        if (slides !== null) {
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}
+//        for (i = 0; i < dots.length; i++) {
+//            dots[i].className = dots[i].className.replace(" active", "");
+//        }
+
+            slides[slideIndex-1].style.display = "block";
+//            dots[slideIndex-1].className += " active";
+            setTimeout(showSlides, 2000); // Change image every 2 seconds
         }
-        slideIndex++;
-        if (slideIndex > slides.length) {slideIndex = 1}
-        for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
-        }
-        slides[slideIndex-1].style.display = "block";
-        dots[slideIndex-1].className += " active";
-        setTimeout(showSlides, 2000); // Change image every 2 seconds
 
 
     }
 
     let slideIndex = 0;
     showSlides();
+
 
 }
 

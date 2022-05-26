@@ -4,6 +4,9 @@ package org.launchcode.PetLife.models;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 @Entity
@@ -14,24 +17,23 @@ public class MedInfo extends AbstractEntity {
     private String spayNeuter;
 
     private String chip;
+    @OneToMany
+    @JoinColumn(name = "med_info_id")
+    private List<ShotRecord> shotRecords = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @Valid
-    private ShotRecord shotRecord;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @Valid
-    private PastSurgery pastSurgery;
+    @OneToMany
+    @JoinColumn(name = "med_info_id")
+    private List<PastSurgery> pastSurgeries = new ArrayList<>();
 
     @Size(max = 500, message = "Limit up to 500 characters.")
     private String medicalNote;
 
-    public MedInfo(String currentMeds, String spayNeuter, String chip, ShotRecord shotRecord, PastSurgery pastSurgery, String medicalNote) {
+    public MedInfo(String currentMeds, String spayNeuter, String chip, List<ShotRecord> shotRecords, List<PastSurgery> pastSurgeries, String medicalNote) {
         this.currentMeds = currentMeds;
         this.spayNeuter = spayNeuter;
         this.chip = chip;
-        this.shotRecord = shotRecord;
-        this.pastSurgery = pastSurgery;
+        this.shotRecords = shotRecords;
+        this.pastSurgeries = pastSurgeries;
         this.medicalNote = medicalNote;
     }
 
@@ -54,20 +56,20 @@ public class MedInfo extends AbstractEntity {
         this.chip = chip;
     }
 
-    public ShotRecord getShotRecord() {
-        return shotRecord;
+    public List<ShotRecord> getShotRecords() {
+        return shotRecords;
     }
 
-    public void setShotRecord(ShotRecord shotRecord) {
-        this.shotRecord = shotRecord;
+    public void setShotRecords(ArrayList<ShotRecord> shotRecords) {
+        this.shotRecords = shotRecords;
     }
 
-    public PastSurgery getPastSurgery() {
-        return pastSurgery;
+    public List<PastSurgery> getPastSurgeries() {
+        return pastSurgeries;
     }
 
-    public void setPastSurgery(PastSurgery pastSurgery) {
-        this.pastSurgery = pastSurgery;
+    public void setPastSurgeries(List<PastSurgery> pastSurgeries) {
+        this.pastSurgeries = pastSurgeries;
     }
 
     public String getCurrentMeds() {

@@ -11,9 +11,10 @@ import java.util.Arrays;
 @Entity
 public class Pet extends AbstractEntityNameDate {
 
-    @NotBlank(message = "Name is required.")
-    @Size(min = 1, max = 50, message = "Name must be between 3 and 50 characters.")
-    private String name;
+//    @NotBlank(message = "Name is required.")
+//    @Size(min = 1, max = 50, message = "Name must be between 3 and 50 characters.")
+//    private String name;
+
 
 //    @Column(nullable = true, length = 64)
     @Lob
@@ -23,21 +24,12 @@ public class Pet extends AbstractEntityNameDate {
 
     private String photosImagePath;
 
+    private Integer ageYear; //validator is in html
 
-
-
-    //    @Max(value = 150, message = "Age for year should be smaller than 150.")
-//    @Min(value = 0, message = "Age for year should be greater than 0.")
-//    @NotNull(message = "Age for year is required.")
-    private Integer ageYear;
-
-//    @Max(value = 11, message = "Age for month should be smaller than 11.")
-//    @Min(value = 0, message = "Age for month should be greater than 0.")
-    private Integer ageMonth;
+    private Integer ageMonth; //validator is in html
 
     private final static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private LocalDate bDate;
-
 
     @Size(min = 1, max = 50, message = "Species must be between 1 and 50 characters.")
     @NotNull(message = "Species is required.")
@@ -91,6 +83,24 @@ public class Pet extends AbstractEntityNameDate {
         this.user = user;
     }
 
+    public Pet() {}
+
+    public void updatePet(Pet newPet) {
+        this.setName(newPet.getName());
+        this.ageYear = newPet.getAgeYear();
+        this.ageMonth = newPet.getAgeMonth();
+        this.bDate = newPet.getLocalDate();
+        this.species = newPet.getSpecies();
+        this.breed = newPet.getBreed();
+        this.sex = newPet.getSex();
+        this.weightUnit = newPet.getWeightUnit();
+        this.weight = newPet.getWeight();
+        this.aggressive = newPet.getAggressive();
+        this.venomous = newPet.getVenomous();
+        this.color = newPet.getColor();
+        this.behavior = newPet.getBehavior();
+    }
+
     public float weightConversion () {
         if (this.weightUnit.equals("Pound")) {
             return Math.round(this.weight * 0.454 * 10) / 10;
@@ -98,8 +108,6 @@ public class Pet extends AbstractEntityNameDate {
             return Math.round(this.weight * 2.2 * 10) / 10;
         }
     }
-
-    public Pet() {}
 
     public void setPhotosImagePath(String photosImagePath) {
         this.photosImagePath = photosImagePath;
@@ -124,13 +132,13 @@ public class Pet extends AbstractEntityNameDate {
         this.user = user;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = capitalizeFirstLetterLowerCaseOthers(name);
+//    }
 
     public Integer getAgeYear() {
         return ageYear;
@@ -201,7 +209,8 @@ public class Pet extends AbstractEntityNameDate {
     }
 
     public void setSpecies(String species) {
-        this.species = species;
+//        this.species = species.substring(0,1).toUpperCase() + species.substring(1).toLowerCase();
+        this.species = capitalizeFirstLetterLowerCaseOthers(species);
     }
 
     public String getBreed() {
@@ -209,7 +218,8 @@ public class Pet extends AbstractEntityNameDate {
     }
 
     public void setBreed(String breed) {
-        this.breed = breed;
+//        this.breed = breed.substring(0,1).toUpperCase() + breed.substring(1).toLowerCase();
+        this.breed = capitalizeFirstLetterLowerCaseOthers(breed);
     }
 
     public String getSex() {
@@ -242,7 +252,8 @@ public class Pet extends AbstractEntityNameDate {
     }
 
     public void setColor(String color) {
-        this.color = color;
+//        this.color = color.substring(0,1).toUpperCase() + color.substring(1).toLowerCase();
+        this.color = capitalizeFirstLetterLowerCaseOthers(color);
     }
 
     public String getAggressive() {
