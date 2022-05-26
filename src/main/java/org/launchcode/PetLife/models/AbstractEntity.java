@@ -17,7 +17,11 @@ public abstract class AbstractEntity {
     }
 
     public static String capitalizeFirstLetterLowerCaseOthers(String str) {
-        return str.substring(0,1).toUpperCase() + str.substring(1).toLowerCase();
+        if (str != null) {
+            return str.substring(0,1).toUpperCase() + str.substring(1).toLowerCase();
+        } else {
+            return null;
+        }
     }
 
     @Override

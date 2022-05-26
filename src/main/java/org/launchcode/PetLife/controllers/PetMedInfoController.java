@@ -104,6 +104,7 @@ public class PetMedInfoController {
         Optional<MedInfo> result = medInfoRepository.findById(medInfoId);
         List<ShotRecord> allShotRecords = (List<ShotRecord>) shotRecordRepository.findAll();
         List<ShotRecord> shotRecords = new ArrayList<>();
+
         for (ShotRecord shotRecord : allShotRecords) {
             if (shotRecord.getMedInfo() == null) {
                 shotRecords.add(shotRecord);
@@ -135,9 +136,34 @@ public class PetMedInfoController {
     public String processEditShotRecordFrom(@ModelAttribute @Valid ShotRecord newShotRecord, Errors errors, Model model, @RequestParam(required = false) Integer[] shotRecordsIds, @RequestParam(required = false) Integer medInfoId) {
 
         if (errors.hasErrors()) {
-            model.addAttribute("title", "Edit Shot Record");
-            model.addAttribute(new ShotRecord());
-            return  "pet/medInfo/shotRecord";
+            Optional<MedInfo> result = medInfoRepository.findById(medInfoId);
+            List<ShotRecord> allShotRecords = (List<ShotRecord>) shotRecordRepository.findAll();
+            List<ShotRecord> shotRecords = new ArrayList<>();
+
+            for (ShotRecord shotRecord : allShotRecords) {
+                if (shotRecord.getMedInfo() == null) {
+                    shotRecords.add(shotRecord);
+                }
+            }
+
+            if (result.isEmpty()) {
+                model.addAttribute(new ShotRecord());
+                model.addAttribute("shotRecords", shotRecords);
+            } else {
+                MedInfo medInfo = result.get();
+                shotRecords.addAll(medInfo.getShotRecords());
+                model.addAttribute("shotRecords", shotRecords);
+                model.addAttribute(new ShotRecord());
+
+            }
+
+            if (shotRecords.size() > 0) {
+                model.addAttribute("title", "All Shot Records");
+            } else {
+                model.addAttribute("title", "Add New Shot Records");
+            }
+
+            return "pet/medInfo/shotRecord";
         }
 
         if (shotRecordsIds != null) {
@@ -145,7 +171,8 @@ public class PetMedInfoController {
                 shotRecordRepository.deleteById(id);
             }
         }
-        if (!newShotRecord.getName().isEmpty()) {
+
+        if (newShotRecord.getName() != null) {
             shotRecordRepository.save(newShotRecord);
         }
 
@@ -201,7 +228,7 @@ public class PetMedInfoController {
             }
         }
 
-        if (!newPastSurgery.getName().isEmpty()) {
+        if (newPastSurgery.getName() != null) {
             pastSurgeryRepository.save(newPastSurgery);
         }
 

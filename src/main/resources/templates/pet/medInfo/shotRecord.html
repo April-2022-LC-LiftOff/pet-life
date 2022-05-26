@@ -35,6 +35,7 @@
                     <td><input th:field="${shotRecord.date}" type="date" class="form-control"></td>
                 </tr>
             </table>
+            <p class="error" th:errors="${shotRecord.name}"></p>
             <input type="submit" value="Save" class="btn btn-success">
             <button type="button" onclick="window.close()" id="btnForClosingAddingShotWindow" class="btn btn-danger">Close</button>
         </div>

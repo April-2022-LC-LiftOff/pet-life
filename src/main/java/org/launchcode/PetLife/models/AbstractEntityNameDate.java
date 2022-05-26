@@ -18,8 +18,8 @@ public abstract class AbstractEntityNameDate extends AbstractEntity {
     private final static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private LocalDate date;
 
-    public AbstractEntityNameDate(@Size(min = 2, max = 30, message = "Name must be between 2 to 30 characters.") String name, String date) {
-        this.name = name;
+    public AbstractEntityNameDate(@Size(max = 30, message = "Name must contain less than 30 characters.") String name, String date) {
+        this.name = capitalizeFirstLetterLowerCaseOthers(name);
         this.date = LocalDate.parse(date);
     }
 
