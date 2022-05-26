@@ -114,8 +114,8 @@ public class PetController {
         Pet savedImage = petRepository.save(newPet);
 
 
-        String uploadDir = "pet-photos/" + savedImage.getId()+ "/";
-        savedImage.setPhotosImagePath(uploadDir + fileName);
+        String uploadDir = "src/main/resources/static/images/pet-photos/" + savedImage.getId()+ "/";
+        savedImage.setPhotosImagePath(uploadDir.replaceAll("src/main/resources/static", "") + fileName);
         savedImage = petRepository.save(savedImage);
         System.out.println(uploadDir + fileName);
         FileUploadUtil.saveFile(uploadDir, fileName, byteObjects);

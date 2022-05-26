@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 @Entity
 public class Pet extends AbstractEntityNameDate {
@@ -276,4 +277,11 @@ public class Pet extends AbstractEntityNameDate {
         this.medInfo = medInfo;
     }
 
+    @Override
+    public String toString() {
+        return "Pet{" +
+                "photos=" + Arrays.toString(photos) +
+                ", photosImagePath='" + photosImagePath + '\'' +
+                '}';
+    }
 }
