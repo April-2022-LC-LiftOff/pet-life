@@ -10,25 +10,34 @@
 <div class="container">
 
 <!--    <header th:replace="fragments :: header"></header>-->
+    <h3 th:text="${title}"></h3>
     <form method = "post">
         <div class="form-group">
             <table>
                 <tr>
+                    <td th:unless="${shotRecords.size() == 0}" style="text-align:center;">Delete</td>
+                    <td th:if="${shotRecords.size() == 0}" style="text-align:center;"></td>
                     <td>Shot Name</td>
                     <td>Date Received</td>
                 </tr>
                 <tr th:unless="${shotRecords.size() == 0}" th:each="shotRecord : ${shotRecords}">
+                    <td style="text-align:center;">
+                        <label>
+                            <input type="checkbox" name="shotRecordsIds" th:value="${shotRecord.id}" style="width:20px; height:20px;">
+                        </label>
+                    </td>
                     <td th:text="${shotRecord.name}"></td>
                     <td th:text="${shotRecord.date}" type="date"></td>
                 </tr>
-                <tr>
+                <tr style="border-top: 1px solid black;">
+                    <td>New shot</td>
                     <td><input th:field="${shotRecord.name}" class="form-control"></td>
                     <td><input th:field="${shotRecord.date}" type="date" class="form-control"></td>
                 </tr>
             </table>
-<!--            <p th:error="${shotRecord.name}" class="error"></p>-->
-<!--            <p th:error="${shotRecord.date}" class="error"></p>-->
+            <p class="error" th:errors="${shotRecord.name}"></p>
             <input type="submit" value="Save" class="btn btn-success">
+            <button type="button" id="btnForClosingAddingShotWindow" class="btn btn-danger">Close</button>
         </div>
     </form>
 

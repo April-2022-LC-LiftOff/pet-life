@@ -11,11 +11,7 @@
 
     <header th:replace="fragments :: header"></header>
 
-
-
-
-
-
+    <a th:href="'/pet/create?petId=' + ${pet.id}">Edit information</a>
     <table class="table table-striped">
         <tr>
             <th>Reference ID</th>
@@ -82,7 +78,7 @@
 
     <h3>Medical information</h3>
     <span>
-        <a th:unless="${pet.medInfo == null}" th:href="'/pet/medInfo/edit?petId=' + ${pet.id}">Edit information</a>
+        <a th:unless="${pet.medInfo == null}" th:href="'/pet/medInfo/edit?petId=' + ${pet.id}">Edit medical information</a>
         <a th:if="${pet.medInfo == null}" th:href="'/pet/medInfo/edit?petId=' + ${pet.id}">There is no medical information created. Click here to add!</a></td>
     </span>
 
@@ -97,24 +93,20 @@
                 <td th:text="${pet.medInfo.spayNeuter}"></td>
             </tr>
             <tr>
-                <th>Microshipped</th>
+                <th>Microchipped</th>
                 <td th:text="${pet.medInfo.chip}"></td>
             </tr>
 
             <tr th:each="shotRecord : ${pet.medInfo.shotRecords}">
                 <th th:if="${pet.medInfo.shotRecords.indexOf(shotRecord) == 0}">Shot Records</th>
                 <th th:unless="${pet.medInfo.shotRecords.indexOf(shotRecord) == 0}"></th>
-<!--                <td th:if="${shotRecord.date.length() > 0}" th:text="${shotRecord.name + ' on ' + shotRecord.date}"></td>-->
                 <td th:unless="${shotRecord.date == null}" th:text="${shotRecord.name + ' on ' + shotRecord.date}"></td>
-<!--                <td th:unless="${shotRecord.date.length() > 0}" th:text="${shotRecord.name}"></td>-->
                 <td th:if="${shotRecord.date == null}" th:text="${shotRecord.name}"></td>
             </tr>
 
             <tr th:each="pastSurgery : ${pet.medInfo.pastSurgeries}">
                 <th th:if="${pet.medInfo.pastSurgeries.indexOf(pastSurgery) == 0}">Past Surgeries</th>
                 <th th:unless="${pet.medInfo.pastSurgeries.indexOf(pastSurgery) == 0}"></th>
-<!--                <td th:if="${pastSurgery.date.length() > 0}" th:text="${pastSurgery.name + ' on ' + pastSurgery.date}"></td>-->
-<!--                <td th:unless="${pastSurgery.date.length() > 0}" th:text="${pastSurgery.name}"></td>-->
                 <td th:unless="${pastSurgery.date == null}" th:text="${pastSurgery.name + ' on ' + pastSurgery.date}"></td>
                 <td th:if="${pastSurgery.date == null}" th:text="${pastSurgery.name}"></td>
             </tr>

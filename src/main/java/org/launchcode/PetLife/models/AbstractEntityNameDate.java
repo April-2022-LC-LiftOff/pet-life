@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @MappedSuperclass
-public class AbstractEntityNameDate extends AbstractEntity{
+public abstract class AbstractEntityNameDate extends AbstractEntity {
 
     @Size(max = 30, message = "Name must contain less than 30 characters.")
     private String name;
@@ -18,8 +18,8 @@ public class AbstractEntityNameDate extends AbstractEntity{
     private final static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private LocalDate date;
 
-    public AbstractEntityNameDate(@Size(min = 2, max = 30, message = "Name must be between 2 to 30 characters.") String name, String date) {
-        this.name = name;
+    public AbstractEntityNameDate(@Size(max = 30, message = "Name must contain less than 30 characters.") String name, String date) {
+        this.name = capitalizeFirstLetterLowerCaseOthers(name);
         this.date = LocalDate.parse(date);
     }
 
@@ -30,7 +30,7 @@ public class AbstractEntityNameDate extends AbstractEntity{
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = capitalizeFirstLetterLowerCaseOthers(name);
     }
 
     public String getDate() {

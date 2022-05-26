@@ -55,10 +55,43 @@ init = () => {
 
     function newPopup(url) {
     	popupWindow = window.open(
-    		url,'popUpWindow','height=250,width=400,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
+    		url,'popUpWindow','height=400,width=500,left=450,top=300,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
+    }
+
+    const closeWindowBtn = document.getElementById("btnForClosingAddingShotWindow");
+
+    if (closeWindowBtn !== null) {
+        closeWindowBtn.addEventListener("click", () => {
+            if (!confirm("Please make sure you click the save button before closing the window, otherwise all unsaved changes will be gone!")) {
+            event.preventDefault();} else {
+            close();}
+        })
+    }
+
+    const title = document.getElementById("title");
+    const navLinkBtn = document.getElementsByClassName("nav-link");
+    const deleteCheckbox = document.getElementsByClassName("deleteCheckbox");
+
+    const checkedOrNot = (collection) => {
+        for (let checkbox of collection) {
+            if (checkbox.checked) {
+            return true;
+            }
+        }
+        return false;
     }
 
 
+    for (let button of navLinkBtn) {
+        button.addEventListener("click", () => {
+            if (title.innerHTML.includes("Edit ") || title.innerHTML.includes("Create a Pet Profile") || checkedOrNot(deleteCheckbox))
+                if (!confirm("All unsaved changes will be gone. Are you sure you want to continue?")) {
+                event.preventDefault();
+                }
+            }
+
+        )
+    }
 
 
     const showSlides = () => {
