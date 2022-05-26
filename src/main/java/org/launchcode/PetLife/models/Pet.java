@@ -64,8 +64,8 @@ public class Pet extends AbstractEntityNameDate {
     @ManyToOne
     private User user;
 
-    public Pet(String name, byte [] photos, String photosImagePath, Integer ageYear, Integer ageMonth, String bDate, String species, String breed, String sex, Float weight, String aggressive, String venomous, String color, String behavior, User user) {
-        this.name = name;
+    public Pet( byte [] photos, String photosImagePath, Integer ageYear, Integer ageMonth, String bDate, String species, String breed, String sex, Float weight, String aggressive, String venomous, String color, String behavior, User user) {
+
         this.photos = photos;
         this.photosImagePath =photosImagePath;
         this.ageYear = ageYear;

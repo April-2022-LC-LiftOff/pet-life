@@ -33,8 +33,8 @@ public class PetController {
     @Autowired
     private PetRepository petRepository;
 
-    @Autowired
-    private PetMedInfoRepository petMedInfoRepository;
+//    @Autowired
+//    private PetMedInfoRepository petMedInfoRepository;
 
     @Autowired
     private UserRepository userRepository;
