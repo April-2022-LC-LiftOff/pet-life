@@ -62,52 +62,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             auth.authenticationProvider(authenticationProvider());
         }
 
-//
-//    @Bean
-//    public HttpFirewall looseHttpFirewall() {
-//        StrictHttpFirewall firewall = new StrictHttpFirewall();
-//        firewall.setAllowedHttpMethods(Arrays.asList("GET", "POST"));
-//        firewall.setAllowSemicolon(true);
-//        firewall.setAllowUrlEncodedSlash(true);
-//        firewall.setAllowBackSlash(true);
-//        firewall.setAllowUrlEncodedPercent(true);
-//        firewall.setAllowUrlEncodedPeriod(true);
-//        return firewall;
-//    }
-
-
-//    @Bean
-//    HttpFirewall httpFirewall() {
-//        StrictHttpFirewall firewall = new StrictHttpFirewall();
-//        firewall.setAllowUrlEncodedDoubleSlash(true);
-//        return firewall;
-//    }
-//@Override
-//    private void rejectedBlacklistedUrls(HttpServletRequest request) {
-//        for (String forbidden : this.encodedUrlBlacklist) {            //If there is a blacklist symbol in the url, report an exception
-//            if (encodedUrlContains(request, forbidden)) {
-//                throw new RequestRejectedException("The request was rejected because the URL contained a potentially malicious String \"" + forbidden + "\"");
-//            }
-//        }
-//        for (String forbidden : this.decodedUrlBlacklist) {
-//            if (decodedUrlContains(request, forbidden)) {
-//                throw new RequestRejectedException("The request was rejected because the URL contained a potentially malicious String \"" + forbidden + "\"");
-//            }
-//        }
-//    }
-//
-//    @Bean
-//    public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
-//        StrictHttpFirewall firewall = new StrictHttpFirewall();
-//        firewall.setAllowUrlEncodedSlash(true);
-//        firewall.setAllowUrlEncodedDoubleSlash(true);
-//        return firewall;
-//    }
-//
-//    @Override
-//    public void configure(WebSecurity web) {
-//        web.httpFirewall(allowUrlEncodedSlashHttpFirewall());
-//    }
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
@@ -119,6 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .anyRequest().permitAll()
                     .and()
                     .formLogin()
+                        .loginPage("/login")
                     .usernameParameter("email")
                     .defaultSuccessUrl("/pet")
                     .permitAll()
