@@ -11,11 +11,7 @@
 
     <header th:replace="fragments :: header"></header>
 
-
-
-
-
-
+    <a th:href="'/pet/create?petId=' + ${pet.id}">Edit information</a>
     <table class="table table-striped">
         <tr>
             <th>Reference ID</th>
@@ -65,8 +61,8 @@
 
         <tr>
             <th>Weight</th>
-            <td th:text="${pet.weight + ' lbs (' + pet.weightConversion + ' kgs)'}" th:if="${pet.weightUnit.equals('Pound')}"></td>
-            <td th:text="${pet.weight + ' kgs (' + pet.weightConversion + ' lbs)'}" th:if="${pet.weightUnit.equals('Kilogram')}"></td>
+            <td th:text="${pet.weight + ' lbs (' + pet.weightConversion() + ' kgs)'}" th:if="${pet.weightUnit.equals('Pound')}"></td>
+            <td th:text="${pet.weight + ' kgs (' + pet.weightConversion() + ' lbs)'}" th:if="${pet.weightUnit.equals('Kilogram')}"></td>
         </tr>
 
         <tr>
@@ -82,7 +78,7 @@
 
     <h3>Medical information</h3>
     <span>
-        <a th:unless="${pet.medInfo == null}" th:href="'/pet/medInfo/edit?petId=' + ${pet.id}">Edit information</a>
+        <a th:unless="${pet.medInfo == null}" th:href="'/pet/medInfo/edit?petId=' + ${pet.id}">Edit medical information</a>
         <a th:if="${pet.medInfo == null}" th:href="'/pet/medInfo/edit?petId=' + ${pet.id}">There is no medical information created. Click here to add!</a></td>
     </span>
 
@@ -97,19 +93,24 @@
                 <td th:text="${pet.medInfo.spayNeuter}"></td>
             </tr>
             <tr>
-                <th>Microshipped</th>
+                <th>Microchipped</th>
                 <td th:text="${pet.medInfo.chip}"></td>
             </tr>
-            <tr>
-                <th>Shot Records</th>
-                <td th:unless="${pet.medInfo.shotRecord.date == null}" th:text="${pet.medInfo.shotRecord.name + ' on ' + pet.medInfo.shotRecord.date}"></td>
-                <td th:if="${pet.medInfo.shotRecord.date == null}" th:text="${pet.medInfo.shotRecord.name}"></td>
+
+            <tr th:each="shotRecord : ${pet.medInfo.shotRecords}">
+                <th th:if="${pet.medInfo.shotRecords.indexOf(shotRecord) == 0}">Shot Records</th>
+                <th th:unless="${pet.medInfo.shotRecords.indexOf(shotRecord) == 0}"></th>
+                <td th:unless="${shotRecord.date == null}" th:text="${shotRecord.name + ' on ' + shotRecord.date}"></td>
+                <td th:if="${shotRecord.date == null}" th:text="${shotRecord.name}"></td>
             </tr>
-            <tr>
-                <th>Past Surgeries</th>
-                <td th:unless="${pet.medInfo.pastSurgery.date == null}" th:text="${pet.medInfo.pastSurgery.name + ' on ' + pet.medInfo.pastSurgery.date}"></td>
-                <td th:if="${pet.medInfo.pastSurgery.date == null}" th:text="${pet.medInfo.pastSurgery.name}"></td>
+
+            <tr th:each="pastSurgery : ${pet.medInfo.pastSurgeries}">
+                <th th:if="${pet.medInfo.pastSurgeries.indexOf(pastSurgery) == 0}">Past Surgeries</th>
+                <th th:unless="${pet.medInfo.pastSurgeries.indexOf(pastSurgery) == 0}"></th>
+                <td th:unless="${pastSurgery.date == null}" th:text="${pastSurgery.name + ' on ' + pastSurgery.date}"></td>
+                <td th:if="${pastSurgery.date == null}" th:text="${pastSurgery.name}"></td>
             </tr>
+
             <tr>
                 <th>Medical Note</th>
                 <td th:text="${pet.medInfo.medicalNote}"></td>

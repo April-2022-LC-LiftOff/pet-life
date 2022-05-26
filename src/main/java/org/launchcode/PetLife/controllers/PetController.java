@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 
-
 @Controller
 @RequestMapping("pet")
 public class PetController {
@@ -34,7 +33,7 @@ public class PetController {
     private PetRepository petRepository;
 
     @Autowired
-    private PetMedInfoRepository petMedInfoRepository;
+    private MedInfoRepository medInfoRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -42,9 +41,32 @@ public class PetController {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private ShotRecordRepository shotRecordRepository;
+
+    @Autowired
+    private PastSurgeryRepository pastSurgeryRepository;
+
+    private void deleteUnrelatedShotSurgery() {
+        List<ShotRecord> allShotRecords = (List<ShotRecord>) shotRecordRepository.findAll();
+        for (ShotRecord shotRecord : allShotRecords) {
+            if (shotRecord.getMedInfo() == null) {
+                shotRecordRepository.delete(shotRecord);
+            }
+        }
+        List<PastSurgery> allPastSurgeries = (List<PastSurgery>) pastSurgeryRepository.findAll();
+        for (PastSurgery pastSurgery : allPastSurgeries) {
+            if (pastSurgery.getMedInfo() == null) {
+                pastSurgeryRepository.delete(pastSurgery);
+            }
+        }
+    }
 
     @GetMapping
     public String displayAllPets(Model model, HttpServletRequest request) {
+
+        this.deleteUnrelatedShotSurgery();
+
         List<Pet> pets;
         int role = AppController.currentLoginInfo(request);
         if (role == 1) {
@@ -57,7 +79,6 @@ public class PetController {
             }
         } else {
             pets = (List<Pet>) petRepository.findAll();
-            pets.stream().forEach(pet-> System.out.println(pet));
             model.addAttribute("pets", pets);
 
         }
@@ -69,11 +90,21 @@ public class PetController {
     }
 
     @GetMapping("create")
-    public String displayCreatePetProfileForm(Model model,HttpServletRequest request) {
+    public String displayCreatePetProfileForm(Model model, HttpServletRequest request, @RequestParam(required = false) Integer petId) {
 
-        model.addAttribute("title", "Create a Pet Profile");
-        model.addAttribute(new Pet());
-        model.addAttribute("role", AppController.currentLoginInfo(request));
+        this.deleteUnrelatedShotSurgery();
+        if (petId == null) {
+            model.addAttribute("title", "Create a Pet Profile");
+            model.addAttribute(new Pet());
+            model.addAttribute("role", AppController.currentLoginInfo(request));
+        } else {
+            Optional<Pet> result = petRepository.findById(petId);
+            Pet pet = result.get();
+            model.addAttribute("title", "Edit " + pet.getName() + "'s " + "Information");
+            model.addAttribute("pet", pet);
+            model.addAttribute("role", AppController.currentLoginInfo(request));
+
+        }
 
         return "pet/create";
 
@@ -81,14 +112,13 @@ public class PetController {
 
     @PostMapping("create")
     public String processCreatePetProfileForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model, HttpServletRequest request,
-                                              @RequestParam("image") MultipartFile multipartFile) throws IOException {
+                                              @RequestParam("image") MultipartFile multipartFile, @RequestParam(required = false) Integer petId) throws IOException {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Create a Pet Profile");
             model.addAttribute("role", AppController.currentLoginInfo(request));
             return "pet/create";
         }
-
 
         if (newPet.getBDate() != null) {
             newPet.setAgeYear(null);
@@ -122,16 +152,25 @@ public class PetController {
 
 //        return new RedirectView("pet/index", true);
 
+        if (petId != null) {
+            Optional<Pet> result = petRepository.findById(petId);
+            Pet pet = result.get();
+            pet.updatePet(newPet);
+            petRepository.save(pet);
+            return "redirect:detail?petId=" + pet.getId();
+        } else {
+            petRepository.save(newPet);
+            return "redirect:detail?petId=" + newPet.getId();
+        }
 
-
-//        petRepository.save(newPet);
-
-        return "redirect:";
     }
 
 
     @GetMapping("delete")
     public String displayDeletePetProfileForm(Model model, HttpServletRequest request) {
+
+        this.deleteUnrelatedShotSurgery();
+
         User currentUser = AppController.getCurrentUser(userRepository, request);
 
         model.addAttribute("title", "Delete Pet Profiles");
@@ -161,7 +200,7 @@ public class PetController {
             model.addAttribute("title", "Invalid Pet Id" + petId);
         } else {
             Pet pet = result.get();
-            model.addAttribute("title", pet.getName() + "'s information" );
+            model.addAttribute("title", pet.getName() + "'s Information" );
             model.addAttribute("pet", pet);
         }
 

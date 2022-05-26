@@ -26,7 +26,7 @@
         <tr th:each="pet : ${pets}">
             <td style="width:5%; text-align:center;">
                 <label>
-                    <input type="checkbox" name="petIds" th:value="${pet.id}" style="width:20px; height:20px;">
+                    <input type="checkbox" name="petIds" th:value="${pet.id}" style="width:20px; height:20px;" class="deleteCheckbox">
                 </label>
             </td>
             <td><a th:href="'/pet/detail?petId=' + ${pet.id}" th:text="${pet.name}"></a></td>
