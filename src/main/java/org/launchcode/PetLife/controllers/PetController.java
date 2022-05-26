@@ -81,7 +81,7 @@ public class PetController {
 
     @PostMapping("create")
     public String processCreatePetProfileForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model, HttpServletRequest request,
-                                              @RequestParam("image") MultipartFile multipartFile) throws IOException {
+                                              @RequestParam("image") MultipartFile multipartFile ) throws IOException {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Create a Pet Profile");
@@ -98,33 +98,34 @@ public class PetController {
         User currentUser = AppController.getCurrentUser(userRepository, request);
         newPet.setUser(currentUser);
 
-        byte[] byteObjects = new byte[multipartFile.getBytes().length];
+if (multipartFile.getBytes().length == 0){
 
-        int i = 0;
+        petRepository.save(newPet);
+    }
+            else {
+    byte[] byteObjects = new byte[multipartFile.getBytes().length];
 
-        for (byte b : multipartFile.getBytes()){
-            byteObjects[i++] = b;
-        }
+    int i = 0;
 
-
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        newPet.setPhotos(byteObjects);
-
-
-        Pet savedImage = petRepository.save(newPet);
+    for (byte b : multipartFile.getBytes()) {
+        byteObjects[i++] = b;
+    }
 
 
-        String uploadDir = "src/main/resources/static/images/pet-photos/" + savedImage.getId()+ "/";
-        savedImage.setPhotosImagePath(uploadDir.replaceAll("src/main/resources/static", "") + fileName);
-        savedImage = petRepository.save(savedImage);
-        System.out.println(uploadDir + fileName);
-        FileUploadUtil.saveFile(uploadDir, fileName, byteObjects);
-
-//        return new RedirectView("pet/index", true);
+    String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+    newPet.setPhotos(byteObjects);
 
 
+    Pet savedImage = petRepository.save(newPet);
 
-//        petRepository.save(newPet);
+
+    String uploadDir = "src/main/resources/static/images/pet-photos/" + savedImage.getId() + "/";
+    savedImage.setPhotosImagePath(uploadDir.replaceAll("src/main/resources/static", "") + fileName);
+    savedImage = petRepository.save(savedImage);
+    System.out.println(uploadDir + fileName);
+    FileUploadUtil.saveFile(uploadDir, fileName, byteObjects);
+
+}
 
         return "redirect:";
     }
