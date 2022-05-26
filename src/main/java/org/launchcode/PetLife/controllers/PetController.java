@@ -99,7 +99,6 @@ public class PetController {
         newPet.setUser(currentUser);
 
 if (multipartFile.getBytes().length == 0){
-
         petRepository.save(newPet);
     }
             else {
