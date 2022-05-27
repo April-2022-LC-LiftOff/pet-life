@@ -34,9 +34,6 @@ public class PetController {
     @Autowired
     private PetRepository petRepository;
 
-//    @Autowired
-//    private PetMedInfoRepository petMedInfoRepository;
-
     @Autowired
     private UserRepository userRepository;
 
@@ -58,7 +55,6 @@ public class PetController {
             }
         } else {
             pets = (List<Pet>) petRepository.findAll();
-//            pets.stream().forEach(pet-> System.out.println(pet));
             model.addAttribute("pets", pets);
 
         }
@@ -70,10 +66,17 @@ public class PetController {
     }
 
     @GetMapping("create")
-    public String displayCreatePetProfileForm(Model model, HttpServletRequest request) {
+    public String displayCreatePetProfileForm(Model model, HttpServletRequest request, @RequestParam(required = false) Integer petId) {
+
+        if (petId != null) {
+            Optional<Pet> result = petRepository.findById(petId);
+            Pet pet = result.get();
+            model.addAttribute("pet", pet);
+        } else {
+            model.addAttribute(new Pet());
+        }
 
         model.addAttribute("title", "Create a Pet Profile");
-        model.addAttribute(new Pet());
         model.addAttribute("role", AppController.currentLoginInfo(request));
 
         return "pet/create";
@@ -81,11 +84,20 @@ public class PetController {
     }
 
     @PostMapping("create")
-    public String processCreatePetProfileForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model, HttpServletRequest request, @RequestParam("image") MultipartFile multipartFile ) throws IOException {
+    public String processCreatePetProfileForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model, HttpServletRequest request, @RequestParam("image") MultipartFile multipartFile, @RequestParam(required=false) Integer petId) throws IOException {
 
         if (errors.hasErrors()) {
+//            if (petId != null) {
+//                Optional<Pet> result = petRepository.findById(petId);
+//                Pet pet = result.get();
+//                model.addAttribute("pet", pet);
+//            } else {
+//                model.addAttribute(new Pet());
+//            }
+
             model.addAttribute("title", "Create a Pet Profile");
             model.addAttribute("role", AppController.currentLoginInfo(request));
+
             return "pet/create";
         }
 
@@ -98,8 +110,17 @@ public class PetController {
         User currentUser = AppController.getCurrentUser(userRepository, request);
         newPet.setUser(currentUser);
 
+
+
         if (multipartFile.getBytes().length == 0){
-            petRepository.save(newPet);
+            if (petId != null) {
+                Optional<Pet> result = petRepository.findById(petId);
+                Pet pet = result.get();
+                pet.updatePet(newPet);
+                petRepository.save(pet);
+            } else {
+                petRepository.save(newPet);
+            }
         } else {
             byte[] byteObjects = new byte[multipartFile.getBytes().length];
 
@@ -111,14 +132,23 @@ public class PetController {
 
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             newPet.setPhotos(byteObjects);
+            String uploadDir = "";
+            if (petId != null) {
+                Optional<Pet> result = petRepository.findById(petId);
+                Pet pet = result.get();
+                uploadDir = "src/main/resources/static/images/pet-photos/" + pet.getId() + "/";
+                newPet.setPhotosImagePath(uploadDir.replaceAll("src/main/resources/static", "") + fileName);
+                pet.updatePet(newPet);
+                petRepository.save(pet);
 
+            } else {
 
-            Pet savedImage = petRepository.save(newPet);
-
-
-            String uploadDir = "src/main/resources/static/images/pet-photos/" + savedImage.getId() + "/";
-            savedImage.setPhotosImagePath(uploadDir.replaceAll("src/main/resources/static", "") + fileName);
-            petRepository.save(savedImage);
+                Pet savedImage = petRepository.save(newPet);
+                uploadDir = "src/main/resources/static/images/pet-photos/" + savedImage.getId() + "/";
+                newPet.setPhotosImagePath(uploadDir.replaceAll("src/main/resources/static", "") + fileName);
+                petRepository.save(savedImage);
+            }
+//            petRepository.save(savedImage);
 //            System.out.println(uploadDir + fileName);
             FileUploadUtil.saveFile(uploadDir, fileName, byteObjects);
 

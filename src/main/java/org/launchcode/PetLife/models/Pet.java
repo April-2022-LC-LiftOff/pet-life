@@ -11,12 +11,6 @@ import java.util.Arrays;
 @Entity
 public class Pet extends AbstractEntityNameDate {
 
-//    @NotBlank(message = "Name is required.")
-//    @Size(min = 1, max = 50, message = "Name must be between 3 and 50 characters.")
-//    private String name;
-
-
-//    @Column(nullable = true, length = 64)
     @Lob
     @Column(name = "photos", columnDefinition="LONGBLOB")
     private byte[] photos;
@@ -85,6 +79,8 @@ public class Pet extends AbstractEntityNameDate {
     public Pet() {}
 
     public void updatePet(Pet newPet) {
+        this.photos = newPet.getPhotos();
+        this.photosImagePath =newPet.getPhotosImagePath();
         this.setName(newPet.getName());
         this.ageYear = newPet.getAgeYear();
         this.ageMonth = newPet.getAgeMonth();
