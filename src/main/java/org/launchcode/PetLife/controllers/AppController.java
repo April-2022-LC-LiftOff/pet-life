@@ -44,15 +44,16 @@ public class AppController {
     }
 
     @GetMapping("/login")
-    public String viewHomePage() {
+    public String viewHomePage(Model model, HttpServletRequest request) {
+        model.addAttribute("role", AppController.currentLoginInfo(request));
         return "login";
     }
 
 
     @GetMapping("/register")
-    public String showRegistrationForm(Model model) {
+    public String showRegistrationForm(Model model, HttpServletRequest request) {
         model.addAttribute("user", new User());
-
+        model.addAttribute("role", AppController.currentLoginInfo(request));
         return "register";
 
     }

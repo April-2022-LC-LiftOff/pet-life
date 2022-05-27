@@ -133,6 +133,7 @@ public class PetController {
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             newPet.setPhotos(byteObjects);
             String uploadDir = "";
+
             if (petId != null) {
                 Optional<Pet> result = petRepository.findById(petId);
                 Pet pet = result.get();
