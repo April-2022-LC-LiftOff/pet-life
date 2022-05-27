@@ -1,16 +1,12 @@
 package org.launchcode.PetLife.controllers;
 
 
-import org.launchcode.PetLife.models.PastSurgery;
-import org.launchcode.PetLife.models.ShotRecord;
-import org.launchcode.PetLife.models.data.PastSurgeryRepository;
-import org.launchcode.PetLife.models.data.ShotRecordRepository;
+import org.launchcode.PetLife.models.*;
+import org.launchcode.PetLife.models.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
