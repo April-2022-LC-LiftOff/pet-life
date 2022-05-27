@@ -32,6 +32,12 @@ public class PetController {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private ShotRecordRepository shotRecordRepository;
+
+    @Autowired
+    private PastSurgeryRepository pastSurgeryRepository;
+
 
     @GetMapping
     public String displayAllPets(Model model, HttpServletRequest request) {
@@ -172,6 +178,16 @@ public class PetController {
                 File folder = new File("src/main/resources/static/images/pet-photos/" + id);
                 file.delete();
                 folder.delete();
+                if (pet.getMedInfo().getShotRecords() != null) {
+                    for (ShotRecord shotRecord : pet.getMedInfo().getShotRecords()) {
+                        shotRecordRepository.delete(shotRecord);
+                    }
+                }
+                if (pet.getMedInfo().getPastSurgeries() != null) {
+                    for (PastSurgery pastSurgery : pet.getMedInfo().getPastSurgeries()) {
+                        pastSurgeryRepository.delete(pastSurgery);
+                    }
+                }
                 petRepository.deleteById(id);
 
             }

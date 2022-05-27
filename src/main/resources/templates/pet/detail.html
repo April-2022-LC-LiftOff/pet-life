@@ -74,7 +74,7 @@
                         <td th:text="${pet.color}"></td>
                     </tr>
 
-                    <tr>
+                    <tr th:unless="${pet.behavior.isEmpty()}">
                         <th>Pet Behavior or Temperaments</th>
                         <td th:text="${pet.behavior}"></td>
                     </tr>
