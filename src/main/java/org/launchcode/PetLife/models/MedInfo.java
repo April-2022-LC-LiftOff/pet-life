@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 public class MedInfo extends AbstractEntity {
 
+    @Size(max = 500, message = "Limit up to 500 characters.")
     private String currentMeds;
 
     private String spayNeuter;

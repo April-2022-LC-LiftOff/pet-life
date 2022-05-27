@@ -2,16 +2,20 @@ package org.launchcode.PetLife.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.awt.image.BufferedImage;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 @Entity
 public class Pet extends AbstractEntityNameDate {
 
-//    @NotBlank(message = "Name is required.")
-//    @Size(min = 1, max = 50, message = "Name must be between 3 and 50 characters.")
-//    private String name;
+    @Lob
+    @Column(name = "photos", columnDefinition="LONGBLOB")
+    private byte[] photos;
+
+    private String photosImagePath;
 
     private Integer ageYear; //validator is in html
 
@@ -53,7 +57,10 @@ public class Pet extends AbstractEntityNameDate {
     @ManyToOne
     private User user;
 
-    public Pet(Integer ageYear, Integer ageMonth, String bDate, String species, String breed, String sex, Float weight, String aggressive, String venomous, String color, String behavior, User user) {
+    public Pet( byte [] photos, String photosImagePath, Integer ageYear, Integer ageMonth, String bDate, String species, String breed, String sex, String weightUnit, Float weight, String aggressive, String venomous, String color, String behavior, User user) {
+
+        this.photos = photos;
+        this.photosImagePath =photosImagePath;
         this.ageYear = ageYear;
         this.ageMonth = ageMonth;
         this.bDate = LocalDate.parse(bDate);
@@ -72,6 +79,8 @@ public class Pet extends AbstractEntityNameDate {
     public Pet() {}
 
     public void updatePet(Pet newPet) {
+        this.photos = newPet.getPhotos();
+        this.photosImagePath =newPet.getPhotosImagePath();
         this.setName(newPet.getName());
         this.ageYear = newPet.getAgeYear();
         this.ageMonth = newPet.getAgeMonth();
@@ -93,6 +102,21 @@ public class Pet extends AbstractEntityNameDate {
         } else {
             return Math.round(this.weight * 2.2 * 10) / 10;
         }
+    }
+
+    public void setPhotosImagePath(String photosImagePath) {
+        this.photosImagePath = photosImagePath;
+    }
+
+    public String getPhotosImagePath() {
+        return this.photosImagePath;
+    }
+    public byte[] getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(byte[] photos) {
+        this.photos = photos;
     }
 
     public User getUser() {
@@ -257,5 +281,13 @@ public class Pet extends AbstractEntityNameDate {
 
     public void setMedInfo(MedInfo medInfo) {
         this.medInfo = medInfo;
+    }
+
+    @Override
+    public String toString() {
+        return "Pet{" +
+                "photos=" + Arrays.toString(photos) +
+                ", photosImagePath='" + photosImagePath + '\'' +
+                '}';
     }
 }

@@ -12,69 +12,82 @@
     <header th:replace="fragments :: header"></header>
 
     <a th:href="'/pet/create?petId=' + ${pet.id}">Edit information</a>
-    <table class="table table-striped">
-        <tr>
-            <th>Reference ID</th>
-            <td th:text="${pet.id}"></td>
-        </tr>
-        <tr>
-            <th>Name</th>
-            <td th:text="${pet.name}"></td>
-        </tr>
 
-        <tr>
-            <th>Venomous</th>
-            <td th:if="${pet.venomous == 'Yes'}" th:text="${pet.venomous}" style="color:red; font-weight:bold;"></td>
-            <td th:if="${pet.venomous == 'No'}" th:text="${pet.venomous}"></td>
-        </tr>
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <table class="table table-striped">
+                    <tr>
+                        <th>Reference ID</th>
+                        <td th:text="${pet.id}"></td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td th:text="${pet.name}"></td>
+                    </tr>
 
-        <tr>
-            <th>Aggressive</th>
-            <td th:if="${pet.aggressive == 'Yes'}" th:text="${pet.aggressive}" style="color:red; font-weight:bold;"></td>
-            <td th:if="${pet.aggressive == 'No'}" th:text="${pet.aggressive}"></td>
-        </tr>
+                    <tr>
+                        <th>Venomous</th>
+                        <td th:if="${pet.venomous == 'Yes'}" th:text="${pet.venomous}" style="color:red; font-weight:bold;"></td>
+                        <td th:if="${pet.venomous == 'No'}" th:text="${pet.venomous}"></td>
+                    </tr>
 
-        <tr  th:unless="${pet.bDate == null}">
-            <th>Birthday</th>
-            <td th:text="${pet.bDate}"></td>
-        </tr>
+                    <tr>
+                        <th>Aggressive</th>
+                        <td th:if="${pet.aggressive == 'Yes'}" th:text="${pet.aggressive}" style="color:red; font-weight:bold;"></td>
+                        <td th:if="${pet.aggressive == 'No'}" th:text="${pet.aggressive}"></td>
+                    </tr>
 
-        <tr>
-            <th>Age</th>
-            <td th:text="${pet.ageYear + 'y ' + pet.ageMonth + 'm'}"></td>
-        </tr>
+                    <tr  th:unless="${pet.bDate == null}">
+                        <th>Birthday</th>
+                        <td th:text="${pet.bDate}"></td>
+                    </tr>
 
-        <tr>
-            <th>Species</th>
-            <td th:text="${pet.species}"></td>
-        </tr>
+                    <tr>
+                        <th>Age</th>
+                        <td th:text="${pet.ageYear + 'y ' + pet.ageMonth + 'm'}"></td>
+                    </tr>
 
-        <tr>
-            <th>Breed</th>
-            <td th:text="${pet.Breed}"></td>
-        </tr>
+                    <tr>
+                        <th>Species</th>
+                        <td th:text="${pet.species}"></td>
+                    </tr>
 
-        <tr>
-            <th>Sex</th>
-            <td th:text="${pet.sex}"></td>
-        </tr>
+                    <tr>
+                        <th>Breed</th>
+                        <td th:text="${pet.Breed}"></td>
+                    </tr>
 
-        <tr>
-            <th>Weight</th>
-            <td th:text="${pet.weight + ' lbs (' + pet.weightConversion() + ' kgs)'}" th:if="${pet.weightUnit.equals('Pound')}"></td>
-            <td th:text="${pet.weight + ' kgs (' + pet.weightConversion() + ' lbs)'}" th:if="${pet.weightUnit.equals('Kilogram')}"></td>
-        </tr>
+                    <tr>
+                        <th>Sex</th>
+                        <td th:text="${pet.sex}"></td>
+                    </tr>
 
-        <tr>
-            <th>Color</th>
-            <td th:text="${pet.color}"></td>
-        </tr>
+                    <tr>
+                        <th>Weight</th>
+                        <td th:text="${pet.weight + ' lbs (' + pet.weightConversion() + ' kgs)'}" th:if="${pet.weightUnit.equals('Pound')}"></td>
+                        <td th:text="${pet.weight + ' kgs (' + pet.weightConversion() + ' lbs)'}" th:if="${pet.weightUnit.equals('Kilogram')}"></td>
+                    </tr>
 
-        <tr>
-            <th>Pet Behavior or Temperaments</th>
-            <td th:text="${pet.behavior}"></td>
-        </tr>
-    </table>
+                    <tr>
+                        <th>Color</th>
+                        <td th:text="${pet.color}"></td>
+                    </tr>
+
+                    <tr th:unless="${pet.behavior.isEmpty()}">
+                        <th>Pet Behavior or Temperaments</th>
+                        <td th:text="${pet.behavior}"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col">
+                <img class="petPictureInDetail" th:src="@{${pet.photosImagePath}}" alt="No picture"/>
+            </div>
+        </div>
+    </div>
+
+
+
 
     <h3>Medical information</h3>
     <span>
@@ -84,7 +97,7 @@
 
     <table class="table table-striped">
         <th:block th:unless="${pet.medInfo == null}">
-            <tr>
+            <tr th:unless="${pet.medInfo.currentMeds.isEmpty()}">
                 <th>Current Medications</th>
                 <td th:text="${pet.medInfo.currentMeds}"></td>
             </tr>
@@ -111,7 +124,7 @@
                 <td th:if="${pastSurgery.date == null}" th:text="${pastSurgery.name}"></td>
             </tr>
 
-            <tr>
+            <tr th:unless="${pet.medInfo.medicalNote.isEmpty()}">
                 <th>Medical Note</th>
                 <td th:text="${pet.medInfo.medicalNote}"></td>
             </tr>

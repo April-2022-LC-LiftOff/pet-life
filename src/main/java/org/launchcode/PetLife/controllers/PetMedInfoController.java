@@ -7,12 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("pet/medInfo")
@@ -79,6 +76,7 @@ public class PetMedInfoController {
                 pastSurgery.setMedInfo(newPetMedicalInfo);
             }
         }
+        Integer oldMedInfoId = 0;
 
         if (pet.getMedInfo() != null) {
             for (ShotRecord shotRecord : pet.getMedInfo().getShotRecords()) {
@@ -87,11 +85,16 @@ public class PetMedInfoController {
             for (PastSurgery pastSurgery : pet.getMedInfo().getPastSurgeries()) {
                 pastSurgery.setMedInfo(newPetMedicalInfo);
             }
+            oldMedInfoId = pet.getMedInfo().getId();
         }
-        Integer oldMedInfoId = pet.getMedInfo().getId();
+
+
         pet.setMedInfo(newPetMedicalInfo);
         medInfoRepository.save(newPetMedicalInfo);
-        medInfoRepository.deleteById(oldMedInfoId);
+
+        if (oldMedInfoId > 0) {
+            medInfoRepository.deleteById(oldMedInfoId);
+        }
 
         model.addAttribute("pet", pet);
 

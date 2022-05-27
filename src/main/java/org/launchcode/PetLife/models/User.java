@@ -16,6 +16,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
 
     @Column(nullable = false, unique = true, length = 45)
     private String email;
@@ -121,4 +123,11 @@ public class User {
         return pets;
     }
 
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
+    }
+
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
+    }
 }

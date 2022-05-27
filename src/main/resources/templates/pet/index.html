@@ -12,6 +12,7 @@
     <table th:unless="${pets.size() == 0}" class="table table-striped">
         <thead>
         <tr>
+            <th>Picture</th>
             <th>Name</th>
             <th>Species</th>
             <th>Breed</th>
@@ -21,7 +22,7 @@
         </tr>
         </thead>
         <tr th:each="pet : ${pets}">
-
+            <td style="width:150px"><img class="petPictureInTable" th:src="@{${pet.photosImagePath}}" alt="No picture"/></td>
             <td><a th:href="'/pet/detail?petId=' + ${pet.id}" th:text="${pet.name}"></a></td>
             <td th:text="${pet.species}"></td>
             <td th:text="${pet.breed}"></td>

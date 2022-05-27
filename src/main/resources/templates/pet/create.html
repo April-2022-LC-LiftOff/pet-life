@@ -10,7 +10,15 @@
 <div class="container">
     <header th:replace="fragments :: header"></header>
 
-    <form method="post">
+    <form method="post" enctype="multipart/form-data" th:object="${pet}">
+
+        <div class="form-group">
+
+            <label>Photo
+            <input type="file" name="image" id="fileimage" accept="image/png, image/jpeg" />
+            </label>
+        </div>
+
         <div class="form-group">
             <label>Name
                 <input th:field="${pet.name}" class="form-control" required>

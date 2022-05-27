@@ -8,10 +8,20 @@
 <nav th:replace="fragments :: navbar"></nav>
 <header th:replace="fragments :: header"></header>
 <div class="container" text-align="center" >
-<h1>Successful Registration</h1>
-    <h2>Please Login</h2>
-
-<h3 text-align="center"><a href="/login">Login</a></h3>
+    <div>
+        <h1>Please Login</h1>
+        <form th:action="@{/login}" method="post" style="max-width: 400px; margin: 0 auto;">
+            <p>
+                E-mail: <input type="email" name="email" required />
+            </p>
+            <p>
+                Password: <input type="password" name="password" required />
+            </p>
+            <p>
+                <input type="submit" class="btn btn-primary" value="Login" />
+            </p>
+        </form>
+    </div>
 </div>
 <footer th:replace="fragments :: footer"></footer>
 </body>
