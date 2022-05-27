@@ -87,13 +87,6 @@ public class PetController {
     public String processCreatePetProfileForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model, HttpServletRequest request, @RequestParam("image") MultipartFile multipartFile, @RequestParam(required=false) Integer petId) throws IOException {
 
         if (errors.hasErrors()) {
-//            if (petId != null) {
-//                Optional<Pet> result = petRepository.findById(petId);
-//                Pet pet = result.get();
-//                model.addAttribute("pet", pet);
-//            } else {
-//                model.addAttribute(new Pet());
-//            }
 
             model.addAttribute("title", "Create a Pet Profile");
             model.addAttribute("role", AppController.currentLoginInfo(request));
@@ -111,11 +104,12 @@ public class PetController {
         newPet.setUser(currentUser);
 
 
-
         if (multipartFile.getBytes().length == 0){
             if (petId != null) {
                 Optional<Pet> result = petRepository.findById(petId);
                 Pet pet = result.get();
+                File file = new File("src/main/resources/static" + pet.getPhotosImagePath());
+                file.delete();
                 pet.updatePet(newPet);
                 petRepository.save(pet);
             } else {
@@ -139,6 +133,8 @@ public class PetController {
                 Pet pet = result.get();
                 uploadDir = "src/main/resources/static/images/pet-photos/" + pet.getId() + "/";
                 newPet.setPhotosImagePath(uploadDir.replaceAll("src/main/resources/static", "") + fileName);
+                File file = new File("src/main/resources/static" + pet.getPhotosImagePath());
+                file.delete();
                 pet.updatePet(newPet);
                 petRepository.save(pet);
 
