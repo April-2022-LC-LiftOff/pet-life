@@ -70,7 +70,7 @@ public class PetController {
     }
 
     @GetMapping("create")
-    public String displayCreatePetProfileForm(Model model,HttpServletRequest request) {
+    public String displayCreatePetProfileForm(Model model, HttpServletRequest request) {
 
         model.addAttribute("title", "Create a Pet Profile");
         model.addAttribute(new Pet());
