@@ -23,4 +23,10 @@ td.dangerous {
     max-height:100px;
 }
 
+.petPictureInDetail {
+    max-width:400px;
+    max-height:500px;
+}
+
+
 

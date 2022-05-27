@@ -102,7 +102,7 @@ public class PetController {
 
         User currentUser = AppController.getCurrentUser(userRepository, request);
         newPet.setUser(currentUser);
-
+        Integer actualPetId = 0;
 
         if (multipartFile.getBytes().length == 0){
             if (petId != null) {
@@ -112,8 +112,10 @@ public class PetController {
                 file.delete();
                 pet.updatePet(newPet);
                 petRepository.save(pet);
+                actualPetId = petId;
             } else {
-                petRepository.save(newPet);
+                actualPetId = petRepository.save(newPet).getId();
+
             }
         } else {
             byte[] byteObjects = new byte[multipartFile.getBytes().length];
@@ -137,6 +139,7 @@ public class PetController {
                 file.delete();
                 pet.updatePet(newPet);
                 petRepository.save(pet);
+                actualPetId = petId;
 
             } else {
 
@@ -144,6 +147,8 @@ public class PetController {
                 uploadDir = "src/main/resources/static/images/pet-photos/" + savedImage.getId() + "/";
                 newPet.setPhotosImagePath(uploadDir.replaceAll("src/main/resources/static", "") + fileName);
                 petRepository.save(savedImage);
+                actualPetId = savedImage.getId();
+
             }
 //            petRepository.save(savedImage);
 //            System.out.println(uploadDir + fileName);
@@ -151,7 +156,8 @@ public class PetController {
 
         }
 
-        return "redirect:";
+
+        return "redirect:detail?petId=" + actualPetId;
     }
 
 
