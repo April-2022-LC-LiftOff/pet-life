@@ -15,6 +15,7 @@
         <thead>
         <tr>
             <th>Select</th>
+            <th>Picture</th>
             <th>Name</th>
             <th>Species</th>
             <th>Breed</th>
@@ -29,6 +30,7 @@
                     <input type="checkbox" name="petIds" th:value="${pet.id}" style="width:20px; height:20px;" class="deleteCheckbox">
                 </label>
             </td>
+            <td style="width:120px;"><img class="petPictureInTable" th:src="@{${pet.photosImagePath}}" alt="No picture"/></td>
             <td><a th:href="'/pet/detail?petId=' + ${pet.id}" th:text="${pet.name}"></a></td>
             <td th:text="${pet.species}"></td>
             <td th:text="${pet.breed}"></td>

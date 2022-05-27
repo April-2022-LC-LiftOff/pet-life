@@ -16,6 +16,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class PetController {
             }
         } else {
             pets = (List<Pet>) petRepository.findAll();
-            pets.stream().forEach(pet-> System.out.println(pet));
+//            pets.stream().forEach(pet-> System.out.println(pet));
             model.addAttribute("pets", pets);
 
         }
@@ -80,8 +81,7 @@ public class PetController {
     }
 
     @PostMapping("create")
-    public String processCreatePetProfileForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model, HttpServletRequest request,
-                                              @RequestParam("image") MultipartFile multipartFile ) throws IOException {
+    public String processCreatePetProfileForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model, HttpServletRequest request, @RequestParam("image") MultipartFile multipartFile ) throws IOException {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Create a Pet Profile");
@@ -98,36 +98,35 @@ public class PetController {
         User currentUser = AppController.getCurrentUser(userRepository, request);
         newPet.setUser(currentUser);
 
-if (multipartFile.getBytes().length == 0){
-        petRepository.save(newPet);
-    }
-            else {
-    byte[] byteObjects = new byte[multipartFile.getBytes().length];
+        if (multipartFile.getBytes().length == 0){
+            petRepository.save(newPet);
+        } else {
+            byte[] byteObjects = new byte[multipartFile.getBytes().length];
 
-    int i = 0;
+            int i = 0;
 
-    for (byte b : multipartFile.getBytes()) {
-        byteObjects[i++] = b;
-    }
+            for (byte b : multipartFile.getBytes()) {
+                byteObjects[i++] = b;
+            }
 
-
-    String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-    newPet.setPhotos(byteObjects);
+            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            newPet.setPhotos(byteObjects);
 
 
-    Pet savedImage = petRepository.save(newPet);
+            Pet savedImage = petRepository.save(newPet);
 
 
-    String uploadDir = "src/main/resources/static/images/pet-photos/" + savedImage.getId() + "/";
-    savedImage.setPhotosImagePath(uploadDir.replaceAll("src/main/resources/static", "") + fileName);
-    savedImage = petRepository.save(savedImage);
-    System.out.println(uploadDir + fileName);
-    FileUploadUtil.saveFile(uploadDir, fileName, byteObjects);
+            String uploadDir = "src/main/resources/static/images/pet-photos/" + savedImage.getId() + "/";
+            savedImage.setPhotosImagePath(uploadDir.replaceAll("src/main/resources/static", "") + fileName);
+            petRepository.save(savedImage);
+//            System.out.println(uploadDir + fileName);
+            FileUploadUtil.saveFile(uploadDir, fileName, byteObjects);
 
-}
+        }
 
         return "redirect:";
     }
+
 
 
     @GetMapping("delete")
@@ -145,7 +144,14 @@ if (multipartFile.getBytes().length == 0){
     public String processDeletePetProfileForm(@RequestParam(required = false) int[] petIds) {
         if (petIds != null) {
             for (int id : petIds) {
+                Optional<Pet> result = petRepository.findById(id);
+                Pet pet = result.get();
+                File file = new File("src/main/resources/static" + pet.getPhotosImagePath());
+                File folder = new File("src/main/resources/static/images/pet-photos/" + id);
+                file.delete();
+                folder.delete();
                 petRepository.deleteById(id);
+
             }
         }
 
