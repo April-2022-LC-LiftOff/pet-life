@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 
 import java.util.ArrayList;
@@ -87,6 +88,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         expressionHandler.setRoleHierarchy(roleHierarchy());
         return expressionHandler;
     }
+
+
+
+
         }
 
 
