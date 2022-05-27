@@ -97,7 +97,7 @@
 
     <table class="table table-striped">
         <th:block th:unless="${pet.medInfo == null}">
-            <tr>
+            <tr th:unless="${pet.medInfo.currentMeds.isEmpty()}">
                 <th>Current Medications</th>
                 <td th:text="${pet.medInfo.currentMeds}"></td>
             </tr>
@@ -124,7 +124,7 @@
                 <td th:if="${pastSurgery.date == null}" th:text="${pastSurgery.name}"></td>
             </tr>
 
-            <tr>
+            <tr th:unless="${pet.medInfo.medicalNote.isEmpty()}">
                 <th>Medical Note</th>
                 <td th:text="${pet.medInfo.medicalNote}"></td>
             </tr>
