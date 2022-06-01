@@ -33,6 +33,12 @@ public class User {
 
     private boolean enabled;
 
+    private String address;
+
+    private String number;
+
+
+
     public boolean isEnabled() {
         return enabled;
     }
