@@ -30,8 +30,10 @@ public class ForgotPasswordController {
     private UserServices userService;
 
     @GetMapping("/forgot_password")
-    public String showForgotPasswordForm(Model model) {
+    public String showForgotPasswordForm(Model model, HttpServletRequest request) {
 //        model.addAttribute("title", "Forgot Password");
+        int role = AppController.currentLoginInfo(request);
+        model.addAttribute("role",role);
         return "forgot_password";
     }
 
@@ -48,7 +50,7 @@ public class ForgotPasswordController {
             model.addAttribute("message", "We have sent a reset password link to your email. Please check.");
 
         } catch (CustomerNotFoundException ex) {
-            model.addAttribute("error", ex.getMessage());
+            model.addAttribute("error", "We could not find any account with this email.");
 
         } catch (UnsupportedEncodingException | MessagingException e) {
             model.addAttribute("error", "Error while sending email");
@@ -83,7 +85,7 @@ public class ForgotPasswordController {
     }
 
     @GetMapping("/reset_password")
-    public String showResetPasswordForm(@Param(value = "token") String token, Model model) {
+    public String showResetPasswordForm(@Param(value = "token") String token, Model model, HttpServletRequest request) {
         User customer = userService.getByResetPasswordToken(token);
         model.addAttribute("token", token);
 
@@ -91,6 +93,9 @@ public class ForgotPasswordController {
             model.addAttribute("message", "Invalid Token");
             return "message";
         }
+
+        int role = AppController.currentLoginInfo(request);
+        model.addAttribute("role",role);
 
         return "reset_password";
     }
