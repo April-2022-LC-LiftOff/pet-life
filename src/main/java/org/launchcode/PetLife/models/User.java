@@ -27,11 +27,11 @@ public class User {
     private String lastName;
 
     private boolean enabled;
-    @Size(min = 80, message = "Address be less than 80 characters.")
+    @Size(max = 80, message = "Address be less than 80 characters.")
     private String residentAddress;
-    @Size(min = 80, message = "Address be less than 80 characters.")
+    @Size(max = 80, message = "Address be less than 80 characters.")
     private String clinicAddress;
-    @Size(min = 10, message = "Number must be less than 10 digits.")
+
     private String number;
 
     private String alternativeNumber;
@@ -63,8 +63,8 @@ public class User {
         this.clinicAddress = newUser.getClinicAddress();
         this.number = newUser.getNumber();
         this.alternativeNumber = newUser.getAlternativeNumber();
-        this.isAdmin = newUser.getIsAdmin();
-        this.roles = newUser.getRoles();
+//        this.isAdmin = newUser.getIsAdmin();
+//        this.roles = newUser.getRoles();
     }
 
     public void setEnabled(boolean enabled) {
