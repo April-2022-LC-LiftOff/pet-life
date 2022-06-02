@@ -38,7 +38,6 @@ public class ForgotPasswordController {
     }
 
     @PostMapping("/forgot_password")
-
     public String processForgotPassword(HttpServletRequest request, Model model) {
         String email = request.getParameter("email");
         String token = RandomString.make(30);
@@ -50,7 +49,7 @@ public class ForgotPasswordController {
             model.addAttribute("message", "We have sent a reset password link to your email. Please check.");
 
         } catch (CustomerNotFoundException ex) {
-            model.addAttribute("error", "We could not find any account with this email.");
+            model.addAttribute("error", "We could not find any account associated to this email address.");
 
         } catch (UnsupportedEncodingException | MessagingException e) {
             model.addAttribute("error", "Error while sending email");
