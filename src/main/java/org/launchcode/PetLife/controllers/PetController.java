@@ -178,16 +178,19 @@ public class PetController {
                 File folder = new File("src/main/resources/static/images/pet-photos/" + id);
                 file.delete();
                 folder.delete();
-                if (pet.getMedInfo().getShotRecords() != null) {
-                    for (ShotRecord shotRecord : pet.getMedInfo().getShotRecords()) {
-                        shotRecordRepository.delete(shotRecord);
+                if (pet.getMedInfo() != null) {
+                    if (pet.getMedInfo().getShotRecords() != null) {
+                        for (ShotRecord shotRecord : pet.getMedInfo().getShotRecords()) {
+                            shotRecordRepository.delete(shotRecord);
+                        }
+                    }
+                    if (pet.getMedInfo().getPastSurgeries() != null) {
+                        for (PastSurgery pastSurgery : pet.getMedInfo().getPastSurgeries()) {
+                            pastSurgeryRepository.delete(pastSurgery);
+                        }
                     }
                 }
-                if (pet.getMedInfo().getPastSurgeries() != null) {
-                    for (PastSurgery pastSurgery : pet.getMedInfo().getPastSurgeries()) {
-                        pastSurgeryRepository.delete(pastSurgery);
-                    }
-                }
+
                 petRepository.deleteById(id);
 
             }

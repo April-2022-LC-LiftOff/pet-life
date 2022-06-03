@@ -8,7 +8,8 @@
 <nav th:replace="fragments :: navbar"></nav>
 <div class="container">
     <header th:replace="fragments :: header"></header>
-    <a th:if="${pets.size() == 0}" th:href="@{/pet/create}">There is no pet profile. Click here to create a pet profile!</a>
+    <a th:if="${pets.size() == 0 && role == 1}" th:href="@{/pet/create}">There is no pet profile. Click here to create a pet profile!</a>
+    <p th:if="${pets.size() == 0 && role == 2}">There is no pet profile.</p>
     <table th:unless="${pets.size() == 0}" class="table table-striped">
         <thead>
         <tr>
