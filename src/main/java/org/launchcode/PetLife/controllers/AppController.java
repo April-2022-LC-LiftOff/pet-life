@@ -119,7 +119,7 @@ public class AppController {
 
 
         model.addAttribute("role", role);
-        return "account";
+        return "profile";
 
     }
 }

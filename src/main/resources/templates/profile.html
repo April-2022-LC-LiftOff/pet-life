@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org/">
+
+<head th:replace="fragments :: head"></head>
+
+<body>
+
+<nav th:replace="fragments :: navbar"></nav>
+
+<div class="container">
+
+    <header th:replace="fragments :: header"></header>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <td th:text="${user.firstName}"></td>
+        </tr>
+
+        <tr>
+            <th>Last Name</th>
+            <td th:text="${user.lastName}"></td>
+        </tr>
+        <tr>
+            <th>Email</th>
+        <td th:text="${user.email}"></td>
+            </tr>
+        <tr>
+            <th>Phone number</th>
+            <td th:text="${user.number}"></td>
+            </tr>
+        <tr>
+            <th>Alternative Phone Number</th>
+            <td th:text="${user.alternativeNumber}"></td>
+            </tr>
+        <tr>
+            <th>Home Address</th>
+            <td th:text="${user.residentAddress}"></td>
+            </tr>
+        </tr>
+        </thead>
+
+
+        <div class="form-group" th:if="${role == 2}">
+            <tr>
+                <th>Clinic Address</th>
+                <td th:text="${user.clinicAddress}"></td>
+            </tr>
+        </div>
+
+        </tr>
+    </table>
+    <a th:unless="${user.firstName == null}" th:href="'/account/?' + ${user.id}">Edit account information</a>
+</div>
+
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>
