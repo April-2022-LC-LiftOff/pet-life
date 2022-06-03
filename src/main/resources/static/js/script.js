@@ -119,7 +119,21 @@ init = () => {
     let slideIndex = 0;
     showSlides();
 
+//function checkPasswordMatch(fieldConfirmPassword) {
+//    if (fieldConfirmPassword.value != $("#password").val()) {
+//        fieldConfirmPassword.setCustomValidity("Passwords do not match!");
+//    } else {
+//        fieldConfirmPassword.setCustomValidity("");
+//    }
+//}
 
+//function check(input) {
+//        if (input.value != document.getElementById('password').value) {
+//            input.setCustomValidity('Password Must be Matching.');
+//        } else {
+//            // input is valid -- reset the error message
+//            input.setCustomValidity('');
+//        }
 }
 
 window.addEventListener("load", init);
