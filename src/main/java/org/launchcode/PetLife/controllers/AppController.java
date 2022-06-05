@@ -70,7 +70,6 @@ public class AppController {
                 return "/register";
             }
 
-
         Role userRole = null;
 
         if (null == user.getIsAdmin()) {
@@ -89,9 +88,9 @@ public class AppController {
     public String displayAccountInformationForm(Model model, HttpServletRequest request) {
         int role = AppController.currentLoginInfo(request);
         User currentUser = getCurrentUser(userRepository, request);
-//        model.addAttribute("isVet", currentUser.getRoles().iterator().next().getName().equals("ROLE_ADMIN"));
         model.addAttribute("user", currentUser);
         model.addAttribute("role", role);
+        model.addAttribute("title", "Edit Account Information");
         return "account";
 
     }
@@ -103,22 +102,16 @@ public class AppController {
         Role userRole = null;
 
         if (!errors.hasErrors()) {
-//            if (roleOption == null) {
-//                userRole = roleRepository.findByName("ROLE_USER");
-//            } else {
-//                userRole = roleRepository.findByName("ROLE_ADMIN");
-//            }
-//
-//            currentUser.setRoles(Arrays.asList(userRole));
-//            currentUser.setEnabled(true);
             currentUser.updateUserInfo(newUser);
             userRepository.save(currentUser);
+            model.addAttribute("title", "Edit Account Information");
             model.addAttribute("user", currentUser);
 
         }
 
 
         model.addAttribute("role", role);
+        model.addAttribute("title", "Account Information");
         return "profile";
 
     }

@@ -10,6 +10,7 @@
 <div class="container">
 
     <header th:replace="fragments :: header"></header>
+    <a th:unless="${user.firstName == null}" th:href="@{account}">Edit account information</a>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -50,7 +51,6 @@
 
         </tr>
     </table>
-    <a th:unless="${user.firstName == null}" th:href="'/account/?' + ${user.id}">Edit account information</a>
 </div>
 
 <footer th:replace="fragments :: footer"></footer>
