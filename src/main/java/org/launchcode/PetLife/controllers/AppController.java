@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class AppController {
@@ -114,6 +115,15 @@ public class AppController {
         model.addAttribute("title", "Account Information");
         return "profile";
 
+    }
+    @GetMapping ("/profile")
+    public String showProfileForm(@ModelAttribute @Valid User newUser,  Model model, HttpServletRequest request ){
+        int role = AppController.currentLoginInfo(request);
+        User currentUser = getCurrentUser(userRepository, request);
+        model.addAttribute("user", currentUser);
+        model.addAttribute("role", role);
+        model.addAttribute("title", "Profile");
+        return "profile";
     }
 }
 
