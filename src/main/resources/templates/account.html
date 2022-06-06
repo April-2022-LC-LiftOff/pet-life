@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org/">
+
+<head th:replace="fragments :: head"></head>
+
+<body>
+
+<nav th:replace="fragments :: navbar"></nav>
+
+<div class="container">
+    <header th:replace="fragments :: header"></header>
+
+    <form method="post" enctype="multipart/form-data" th:object="${pet}">
+
+        <div class="form-group">
+            <label>First Name
+                <input th:field="${user.firstName}" class="form-control" required>
+            </label>
+            <p class="error" th:errors="${user.firstName}"></p>
+        </div>
+
+        <div class="form-group">
+            <label>Last Name
+                <input th:field="${user.lastName}" class="form-control" required>
+            </label>
+            <p class="error" th:errors="${user.lastName}"></p>
+        </div>
+
+        <div class="form-group">
+            <label>Email
+                <input th:field="${user.email}" class="form-control">
+            </label>
+            <p class="error" th:errors="${user.email}" ></p>
+        </div>
+
+        <div class="form-group">
+            <label>Phone Number
+                <input th:field="${user.number}" pattern="[0-9]{10}" class="form-control" placeholder="123456789">
+            </label>
+            <p class="error" th:errors="${user.number}" ></p>
+        </div>
+
+        <div class="form-group">
+            <label>Alternative Number
+                <input th:field="${user.alternativeNumber}" class="form-control">
+            </label>
+            <p class="error" th:errors="${user.alternativeNumber}" ></p>
+        </div>
+
+        <div class="form-group">
+            <label>Home Address
+                <input th:field="${user.residentAddress}" class="form-control">
+            </label>
+            <p class="error" th:errors="${user.residentAddress}" ></p>
+        </div>
+
+        <div class="form-group" th:if="${role == 2}">
+            <label>Clinic Address
+                <input th:field="${user.clinicAddress}" class="form-control">
+            </label>
+            <p class="error" th:errors="${user.clinicAddress}" ></p>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-success">
+        </div>
+    </form>
+
+</div>
+
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

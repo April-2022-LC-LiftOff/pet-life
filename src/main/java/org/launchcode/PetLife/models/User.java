@@ -1,13 +1,8 @@
 package org.launchcode.PetLife.models;
 
-
-import com.mysql.cj.protocol.Message;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import javax.validation.constraints.Size;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -32,9 +27,44 @@ public class User {
     private String lastName;
 
     private boolean enabled;
+    @Size(max = 80, message = "Address be less than 80 characters.")
+    private String residentAddress;
+    @Size(max = 80, message = "Address be less than 80 characters.")
+    private String clinicAddress;
+
+    private String number;
+
+    private String alternativeNumber;
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<Pet> pets = new ArrayList<>();
+
+    @Transient
+    private String isAdmin;
+
+    public void updateUserInfo(User newUser) {
+        this.firstName = newUser.getFirstName();
+        this.lastName = newUser.getLastName();
+        this.residentAddress = newUser.getResidentAddress();
+        this.clinicAddress = newUser.getClinicAddress();
+        this.number = newUser.getNumber();
+        this.alternativeNumber = newUser.getAlternativeNumber();
+//        this.isAdmin = newUser.getIsAdmin();
+//        this.roles = newUser.getRoles();
     }
 
     public void setEnabled(boolean enabled) {
@@ -53,21 +83,37 @@ public class User {
         this.pets = pets;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(
-                    name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roles;
+    public String getResidentAddress() {
+        return residentAddress;
+    }
 
-    @OneToMany
-    @JoinColumn(name = "user_id")
-    private List<Pet> pets = new ArrayList<>();
+    public void setResidentAddress(String residentAddress) {
+        this.residentAddress = residentAddress;
+    }
 
-    @Transient
-    private String isAdmin;
+    public String getClinicAddress() {
+        return clinicAddress;
+    }
+
+    public void setClinicAddress(String clinicAddress) {
+        this.clinicAddress = clinicAddress;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getAlternativeNumber() {
+        return alternativeNumber;
+    }
+
+    public void setAlternativeNumber(String alternativeNumber) {
+        this.alternativeNumber = alternativeNumber;
+    }
 
     public String getIsAdmin() {
         return isAdmin;

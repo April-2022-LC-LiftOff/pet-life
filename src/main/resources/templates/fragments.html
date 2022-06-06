@@ -22,6 +22,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
+<!--            <li th:unless="${role == 0}" class="nav-item"><a class="nav-link" href="/account" id="account">Account</a></li>-->
+            <li th:unless="${role == 0}" class="nav-item"><a class="nav-link" href="/profile" id="profile">Profile</a></li>
             <li th:unless="${role == 0}" class="nav-item"><a class="nav-link" href="/pet" id="allPetBtn">All Pets</a></li>
             <li th:if="${role == 1}" class="nav-item"><a class="nav-link" href="/pet/create" id="createPetProfileBtn">Create Pet Profile</a></li>
             <li th:if="${role == 1}" class="nav-item"><a class="nav-link" href="/pet/delete" id="deletePetProfileBtn">Delete Pet Profile</a></li>

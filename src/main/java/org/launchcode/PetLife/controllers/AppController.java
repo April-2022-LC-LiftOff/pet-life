@@ -1,5 +1,6 @@
 package org.launchcode.PetLife.controllers;
 
+import org.launchcode.PetLife.models.Pet;
 import org.launchcode.PetLife.models.Role;
 import org.launchcode.PetLife.models.User;
 import org.launchcode.PetLife.models.data.RoleRepository;
@@ -8,17 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
-//@RequestMapping("login")
 public class AppController {
     @Autowired
-    private UserRepository userRepo;
+    private UserRepository userRepository;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -61,14 +64,12 @@ public class AppController {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
 
-        if (userRepo.existsByEmail(user.getEmail())) {
+        if (userRepository.existsByEmail(user.getEmail())) {
 
             model.addAttribute("error", "This email already exist with another account. ");
 
                 return "/register";
             }
-
-
 
         Role userRole = null;
 
@@ -77,10 +78,52 @@ public class AppController {
         } else {
             userRole = roleRepository.findByName("ROLE_ADMIN");
         }
+
         user.setRoles(Arrays.asList(userRole));
         user.setEnabled(true);
-        userRepo.save(user);
+        userRepository.save(user);
         return "login";
+    }
+
+    @GetMapping("/account")
+    public String displayAccountInformationForm(Model model, HttpServletRequest request) {
+        int role = AppController.currentLoginInfo(request);
+        User currentUser = getCurrentUser(userRepository, request);
+        model.addAttribute("user", currentUser);
+        model.addAttribute("role", role);
+        model.addAttribute("title", "Edit Account Information");
+        return "account";
+
+    }
+
+    @PostMapping("/account")
+    public String processAccountInformationForm(@ModelAttribute @Valid User newUser, Errors errors, Model model, HttpServletRequest request, @RequestParam(required = false) String roleOption) {
+        int role = AppController.currentLoginInfo(request);
+        User currentUser = getCurrentUser(userRepository, request);
+        Role userRole = null;
+
+        if (!errors.hasErrors()) {
+            currentUser.updateUserInfo(newUser);
+            userRepository.save(currentUser);
+            model.addAttribute("title", "Edit Account Information");
+            model.addAttribute("user", currentUser);
+
+        }
+
+
+        model.addAttribute("role", role);
+        model.addAttribute("title", "Account Information");
+        return "profile";
+
+    }
+    @GetMapping ("/profile")
+    public String showProfileForm(@ModelAttribute @Valid User newUser,  Model model, HttpServletRequest request ){
+        int role = AppController.currentLoginInfo(request);
+        User currentUser = getCurrentUser(userRepository, request);
+        model.addAttribute("user", currentUser);
+        model.addAttribute("role", role);
+        model.addAttribute("title", "Profile");
+        return "profile";
     }
 }
 
