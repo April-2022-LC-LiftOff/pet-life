@@ -2,6 +2,28 @@
 <html lang="en" xmlns:th="http://thymeleaf.org/">
 
 <head th:replace="fragments :: head"></head>
+<script>
+    let autocompleteResidentAddress;
+    let autocompleteClinicAddress;
+    function initAutocomplete() {
+        autocompleteResidentAddress = new google.maps.places.Autocomplete(
+        document.getElementById('residentAddress'),
+        {
+            types: ['address'],
+            componentRestrictions: {'country': ['us']},
+            fields: ['formatted_address', 'place_id', 'geometry', 'name']
+        })
+
+        autocompleteClinicAddress = new google.maps.places.Autocomplete(
+        document.getElementById('clinicAddress'),
+        {
+            types: ['address'],
+            componentRestrictions: {'country': ['us']},
+            fields: ['formatted_address', 'place_id', 'geometry', 'name']
+        })
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDy9h7oaOiWb58wwvD8OqfdE0R5VmQBZqY&libraries=places&callback=initAutocomplete" async defer></script>
 
 <body>
 
