@@ -88,7 +88,9 @@ public class Pet extends AbstractEntityNameDate {
         }
         this.ageYear = newPet.getAgeYear();
         this.ageMonth = newPet.getAgeMonth();
-        this.bDate = newPet.getLocalDate();
+        if (newPet.getBDate() != null) {
+            this.bDate = LocalDate.parse(newPet.getBDate());
+        }
         this.species = newPet.getSpecies();
         this.breed = newPet.getBreed();
         this.sex = newPet.getSex();
