@@ -80,7 +80,9 @@ public class Pet extends AbstractEntityNameDate {
 
     public void updatePet(Pet newPet) {
         this.photos = newPet.getPhotos();
-        this.photosImagePath =newPet.getPhotosImagePath();
+        if (newPet.getPhotosImagePath() != null) {
+            this.photosImagePath = newPet.getPhotosImagePath();
+        }
         this.setName(newPet.getName());
         this.ageYear = newPet.getAgeYear();
         this.ageMonth = newPet.getAgeMonth();
