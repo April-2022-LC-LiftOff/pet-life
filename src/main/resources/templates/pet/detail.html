@@ -21,9 +21,15 @@
                         <th>Reference ID</th>
                         <td th:text="${pet.id}"></td>
                     </tr>
+
                     <tr>
                         <th>Name</th>
                         <td th:text="${pet.name}"></td>
+                    </tr>
+
+                    <tr th:if="${role == 2}">
+                        <th>Owner</th>
+                        <td th:text="${pet.user.firstName + ' ' + pet.user.lastName + ' (ID: ' + pet.user.id + ')'}"></td>
                     </tr>
 
                     <tr>

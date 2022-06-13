@@ -74,7 +74,7 @@ public class PetController {
             model.addAttribute(new Pet());
         }
 
-        model.addAttribute("title", "Create a Pet Profile");
+        model.addAttribute("title", "Create/Edit a Pet Profile");
         model.addAttribute("role", AppController.currentLoginInfo(request));
 
         return "pet/create";
@@ -86,7 +86,7 @@ public class PetController {
 
         if (errors.hasErrors()) {
 
-            model.addAttribute("title", "Create a Pet Profile");
+            model.addAttribute("title", "Create/Edit a Pet Profile");
             model.addAttribute("role", AppController.currentLoginInfo(request));
 
             return "pet/create";
