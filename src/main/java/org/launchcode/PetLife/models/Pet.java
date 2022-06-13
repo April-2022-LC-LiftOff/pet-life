@@ -129,14 +129,6 @@ public class Pet extends AbstractEntityNameDate {
         this.user = user;
     }
 
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = capitalizeFirstLetterLowerCaseOthers(name);
-//    }
-
     public Integer getAgeYear() {
         return ageYear;
     }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org/">
+
+<head th:replace="fragments :: head"></head>
+
+<body>
+
+<nav th:replace="fragments :: navbar"></nav>
+
+<div class="container">
+    <header th:replace="fragments :: header"></header>
+
+    <table class="table table-bordered" th:each="vet : ${vets}">
+        <tr>
+            <th class="vetHeader">ID</th>
+            <td th:text="${vet.id}"></td>
+        </tr>
+        <tr>
+            <th class="vetHeader">Name</th>
+            <td th:text="${vet.firstName + ' ' + vet.lastName}"></td>
+        </tr>
+        <tr>
+            <th class="vetHeader">Email</th>
+            <td th:text="${vet.email}"></td>
+        </tr>
+        <tr>
+            <th class="vetHeader">Phone Number</th>
+            <td th:text="${vet.number}"></td>
+        </tr>
+        <tr>
+            <th class="vetHeader">Alternative Phone Number</th>
+            <td th:text="${vet.alternativeNumber}"></td>
+        </tr>
+        <tr>
+            <th class="vetHeader">Clinic Address</th>
+            <td th:text="${vet.clinicAddress}"></td>
+        </tr>
+    </table>
+
+</div>
+
+<footer th:replace="fragments :: footer"></footer>
+</body>
+</html>
