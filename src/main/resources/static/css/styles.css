@@ -8,7 +8,7 @@
 }
 
 #slideshow-container {
-  max-width: 600px;
+  max-width: 500px;
   position: relative;
   margin: auto;
 }
@@ -26,6 +26,10 @@ td.dangerous {
 .petPictureInDetail {
     max-width:400px;
     max-height:500px;
+}
+
+.vetHeader {
+     width: 30%;
 }
 
 

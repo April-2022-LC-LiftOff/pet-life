@@ -11,7 +11,7 @@
         {
             types: ['address'],
             componentRestrictions: {'country': ['us']},
-            fields: ['formatted_address', 'place_id', 'geometry', 'name']
+            fields: ['formatted_address']
         })
 
         autocompleteClinicAddress = new google.maps.places.Autocomplete(
@@ -19,7 +19,7 @@
         {
             types: ['address'],
             componentRestrictions: {'country': ['us']},
-            fields: ['formatted_address', 'place_id', 'geometry', 'name']
+            fields: ['formatted_address']
         })
     }
 </script>

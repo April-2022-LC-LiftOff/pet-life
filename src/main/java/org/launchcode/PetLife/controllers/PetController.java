@@ -74,7 +74,7 @@ public class PetController {
             model.addAttribute(new Pet());
         }
 
-        model.addAttribute("title", "Create a Pet Profile");
+        model.addAttribute("title", "Create/Edit a Pet Profile");
         model.addAttribute("role", AppController.currentLoginInfo(request));
 
         return "pet/create";
@@ -82,11 +82,11 @@ public class PetController {
     }
 
     @PostMapping("create")
-    public String processCreatePetProfileForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model, HttpServletRequest request, @RequestParam("image") MultipartFile multipartFile, @RequestParam(required=false) Integer petId) throws IOException {
+    public String processCreatePetProfileForm(@ModelAttribute @Valid Pet newPet, Errors errors, Model model, HttpServletRequest request, @RequestParam(value = "image", required = false) MultipartFile multipartFile, @RequestParam(required=false) Integer petId, @RequestParam(required=false) boolean deletePhoto) throws IOException {
 
         if (errors.hasErrors()) {
 
-            model.addAttribute("title", "Create a Pet Profile");
+            model.addAttribute("title", "Create/Edit a Pet Profile");
             model.addAttribute("role", AppController.currentLoginInfo(request));
 
             return "pet/create";
@@ -106,8 +106,12 @@ public class PetController {
             if (petId != null) {
                 Optional<Pet> result = petRepository.findById(petId);
                 Pet pet = result.get();
-                File file = new File("src/main/resources/static" + pet.getPhotosImagePath());
-                file.delete();
+                if (deletePhoto) {
+                    File file = new File("src/main/resources/static" + pet.getPhotosImagePath());
+                    file.delete();
+                    pet.setPhotosImagePath(null);
+                }
+
                 pet.updatePet(newPet);
                 petRepository.save(pet);
                 actualPetId = petId;
@@ -117,17 +121,13 @@ public class PetController {
             }
         } else {
             byte[] byteObjects = new byte[multipartFile.getBytes().length];
-
             int i = 0;
-
             for (byte b : multipartFile.getBytes()) {
                 byteObjects[i++] = b;
             }
-
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             newPet.setPhotos(byteObjects);
             String uploadDir = "";
-
             if (petId != null) {
                 Optional<Pet> result = petRepository.findById(petId);
                 Pet pet = result.get();
@@ -138,18 +138,14 @@ public class PetController {
                 pet.updatePet(newPet);
                 petRepository.save(pet);
                 actualPetId = petId;
-
             } else {
-
                 Pet savedImage = petRepository.save(newPet);
                 uploadDir = "src/main/resources/static/images/pet-photos/" + savedImage.getId() + "/";
                 newPet.setPhotosImagePath(uploadDir.replaceAll("src/main/resources/static", "") + fileName);
                 petRepository.save(savedImage);
                 actualPetId = savedImage.getId();
-
             }
             FileUploadUtil.saveFile(uploadDir, fileName, byteObjects);
-
         }
 
         return "redirect:detail?petId=" + actualPetId;

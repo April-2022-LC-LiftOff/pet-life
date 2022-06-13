@@ -107,7 +107,6 @@ init = () => {
             setTimeout(showSlides, 2000);
         }
 
-
     }
 
     let slideIndex = 0;
