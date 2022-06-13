@@ -60,7 +60,7 @@ public class Pet extends AbstractEntityNameDate {
     public Pet( byte [] photos, String photosImagePath, Integer ageYear, Integer ageMonth, String bDate, String species, String breed, String sex, String weightUnit, Float weight, String aggressive, String venomous, String color, String behavior, User user) {
 
         this.photos = photos;
-        this.photosImagePath =photosImagePath;
+        this.photosImagePath = photosImagePath;
         this.ageYear = ageYear;
         this.ageMonth = ageMonth;
         this.bDate = LocalDate.parse(bDate);
@@ -79,11 +79,13 @@ public class Pet extends AbstractEntityNameDate {
     public Pet() {}
 
     public void updatePet(Pet newPet) {
-        this.photos = newPet.getPhotos();
         if (newPet.getPhotosImagePath() != null) {
+            this.photos = newPet.getPhotos();
             this.photosImagePath = newPet.getPhotosImagePath();
         }
-        this.setName(newPet.getName());
+        if (newPet.getName() != null) {
+            this.setName(newPet.getName());
+        }
         this.ageYear = newPet.getAgeYear();
         this.ageMonth = newPet.getAgeMonth();
         this.bDate = newPet.getLocalDate();
