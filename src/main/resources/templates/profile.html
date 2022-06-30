@@ -2,7 +2,11 @@
 <html lang="en" xmlns:th="http://thymeleaf.org/">
 
 <head th:replace="fragments :: head"></head>
-
+<script>
+    fetch('https://maps.googleapis.com/maps/api/geocode/json?address=Washington&key=AIzaSyDy9h7oaOiWb58wwvD8OqfdE0R5VmQBZqY')
+    .then(response => response.json())
+    .then(data => console.log(data.result));
+</script>
 <body>
 
 <nav th:replace="fragments :: navbar"></nav>
