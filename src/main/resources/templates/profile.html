@@ -3,8 +3,33 @@
 
 <head th:replace="fragments :: head"></head>
 <script>
-    fetch('https://maps.googleapis.com/maps/api/geocode/json?address=Washington&key=AIzaSyDy9h7oaOiWb58wwvD8OqfdE0R5VmQBZqY').then(response => response.json()).then(data => console.log(data.results[0].place_id));
+init = () => {
+    let residentAddress = document.getElementById("residentAddress").innerHTML;
+    let clinicAddress = document.getElementById("clinicAddress").innerHTML;
+    const embeddedGoogleMapOfResidentAddress = document.getElementById("embeddedGoogleMapOfResidentAddress");
+    const embeddedGoogleMapOfClinicAddress = document.getElementById("embeddedGoogleMapOfClinicAddress");
+
+    let address = [residentAddress.replaceAll(" ","+").replaceAll(",",""), clinicAddress.replaceAll(" ","+").replaceAll(",","")];
+    let request = [];
+
+    for (let i=0; i<=1; i++) {
+        request[i] = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address[i] + "&key=AIzaSyDy9h7oaOiWb58wwvD8OqfdE0R5VmQBZqY";
+    }
+
+
+
+
+
+
+    fetch(request).then(response => response.json()).then( function (data) {
+        embeddedGoogleMapOfResidentAddress.src = "https://www.google.com/maps/embed/v1/place?key=AIzaSyDy9h7oaOiWb58wwvD8OqfdE0R5VmQBZqY&q=place_id:" + data.results[0].place_id;
+    });
+
+}
+
+window.addEventListener("load", init);
 </script>
+
 <body>
 
 <nav th:replace="fragments :: navbar"></nav>
@@ -37,9 +62,22 @@
             <td th:text="${user.alternativeNumber}"></td>
             </tr>
         <tr>
-            <th>Home Address</th>
-            <td th:text="${user.residentAddress}"></td>
+            <th style="border:none;">Home Address</th>
+            <td th:text="${user.residentAddress}" id="residentAddress" style="border:none;"></td>
             </tr>
+        </tr>
+        <tr>
+            <th></th>
+            <td>
+                <iframe
+                        width="500px"
+                        height="300px"
+                        frameborder="0" style="border:0"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        allowfullscreen
+                        id="embeddedGoogleMapOfResidentAddress">
+                </iframe>
+            </td>
         </tr>
         </thead>
 
@@ -49,12 +87,29 @@
                 <th>Clinic Address</th>
                 <td th:text="${user.clinicAddress}"></td>
             </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <iframe
+                            width="500px"
+                            height="300px"
+                            frameborder="0" style="border:0"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            allowfullscreen
+                            id="embeddedGoogleMapOfClinicAddress">
+                    </iframe>
+                </td>
+            </tr>
         </div>
 
         </tr>
+
     </table>
+
+
 </div>
 
 <footer th:replace="fragments :: footer"></footer>
+
 </body>
 </html>
